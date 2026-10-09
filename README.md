@@ -1,3 +1,6 @@
+# stoa-classical-language-tool
+An interlinear morphologic annotation and reading tool for Ancient Greek, Latin, Classical Chinese, and other languages.
+
 # vinext-starter
 
 A clean full-stack starter running on
