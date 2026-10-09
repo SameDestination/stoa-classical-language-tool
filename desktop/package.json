@@ -1,0 +1,9 @@
+{
+  "name": "stoa-interlinear-studio",
+  "version": "5.9.7",
+  "description": "STOA Classical Interlinear Studio desktop application",
+  "author": "STOA",
+  "private": true,
+  "type": "module",
+  "main": "main.mjs"
+}

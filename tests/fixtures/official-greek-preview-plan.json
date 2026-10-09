@@ -1,0 +1,96 @@
+{
+  "contentHeightPx": 932.578125,
+  "contentWidthPx": 685.8828125,
+  "pages": [
+    {
+      "breakReason": "capacity",
+      "pageIndex": 0,
+      "remainingBottomPx": 96.17,
+      "tokenRows": [
+        {
+          "gapBeforePx": 0,
+          "measuredHeightPx": 118.81,
+          "paragraphSpacingBeforePx": 0,
+          "tokenIds": ["tok-0001", "tok-0002", "tok-0003", "tok-0004", "tok-0005", "tok-0006"],
+          "yTopPx": 0
+        },
+        {
+          "gapBeforePx": 28,
+          "measuredHeightPx": 118.81,
+          "paragraphSpacingBeforePx": 0,
+          "tokenIds": ["tok-0007", "tok-0008", "tok-0009", "tok-0010", "tok-0011", "tok-0012", "tok-0013"],
+          "yTopPx": 146.796875
+        },
+        {
+          "gapBeforePx": 28,
+          "measuredHeightPx": 118.81,
+          "paragraphSpacingBeforePx": 0,
+          "tokenIds": ["tok-0014", "tok-0015", "tok-0016", "tok-0017", "tok-0018", "tok-0019", "tok-0020"],
+          "yTopPx": 293.59375
+        },
+        {
+          "gapBeforePx": 28,
+          "measuredHeightPx": 118.81,
+          "paragraphSpacingBeforePx": 0,
+          "tokenIds": ["tok-0021", "tok-0022", "tok-0023", "tok-0024", "tok-0025", "tok-0026"],
+          "yTopPx": 440.390625
+        },
+        {
+          "gapBeforePx": 28,
+          "measuredHeightPx": 118.81,
+          "paragraphSpacingBeforePx": 0,
+          "tokenIds": ["tok-0027", "tok-0028", "tok-0029", "tok-0030", "tok-0031"],
+          "yTopPx": 587.1875
+        }
+      ],
+      "translationBlocks": [
+        {
+          "continued": false,
+          "lines": [
+            "The human being is by nature a political animal; and man alone among the animals has speech; and speech exists for",
+            "making clear what is advantageous and what is harmful, and consequently also what is just and what is unjust."
+          ],
+          "sectionId": "literal",
+          "startsAtPageTop": false,
+          "yTopPx": 735.984375
+        }
+      ],
+      "translationContinued": false,
+      "translationLines": [],
+      "translationStartsAtPageTop": false,
+      "translationYTopPx": null
+    },
+    {
+      "breakReason": "end",
+      "pageIndex": 1,
+      "remainingBottomPx": 832.24,
+      "tokenRows": [],
+      "translationBlocks": [
+        {
+          "continued": false,
+          "lines": [
+            "Human beings are political animals by nature. Of all animals, humans alone possess rational speech, whose function is",
+            "to make known what is beneficial and what is harmful, and therefore also what is just and what is unjust."
+          ],
+          "sectionId": "natural",
+          "startsAtPageTop": true,
+          "yTopPx": 0
+        }
+      ],
+      "translationContinued": false,
+      "translationLines": [
+        "Human beings are political animals by nature. Of all animals, humans alone possess rational speech, whose function is",
+        "to make known what is beneficial and what is harmful, and therefore also what is just and what is unjust."
+      ],
+      "translationStartsAtPageTop": true,
+      "translationYTopPx": 0
+    }
+  ],
+  "rowGapBounds": {
+    "maximumPx": 35,
+    "minimumPx": 20.16,
+    "preferredPx": 28
+  },
+  "sourceKey": "official-greek-browser-plan",
+  "unit": "css-px-96dpi"
+}

@@ -1,0 +1,317 @@
+{
+  "description": "Inventory of existing STOA release files. Version labels come from original filenames or containing folders. No historical source commit has been verified; this manifest does not establish a tag-to-source relationship.",
+  "assets": [
+    {
+      "path": "outputs/STOA-5.1-Portable.zip",
+      "name": "STOA-5.1-Portable.zip",
+      "version": "5.1",
+      "bytes": 88754140,
+      "sha256": "a8d3c2b1d3bb444457fc331ed14d3b6bf48f7e70c0b7d6b76f0b4ffa6d8de002",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-5.8-Portable.zip",
+      "name": "STOA-5.8-Portable.zip",
+      "version": "5.8",
+      "bytes": 88763138,
+      "sha256": "f98b1d1dd24faf2ec50c769418c45282d0c90db4caf4ca74bd7b025d2b5e8ee3",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-5.9.1-Portable.zip",
+      "name": "STOA-5.9.1-Portable.zip",
+      "version": "5.9.1",
+      "bytes": 88760398,
+      "sha256": "bab1014b329dea1b9ca2d2e9a87f43f9fac155c9054472221483c9be7fa43a05",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-5.9.2-Portable.zip",
+      "name": "STOA-5.9.2-Portable.zip",
+      "version": "5.9.2",
+      "bytes": 85965421,
+      "sha256": "df6c249766dca9136d481c8630e5ad500b45e45897fad9286950a21a28bd223d",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-5.9.4-Portable.zip",
+      "name": "STOA-5.9.4-Portable.zip",
+      "version": "5.9.4",
+      "bytes": 86475159,
+      "sha256": "de776591962f704f78aed2b7c8bf7045d0146f6ecf32abd9bba5b099856f0f00",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-5.9.6-Portable.zip",
+      "name": "STOA-5.9.6-Portable.zip",
+      "version": "5.9.6",
+      "bytes": 86500698,
+      "sha256": "c30bd75ffdcd62c04a61c741ecbb10091ae8c74dadbe52086f72462966ac67e9",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-5.9.7-Portable.zip",
+      "name": "STOA-5.9.7-Portable.zip",
+      "version": "5.9.7",
+      "bytes": 86502314,
+      "sha256": "d3a2148a690f53b563f6de91e6335afa11bceddd0b6a181e23171ce7bd658246",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-Desktop-5.9.7/STOA-Windows-x64.msi",
+      "name": "STOA-Windows-x64.msi",
+      "version": "5.9.7",
+      "bytes": 224017920,
+      "sha256": "518959ab291e029ca018983c2d1866eca033fe90b79a29fdf8c68243db4edc20",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-Desktop-5.9.7/STOA-macOS-arm64.dmg",
+      "name": "STOA-macOS-arm64.dmg",
+      "version": "5.9.7",
+      "bytes": 175969462,
+      "sha256": "4ce9478111554fcfb86b120b4f62c6a84d7e5ec59ed5ab2d4776ed23a40e2555",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-3.6-Local-Web-Guided-Analysis.zip",
+      "name": "STOA-3.6-Local-Web-Guided-Analysis.zip",
+      "version": "3.6",
+      "bytes": 1653290,
+      "sha256": "f0906e77ec7012b3056190f43b8dafbcebab0c3a3cf2c1e02780691fa44995a2",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Desktop-3.5/STOA-3.5-macOS-arm64.zip",
+      "name": "STOA-3.5-macOS-arm64.zip",
+      "version": "3.5",
+      "bytes": 110730133,
+      "sha256": "70d2ea2c2cb2d52bd79fbe9d998798d430cf0d82d35b998b1060f1b7271c2817",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Desktop-3.5/obsolete-pre-png-fix/STOA-3.5-macOS-arm64-OLD-PNG-BUG.dmg",
+      "name": "STOA-3.5-macOS-arm64-OLD-PNG-BUG.dmg",
+      "version": "3.5",
+      "bytes": 110468651,
+      "sha256": "330abcc933dabc82a05433f98120c4d758d6b2e9057b06f84d40ef6dbba771a6",
+      "obsolete": true
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Desktop-3.5/obsolete-pre-png-fix/STOA-3.5-macOS-arm64-OLD-PNG-BUG.dmg.blockmap",
+      "name": "STOA-3.5-macOS-arm64-OLD-PNG-BUG.dmg.blockmap",
+      "version": "3.5",
+      "bytes": 116669,
+      "sha256": "136df1db80051731a35a90c1cf202936ded65e7c899ac7c4f26179be2c43123a",
+      "obsolete": true
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Desktop-3.5/obsolete-pre-png-fix/STOA-3.5-macOS-arm64-OLD-PNG-BUG.zip.blockmap",
+      "name": "STOA-3.5-macOS-arm64-OLD-PNG-BUG.zip.blockmap",
+      "version": "3.5",
+      "bytes": 113667,
+      "sha256": "fe5fc485cb0bf446f158691c8e6d177c023d0b2f11e92c335f6361e920c20d0e",
+      "obsolete": true
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Desktop-3.6/STOA-3.6-macOS-arm64.dmg",
+      "name": "STOA-3.6-macOS-arm64.dmg",
+      "version": "3.6",
+      "bytes": 110533150,
+      "sha256": "975bfa0e832c28f02b1b524ce74f96c8636ece69ee39807460e5282111678e3c",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Desktop-3.6/STOA-3.6-macOS-arm64.dmg.blockmap",
+      "name": "STOA-3.6-macOS-arm64.dmg.blockmap",
+      "version": "3.6",
+      "bytes": 116567,
+      "sha256": "89d3e4d0e669a71954beeb5c548082db33601cb60de304de263a2b3414436d76",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Desktop-3.6/STOA-3.6-macOS-arm64.zip",
+      "name": "STOA-3.6-macOS-arm64.zip",
+      "version": "3.6",
+      "bytes": 106697939,
+      "sha256": "3ccad2c3d6952861813063406b9b33a2b9e7413b861e3df927389c86b9faf139",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Desktop-3.6/STOA-3.6-macOS-arm64.zip.blockmap",
+      "name": "STOA-3.6-macOS-arm64.zip.blockmap",
+      "version": "3.6",
+      "bytes": 113986,
+      "sha256": "08fa51182e4e87b59db46580af668a7f5a6aef30fdd53db54828c81400a26586",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Portable-3.0.zip",
+      "name": "STOA-Portable-3.0.zip",
+      "version": "3.0",
+      "bytes": 592176,
+      "sha256": "d1d34f1caa141424300ca173df990f9b7346e3b94969d05707cab5698e3c67cc",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Portable-3.1.zip",
+      "name": "STOA-Portable-3.1.zip",
+      "version": "3.1",
+      "bytes": 592451,
+      "sha256": "a5e603fb4290703ab2d4219dd0b0d564bcd75e7fb1d18c7062e50b946a8b6cfd",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Portable-3.2.zip",
+      "name": "STOA-Portable-3.2.zip",
+      "version": "3.2",
+      "bytes": 596491,
+      "sha256": "5fc2cbc27cc7b86e2abf8c134422374e3fd6fb2546a16cf0970cf08997b54d7f",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Portable-3.3.zip",
+      "name": "STOA-Portable-3.3.zip",
+      "version": "3.3",
+      "bytes": 596159,
+      "sha256": "6c815c694da4f75e1fc9b34045ab400f996e503aad015c1f1340e1a2754ec050",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Portable-3.4.zip",
+      "name": "STOA-Portable-3.4.zip",
+      "version": "3.4",
+      "bytes": 1585997,
+      "sha256": "eb45935c40d48e7ff624ce5a24e06d2a92faff73e1613830ff30cce896db3382",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Portable-3.5.zip",
+      "name": "STOA-Portable-3.5.zip",
+      "version": "3.5",
+      "bytes": 1587639,
+      "sha256": "2a5909edb964fe11ca034043a8bce586224c7e708e9f389ff43d735cf6ccb8f7",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Portable-v2.1.zip",
+      "name": "STOA-Portable-v2.1.zip",
+      "version": "2.1",
+      "bytes": 586526,
+      "sha256": "809a1340589572602ec71304e92dee12e5716948f0ccf3cf7f50fe44d8975a84",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Portable-v2.2.zip",
+      "name": "STOA-Portable-v2.2.zip",
+      "version": "2.2",
+      "bytes": 586980,
+      "sha256": "5dc5fe0445654fbab3afbf7accaed5dfde12f5da1ece7129f3771a990dc57db9",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Portable-v2.3.zip",
+      "name": "STOA-Portable-v2.3.zip",
+      "version": "2.3",
+      "bytes": 587054,
+      "sha256": "a1ddda4ef84f6e74d6afd1905d0f75e1ea95f25578a8c1a8e8423cd8c98a4ead",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Portable-v2.4.zip",
+      "name": "STOA-Portable-v2.4.zip",
+      "version": "2.4",
+      "bytes": 586978,
+      "sha256": "a4fbabdab1c0881a971a8d5264416399a0b998bb3e899f5524c8cf0c2dfe3af0",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Portable-v2.5.zip",
+      "name": "STOA-Portable-v2.5.zip",
+      "version": "2.5",
+      "bytes": 587582,
+      "sha256": "b9cd3eb317b321448b30f4e1cf655d6b6f808c0f0f24f603964697bc538c4cfc",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Portable-v2.6.zip",
+      "name": "STOA-Portable-v2.6.zip",
+      "version": "2.6",
+      "bytes": 588291,
+      "sha256": "3c7967a9986fcf9244edfcf43af26e7dfb335ff033fe8b49fb610da80016d0d4",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Portable-v2.7.zip",
+      "name": "STOA-Portable-v2.7.zip",
+      "version": "2.7",
+      "bytes": 588658,
+      "sha256": "82a8669e93982b27fd3058b9a778ebb490a01cab6714ab15353f8db90ca82669",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Portable-v2.8.zip",
+      "name": "STOA-Portable-v2.8.zip",
+      "version": "2.8",
+      "bytes": 589646,
+      "sha256": "ad9865efe10e12577433bdf4b7e7d1753d231ca84dcde4bb736bb1a120d10841",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Portable-v2.zip",
+      "name": "STOA-Portable-v2.zip",
+      "version": "2",
+      "bytes": 614470,
+      "sha256": "0ebb7a97c5d83f6cabe35e30a11c407da62dc5e656b320f0ba1dfc0569e47b9f",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Portable.zip",
+      "name": "STOA-Portable.zip",
+      "version": null,
+      "bytes": 77618,
+      "sha256": "037d24d4f92d93f16b1730c3f6a3d5accbb521dde20d4c7799312517fe9ad971",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Web-3.6-Manual-Chunked.zip",
+      "name": "STOA-Web-3.6-Manual-Chunked.zip",
+      "version": "3.6",
+      "bytes": 1651163,
+      "sha256": "0f1e90b94a9fe5c7ec4726e5ccd08507b9f3c8863ef553a74e1da9b07812d1c4",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Web-3.7/STOA-3.7-Local-Web.zip",
+      "name": "STOA-3.7-Local-Web.zip",
+      "version": "3.7",
+      "bytes": 50175629,
+      "sha256": "8dc1696c850719cd5872ac741d433a2c5b737a7a82807ee580d7801d854c597d",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Web-4.1/STOA-4.1-Local-Web.zip",
+      "name": "STOA-4.1-Local-Web.zip",
+      "version": "4.1",
+      "bytes": 67340603,
+      "sha256": "5a79437ac260c8e4608a90495b63839b99724d72ce3939d59a086bc485ec9d60",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Web-4.1.1/STOA-4.1.1-Local-Web.zip",
+      "name": "STOA-4.1.1-Local-Web.zip",
+      "version": "4.1.1",
+      "bytes": 67344193,
+      "sha256": "98f48df59d9817fdb8ac2053ed9f51b1fa728a1a9ed6a5d6ffe7087c505eca0d",
+      "obsolete": false
+    },
+    {
+      "path": "outputs/STOA-outputs-history-before-slimming-20260823-codex/STOA-Web-4.1.1.zip",
+      "name": "STOA-Web-4.1.1.zip",
+      "version": "4.1.1",
+      "bytes": 134819934,
+      "sha256": "404e7e10c5cbe1300f571226bbcb8f892014db30c874682af560fe55c64c5e3e",
+      "obsolete": false
+    }
+  ]
+}

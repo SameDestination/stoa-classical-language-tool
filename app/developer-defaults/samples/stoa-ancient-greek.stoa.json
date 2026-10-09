@@ -1,0 +1,2170 @@
+{
+  "format": "stoa-project",
+  "schemaVersion": 6,
+  "appVersion": "5.9.4",
+  "exportedAt": "2026-09-07T13:58:39.314Z",
+  "document": {
+    "language": "ancient-greek",
+    "sourceText": "διότι δὲ πολιτικὸν ὁ ἄνθρωπος ζῷον πάσης μελίττης καὶ παντὸς ἀγελαίου ζῴου μᾶλλον, δῆλον. οὐθὲν γάρ, ὡς φαμέν, μάτην ἡ φύσις ποιεῖ· λόγον δὲ μόνον ἄνθρωπος ἔχει τῶν ζῴων·\nἡ μὲν οὖν φωνὴ τοῦ λυπηροῦ καὶ ἡδέος ἐστὶ σημεῖον, διὸ καὶ τοῖς ἄλλοις ὑπάρχει ζῴοις· μέχρι γὰρ τούτου ἡ φύσις αὐτῶν ἐλήλυθε, τοῦ ἔχειν αἴσθησιν λυπηροῦ καὶ ἡδέος καὶ ταῦτα σημαίνειν ἀλλήλοις·\nὁ δὲ λόγος ἐπὶ τῷ δηλοῦν ἐστι τὸ συμφέρον καὶ τὸ βλαβερόν, ὥστε καὶ τὸ δίκαιον καὶ τὸ ἄδικον· τοῦτο γὰρ πρὸς τὰ ἄλλα ζῷα τοῖς ἀνθρώποις ἴδιον, τὸ μόνον ἀγαθοῦ καὶ κακοῦ καὶ δικαίου καὶ ἀδίκου καὶ τῶν ἄλλων αἴσθησιν ἔχειν· ἡ δὲ τούτων κοινωνία ποιεῖ οἰκίαν καὶ πόλιν.",
+    "selectedTokenId": null,
+    "analysis": {
+      "language": "ancient-greek",
+      "sourceText": "διότι δὲ πολιτικὸν ὁ ἄνθρωπος ζῷον πάσης μελίττης καὶ παντὸς ἀγελαίου ζῴου μᾶλλον, δῆλον. οὐθὲν γάρ, ὡς φαμέν, μάτην ἡ φύσις ποιεῖ· λόγον δὲ μόνον ἄνθρωπος ἔχει τῶν ζῴων·\nἡ μὲν οὖν φωνὴ τοῦ λυπηροῦ καὶ ἡδέος ἐστὶ σημεῖον, διὸ καὶ τοῖς ἄλλοις ὑπάρχει ζῴοις· μέχρι γὰρ τούτου ἡ φύσις αὐτῶν ἐλήλυθε, τοῦ ἔχειν αἴσθησιν λυπηροῦ καὶ ἡδέος καὶ ταῦτα σημαίνειν ἀλλήλοις·\nὁ δὲ λόγος ἐπὶ τῷ δηλοῦν ἐστι τὸ συμφέρον καὶ τὸ βλαβερόν, ὥστε καὶ τὸ δίκαιον καὶ τὸ ἄδικον· τοῦτο γὰρ πρὸς τὰ ἄλλα ζῷα τοῖς ἀνθρώποις ἴδιον, τὸ μόνον ἀγαθοῦ καὶ κακοῦ καὶ δικαίου καὶ ἀδίκου καὶ τῶν ἄλλων αἴσθησιν ἔχειν· ἡ δὲ τούτων κοινωνία ποιεῖ οἰκίαν καὶ πόλιν.",
+      "literalTranslation": "That the human being is a political animal more than any bee and any gregarious animal is evident. For nature, as we say, does nothing in vain; and among the animals the human being alone has speech.\nVoice, then, on the one hand, is a sign of the painful and the pleasant, and therefore it also belongs to the other animals; for their nature has advanced up to this point: to have perception of the painful and the pleasant and to signify these things to one another.\nBut speech is for making clear the advantageous and the harmful, and so also the just and the unjust; for this is peculiar to human beings in relation to the other animals: alone to have perception of good and bad and just and unjust and the other things; and the sharing of these things makes a household and a city.",
+      "naturalTranslation": "It is evident that a human being is more fully a political animal than any bee or any other gregarious animal. Nature, as we say, does nothing in vain: human beings alone among animals possess rational speech.\nVoice is a sign of pleasure and pain, and for that reason other animals possess it too; their nature has developed far enough to perceive pleasure and pain and communicate these to one another.\nRational speech, however, serves to disclose what is advantageous and harmful, and therefore what is just and unjust. This is distinctive of human beings in relation to other animals: they alone can perceive good and bad, justice and injustice, and other such things. Sharing these judgments is what constitutes a household and a city.",
+      "tokens": [
+        {
+          "id": "tok-0001",
+          "surface": "διότι",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "διότι",
+          "gloss": "that",
+          "pos": "SCONJ",
+          "morphology": "Subord. Conj.",
+          "features": {},
+          "confidence": 0.99,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0002",
+          "surface": "δὲ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "δέ",
+          "gloss": "moreover",
+          "pos": "PART",
+          "morphology": "Postpos. Part.",
+          "features": {},
+          "confidence": 0.99,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0003",
+          "surface": "πολιτικὸν",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "πολιτικός",
+          "gloss": "political",
+          "pos": "ADJ",
+          "morphology": "Nom. Sg. n.",
+          "features": {
+            "Case": "Nom",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 0.99,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0004",
+          "surface": "ὁ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ὁ",
+          "gloss": "the",
+          "pos": "DET",
+          "morphology": "Nom. Sg. m.",
+          "features": {
+            "Case": "Nom",
+            "Number": "Sing",
+            "Gender": "Masc"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0005",
+          "surface": "ἄνθρωπος",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ἄνθρωπος",
+          "gloss": "human being",
+          "pos": "NOUN",
+          "morphology": "Nom. Sg. m.",
+          "features": {
+            "Case": "Nom",
+            "Number": "Sing",
+            "Gender": "Masc"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0006",
+          "surface": "ζῷον",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ζῷον",
+          "gloss": "animal",
+          "pos": "NOUN",
+          "morphology": "Nom. Sg. n.",
+          "features": {
+            "Case": "Nom",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0007",
+          "surface": "πάσης",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "πᾶς",
+          "gloss": "any",
+          "pos": "DET",
+          "morphology": "Gen. Sg. f.",
+          "features": {
+            "Case": "Gen",
+            "Number": "Sing",
+            "Gender": "Fem"
+          },
+          "confidence": 0.99,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0008",
+          "surface": "μελίττης",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "μέλιττα",
+          "gloss": "bee",
+          "pos": "NOUN",
+          "morphology": "Gen. Sg. f.",
+          "features": {
+            "Case": "Gen",
+            "Number": "Sing",
+            "Gender": "Fem"
+          },
+          "confidence": 0.99,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0009",
+          "surface": "καὶ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "καί",
+          "gloss": "and",
+          "pos": "CCONJ",
+          "morphology": "Coord. Conj.",
+          "features": {},
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0010",
+          "surface": "παντὸς",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "πᾶς",
+          "gloss": "any",
+          "pos": "DET",
+          "morphology": "Gen. Sg. n.",
+          "features": {
+            "Case": "Gen",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 0.99,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0011",
+          "surface": "ἀγελαίου",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ἀγελαῖος",
+          "gloss": "gregarious",
+          "pos": "ADJ",
+          "morphology": "Gen. Sg. n.",
+          "features": {
+            "Case": "Gen",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 0.99,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0012",
+          "surface": "ζῴου",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ζῷον",
+          "gloss": "animal",
+          "pos": "NOUN",
+          "morphology": "Gen. Sg. n.",
+          "features": {
+            "Case": "Gen",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0013",
+          "surface": "μᾶλλον",
+          "punctuationBefore": "",
+          "punctuationAfter": ",",
+          "lemma": "μᾶλλον",
+          "gloss": "more",
+          "pos": "ADV",
+          "morphology": "Comp. Adv.",
+          "features": {
+            "Degree": "Cmp"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0014",
+          "surface": "δῆλον",
+          "punctuationBefore": "",
+          "punctuationAfter": ".",
+          "lemma": "δῆλος",
+          "gloss": "evident",
+          "pos": "ADJ",
+          "morphology": "Nom. Sg. n.",
+          "features": {
+            "Case": "Nom",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 0.98,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0015",
+          "surface": "οὐθὲν",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "οὐδείς",
+          "gloss": "nothing",
+          "pos": "PRON",
+          "morphology": "Acc. Sg. n.",
+          "features": {
+            "Case": "Acc",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0016",
+          "surface": "γάρ",
+          "punctuationBefore": "",
+          "punctuationAfter": ",",
+          "lemma": "γάρ",
+          "gloss": "for",
+          "pos": "PART",
+          "morphology": "Explan. Part.",
+          "features": {},
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0017",
+          "surface": "ὡς",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ὡς",
+          "gloss": "as",
+          "pos": "SCONJ",
+          "morphology": "Subord. Conj.",
+          "features": {},
+          "confidence": 0.99,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0018",
+          "surface": "φαμέν",
+          "punctuationBefore": "",
+          "punctuationAfter": ",",
+          "lemma": "φημί",
+          "gloss": "we say",
+          "pos": "VERB",
+          "morphology": "1P Pres. Act. Ind.",
+          "features": {
+            "Person": "1",
+            "Number": "Plur",
+            "Tense": "Pres",
+            "Voice": "Act",
+            "Mood": "Ind"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0019",
+          "surface": "μάτην",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "μάτην",
+          "gloss": "in vain",
+          "pos": "ADV",
+          "morphology": "Adv.",
+          "features": {},
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0020",
+          "surface": "ἡ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ὁ",
+          "gloss": "the",
+          "pos": "DET",
+          "morphology": "Nom. Sg. f.",
+          "features": {
+            "Case": "Nom",
+            "Number": "Sing",
+            "Gender": "Fem"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0021",
+          "surface": "φύσις",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "φύσις",
+          "gloss": "nature",
+          "pos": "NOUN",
+          "morphology": "Nom. Sg. f.",
+          "features": {
+            "Case": "Nom",
+            "Number": "Sing",
+            "Gender": "Fem"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0022",
+          "surface": "ποιεῖ",
+          "punctuationBefore": "",
+          "punctuationAfter": "·",
+          "lemma": "ποιέω",
+          "gloss": "does",
+          "pos": "VERB",
+          "morphology": "3S Pres. Act. Ind.",
+          "features": {
+            "Person": "3",
+            "Number": "Sing",
+            "Tense": "Pres",
+            "Voice": "Act",
+            "Mood": "Ind"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0023",
+          "surface": "λόγον",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "λόγος",
+          "gloss": "speech",
+          "pos": "NOUN",
+          "morphology": "Acc. Sg. m.",
+          "features": {
+            "Case": "Acc",
+            "Number": "Sing",
+            "Gender": "Masc"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0024",
+          "surface": "δὲ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "δέ",
+          "gloss": "and",
+          "pos": "PART",
+          "morphology": "Postpos. Part.",
+          "features": {},
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0025",
+          "surface": "μόνον",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "μόνος",
+          "gloss": "alone",
+          "pos": "ADV",
+          "morphology": "Adv.",
+          "features": {},
+          "confidence": 0.96,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0026",
+          "surface": "ἄνθρωπος",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ἄνθρωπος",
+          "gloss": "human being",
+          "pos": "NOUN",
+          "morphology": "Nom. Sg. m.",
+          "features": {
+            "Case": "Nom",
+            "Number": "Sing",
+            "Gender": "Masc"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0027",
+          "surface": "ἔχει",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ἔχω",
+          "gloss": "has",
+          "pos": "VERB",
+          "morphology": "3S Pres. Act. Ind.",
+          "features": {
+            "Person": "3",
+            "Number": "Sing",
+            "Tense": "Pres",
+            "Voice": "Act",
+            "Mood": "Ind"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0028",
+          "surface": "τῶν",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ὁ",
+          "gloss": "the",
+          "pos": "DET",
+          "morphology": "Gen. Pl. n.",
+          "features": {
+            "Case": "Gen",
+            "Number": "Plur",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0029",
+          "surface": "ζῴων",
+          "punctuationBefore": "",
+          "punctuationAfter": "·",
+          "lemma": "ζῷον",
+          "gloss": "animals",
+          "pos": "NOUN",
+          "morphology": "Gen. Pl. n.",
+          "features": {
+            "Case": "Gen",
+            "Number": "Plur",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "line",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0030",
+          "surface": "ἡ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ὁ",
+          "gloss": "the",
+          "pos": "DET",
+          "morphology": "Nom. Sg. f.",
+          "features": {
+            "Case": "Nom",
+            "Number": "Sing",
+            "Gender": "Fem"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0031",
+          "surface": "μὲν",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "μέν",
+          "gloss": "on the one hand",
+          "pos": "PART",
+          "morphology": "Postpos. Part.",
+          "features": {},
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0032",
+          "surface": "οὖν",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "οὖν",
+          "gloss": "then",
+          "pos": "PART",
+          "morphology": "Postpos. Part.",
+          "features": {},
+          "confidence": 0.99,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0033",
+          "surface": "φωνὴ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "φωνή",
+          "gloss": "voice",
+          "pos": "NOUN",
+          "morphology": "Nom. Sg. f.",
+          "features": {
+            "Case": "Nom",
+            "Number": "Sing",
+            "Gender": "Fem"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0034",
+          "surface": "τοῦ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ὁ",
+          "gloss": "the",
+          "pos": "DET",
+          "morphology": "Gen. Sg. n.",
+          "features": {
+            "Case": "Gen",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0035",
+          "surface": "λυπηροῦ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "λυπηρός",
+          "gloss": "painful",
+          "pos": "ADJ",
+          "morphology": "Gen. Sg. n.",
+          "features": {
+            "Case": "Gen",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0036",
+          "surface": "καὶ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "καί",
+          "gloss": "and",
+          "pos": "CCONJ",
+          "morphology": "Coord. Conj.",
+          "features": {},
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0037",
+          "surface": "ἡδέος",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ἡδύς",
+          "gloss": "pleasant",
+          "pos": "ADJ",
+          "morphology": "Gen. Sg. n.",
+          "features": {
+            "Case": "Gen",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0038",
+          "surface": "ἐστὶ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "εἰμί",
+          "gloss": "is",
+          "pos": "AUX",
+          "morphology": "3S Pres. Act. Ind.",
+          "features": {
+            "Person": "3",
+            "Number": "Sing",
+            "Tense": "Pres",
+            "Voice": "Act",
+            "Mood": "Ind"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0039",
+          "surface": "σημεῖον",
+          "punctuationBefore": "",
+          "punctuationAfter": ",",
+          "lemma": "σημεῖον",
+          "gloss": "sign",
+          "pos": "NOUN",
+          "morphology": "Nom. Sg. n.",
+          "features": {
+            "Case": "Nom",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0040",
+          "surface": "διὸ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "διό",
+          "gloss": "therefore",
+          "pos": "ADV",
+          "morphology": "Adv.",
+          "features": {},
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0041",
+          "surface": "καὶ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "καί",
+          "gloss": "also",
+          "pos": "ADV",
+          "morphology": "Adv.",
+          "features": {},
+          "confidence": 0.99,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0042",
+          "surface": "τοῖς",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ὁ",
+          "gloss": "the",
+          "pos": "DET",
+          "morphology": "Dat. Pl. n.",
+          "features": {
+            "Case": "Dat",
+            "Number": "Plur",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0043",
+          "surface": "ἄλλοις",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ἄλλος",
+          "gloss": "other",
+          "pos": "ADJ",
+          "morphology": "Dat. Pl. n.",
+          "features": {
+            "Case": "Dat",
+            "Number": "Plur",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0044",
+          "surface": "ὑπάρχει",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ὑπάρχω",
+          "gloss": "belongs",
+          "pos": "VERB",
+          "morphology": "3S Pres. Act. Ind.",
+          "features": {
+            "Person": "3",
+            "Number": "Sing",
+            "Tense": "Pres",
+            "Voice": "Act",
+            "Mood": "Ind"
+          },
+          "confidence": 0.99,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0045",
+          "surface": "ζῴοις",
+          "punctuationBefore": "",
+          "punctuationAfter": "·",
+          "lemma": "ζῷον",
+          "gloss": "animals",
+          "pos": "NOUN",
+          "morphology": "Dat. Pl. n.",
+          "features": {
+            "Case": "Dat",
+            "Number": "Plur",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0046",
+          "surface": "μέχρι",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "μέχρι",
+          "gloss": "up to",
+          "pos": "ADP",
+          "morphology": "Prep. + Gen.",
+          "features": {
+            "AdpType": "Prep",
+            "Case": "Gen"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0047",
+          "surface": "γὰρ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "γάρ",
+          "gloss": "for",
+          "pos": "PART",
+          "morphology": "Explan. Part.",
+          "features": {},
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0048",
+          "surface": "τούτου",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "οὗτος",
+          "gloss": "this point",
+          "pos": "PRON",
+          "morphology": "Gen. Sg. n.",
+          "features": {
+            "Case": "Gen",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0049",
+          "surface": "ἡ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ὁ",
+          "gloss": "the",
+          "pos": "DET",
+          "morphology": "Nom. Sg. f.",
+          "features": {
+            "Case": "Nom",
+            "Number": "Sing",
+            "Gender": "Fem"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0050",
+          "surface": "φύσις",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "φύσις",
+          "gloss": "nature",
+          "pos": "NOUN",
+          "morphology": "Nom. Sg. f.",
+          "features": {
+            "Case": "Nom",
+            "Number": "Sing",
+            "Gender": "Fem"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0051",
+          "surface": "αὐτῶν",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "αὐτός",
+          "gloss": "their",
+          "pos": "PRON",
+          "morphology": "Gen. Pl. n.",
+          "features": {
+            "Case": "Gen",
+            "Number": "Plur",
+            "Gender": "Neut"
+          },
+          "confidence": 0.99,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0052",
+          "surface": "ἐλήλυθε",
+          "punctuationBefore": "",
+          "punctuationAfter": ",",
+          "lemma": "ἔρχομαι",
+          "gloss": "has advanced",
+          "pos": "VERB",
+          "morphology": "3S Perf. Act. Ind.",
+          "features": {
+            "Person": "3",
+            "Number": "Sing",
+            "Tense": "Perf",
+            "Voice": "Act",
+            "Mood": "Ind"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0053",
+          "surface": "τοῦ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ὁ",
+          "gloss": "the",
+          "pos": "DET",
+          "morphology": "Gen. Sg. n.",
+          "features": {
+            "Case": "Gen",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0054",
+          "surface": "ἔχειν",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ἔχω",
+          "gloss": "to have",
+          "pos": "VERB",
+          "morphology": "Pres. Act. Inf.",
+          "features": {
+            "Tense": "Pres",
+            "Voice": "Act",
+            "VerbForm": "Inf"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0055",
+          "surface": "αἴσθησιν",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "αἴσθησις",
+          "gloss": "perception",
+          "pos": "NOUN",
+          "morphology": "Acc. Sg. f.",
+          "features": {
+            "Case": "Acc",
+            "Number": "Sing",
+            "Gender": "Fem"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0056",
+          "surface": "λυπηροῦ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "λυπηρός",
+          "gloss": "of pain",
+          "pos": "ADJ",
+          "morphology": "Gen. Sg. n.",
+          "features": {
+            "Case": "Gen",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0057",
+          "surface": "καὶ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "καί",
+          "gloss": "and",
+          "pos": "CCONJ",
+          "morphology": "Coord. Conj.",
+          "features": {},
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0058",
+          "surface": "ἡδέος",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ἡδύς",
+          "gloss": "of pleasure",
+          "pos": "ADJ",
+          "morphology": "Gen. Sg. n.",
+          "features": {
+            "Case": "Gen",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0059",
+          "surface": "καὶ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "καί",
+          "gloss": "and",
+          "pos": "CCONJ",
+          "morphology": "Coord. Conj.",
+          "features": {},
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0060",
+          "surface": "ταῦτα",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "οὗτος",
+          "gloss": "these things",
+          "pos": "PRON",
+          "morphology": "Acc. Pl. n.",
+          "features": {
+            "Case": "Acc",
+            "Number": "Plur",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0061",
+          "surface": "σημαίνειν",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "σημαίνω",
+          "gloss": "to signify",
+          "pos": "VERB",
+          "morphology": "Pres. Act. Inf.",
+          "features": {
+            "Tense": "Pres",
+            "Voice": "Act",
+            "VerbForm": "Inf"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0062",
+          "surface": "ἀλλήλοις",
+          "punctuationBefore": "",
+          "punctuationAfter": "·",
+          "lemma": "ἀλλήλων",
+          "gloss": "to one another",
+          "pos": "PRON",
+          "morphology": "Dat. Pl. n.",
+          "features": {
+            "Case": "Dat",
+            "Number": "Plur",
+            "Gender": "Neut"
+          },
+          "confidence": 0.99,
+          "alternatives": [],
+          "breakAfter": "line",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0063",
+          "surface": "ὁ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ὁ",
+          "gloss": "the",
+          "pos": "DET",
+          "morphology": "Nom. Sg. m.",
+          "features": {
+            "Case": "Nom",
+            "Number": "Sing",
+            "Gender": "Masc"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0064",
+          "surface": "δὲ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "δέ",
+          "gloss": "but",
+          "pos": "PART",
+          "morphology": "Contrast. Part.",
+          "features": {},
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0065",
+          "surface": "λόγος",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "λόγος",
+          "gloss": "speech",
+          "pos": "NOUN",
+          "morphology": "Nom. Sg. m.",
+          "features": {
+            "Case": "Nom",
+            "Number": "Sing",
+            "Gender": "Masc"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0066",
+          "surface": "ἐπὶ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ἐπί",
+          "gloss": "for",
+          "pos": "ADP",
+          "morphology": "Prep. + Dat.",
+          "features": {
+            "AdpType": "Prep",
+            "Case": "Dat"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0067",
+          "surface": "τῷ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ὁ",
+          "gloss": "the",
+          "pos": "DET",
+          "morphology": "Dat. Sg. n.",
+          "features": {
+            "Case": "Dat",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0068",
+          "surface": "δηλοῦν",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "δηλόω",
+          "gloss": "to make clear",
+          "pos": "VERB",
+          "morphology": "Pres. Act. Inf.",
+          "features": {
+            "Tense": "Pres",
+            "Voice": "Act",
+            "VerbForm": "Inf"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0069",
+          "surface": "ἐστι",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "εἰμί",
+          "gloss": "is",
+          "pos": "AUX",
+          "morphology": "3S Pres. Act. Ind.",
+          "features": {
+            "Person": "3",
+            "Number": "Sing",
+            "Tense": "Pres",
+            "Voice": "Act",
+            "Mood": "Ind"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0070",
+          "surface": "τὸ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ὁ",
+          "gloss": "the",
+          "pos": "DET",
+          "morphology": "Acc. Sg. n.",
+          "features": {
+            "Case": "Acc",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0071",
+          "surface": "συμφέρον",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "συμφέρω",
+          "gloss": "advantageous",
+          "pos": "VERB",
+          "morphology": "Pres. Act. Part. Acc. Sg. n.",
+          "features": {
+            "Tense": "Pres",
+            "Voice": "Act",
+            "VerbForm": "Part",
+            "Case": "Acc",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 0.98,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0072",
+          "surface": "καὶ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "καί",
+          "gloss": "and",
+          "pos": "CCONJ",
+          "morphology": "Coord. Conj.",
+          "features": {},
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0073",
+          "surface": "τὸ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ὁ",
+          "gloss": "the",
+          "pos": "DET",
+          "morphology": "Acc. Sg. n.",
+          "features": {
+            "Case": "Acc",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0074",
+          "surface": "βλαβερόν",
+          "punctuationBefore": "",
+          "punctuationAfter": ",",
+          "lemma": "βλαβερός",
+          "gloss": "harmful",
+          "pos": "ADJ",
+          "morphology": "Acc. Sg. n.",
+          "features": {
+            "Case": "Acc",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0075",
+          "surface": "ὥστε",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ὥστε",
+          "gloss": "and so",
+          "pos": "SCONJ",
+          "morphology": "Subord. Conj.",
+          "features": {},
+          "confidence": 0.99,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0076",
+          "surface": "καὶ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "καί",
+          "gloss": "also",
+          "pos": "ADV",
+          "morphology": "Adv.",
+          "features": {},
+          "confidence": 0.99,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0077",
+          "surface": "τὸ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ὁ",
+          "gloss": "the",
+          "pos": "DET",
+          "morphology": "Acc. Sg. n.",
+          "features": {
+            "Case": "Acc",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0078",
+          "surface": "δίκαιον",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "δίκαιος",
+          "gloss": "just",
+          "pos": "ADJ",
+          "morphology": "Acc. Sg. n.",
+          "features": {
+            "Case": "Acc",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0079",
+          "surface": "καὶ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "καί",
+          "gloss": "and",
+          "pos": "CCONJ",
+          "morphology": "Coord. Conj.",
+          "features": {},
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0080",
+          "surface": "τὸ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ὁ",
+          "gloss": "the",
+          "pos": "DET",
+          "morphology": "Acc. Sg. n.",
+          "features": {
+            "Case": "Acc",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0081",
+          "surface": "ἄδικον",
+          "punctuationBefore": "",
+          "punctuationAfter": "·",
+          "lemma": "ἄδικος",
+          "gloss": "unjust",
+          "pos": "ADJ",
+          "morphology": "Acc. Sg. n.",
+          "features": {
+            "Case": "Acc",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0082",
+          "surface": "τοῦτο",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "οὗτος",
+          "gloss": "this",
+          "pos": "PRON",
+          "morphology": "Nom. Sg. n.",
+          "features": {
+            "Case": "Nom",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 0.99,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0083",
+          "surface": "γὰρ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "γάρ",
+          "gloss": "for",
+          "pos": "PART",
+          "morphology": "Explan. Part.",
+          "features": {},
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0084",
+          "surface": "πρὸς",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "πρός",
+          "gloss": "in relation to",
+          "pos": "ADP",
+          "morphology": "Prep. + Acc.",
+          "features": {
+            "AdpType": "Prep",
+            "Case": "Acc"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0085",
+          "surface": "τὰ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ὁ",
+          "gloss": "the",
+          "pos": "DET",
+          "morphology": "Acc. Pl. n.",
+          "features": {
+            "Case": "Acc",
+            "Number": "Plur",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0086",
+          "surface": "ἄλλα",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ἄλλος",
+          "gloss": "other",
+          "pos": "ADJ",
+          "morphology": "Acc. Pl. n.",
+          "features": {
+            "Case": "Acc",
+            "Number": "Plur",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0087",
+          "surface": "ζῷα",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ζῷον",
+          "gloss": "animals",
+          "pos": "NOUN",
+          "morphology": "Acc. Pl. n.",
+          "features": {
+            "Case": "Acc",
+            "Number": "Plur",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0088",
+          "surface": "τοῖς",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ὁ",
+          "gloss": "the",
+          "pos": "DET",
+          "morphology": "Dat. Pl. m.",
+          "features": {
+            "Case": "Dat",
+            "Number": "Plur",
+            "Gender": "Masc"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0089",
+          "surface": "ἀνθρώποις",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ἄνθρωπος",
+          "gloss": "human beings",
+          "pos": "NOUN",
+          "morphology": "Dat. Pl. m.",
+          "features": {
+            "Case": "Dat",
+            "Number": "Plur",
+            "Gender": "Masc"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0090",
+          "surface": "ἴδιον",
+          "punctuationBefore": "",
+          "punctuationAfter": ",",
+          "lemma": "ἴδιος",
+          "gloss": "peculiar",
+          "pos": "ADJ",
+          "morphology": "Nom. Sg. n.",
+          "features": {
+            "Case": "Nom",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 0.98,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0091",
+          "surface": "τὸ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ὁ",
+          "gloss": "the",
+          "pos": "DET",
+          "morphology": "Nom. Sg. n.",
+          "features": {
+            "Case": "Nom",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 0.97,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0092",
+          "surface": "μόνον",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "μόνος",
+          "gloss": "alone",
+          "pos": "ADV",
+          "morphology": "Adv.",
+          "features": {},
+          "confidence": 0.98,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0093",
+          "surface": "ἀγαθοῦ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ἀγαθός",
+          "gloss": "of good",
+          "pos": "ADJ",
+          "morphology": "Gen. Sg. n.",
+          "features": {
+            "Case": "Gen",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0094",
+          "surface": "καὶ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "καί",
+          "gloss": "and",
+          "pos": "CCONJ",
+          "morphology": "Coord. Conj.",
+          "features": {},
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0095",
+          "surface": "κακοῦ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "κακός",
+          "gloss": "of bad",
+          "pos": "ADJ",
+          "morphology": "Gen. Sg. n.",
+          "features": {
+            "Case": "Gen",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0096",
+          "surface": "καὶ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "καί",
+          "gloss": "and",
+          "pos": "CCONJ",
+          "morphology": "Coord. Conj.",
+          "features": {},
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0097",
+          "surface": "δικαίου",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "δίκαιος",
+          "gloss": "of just",
+          "pos": "ADJ",
+          "morphology": "Gen. Sg. n.",
+          "features": {
+            "Case": "Gen",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0098",
+          "surface": "καὶ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "καί",
+          "gloss": "and",
+          "pos": "CCONJ",
+          "morphology": "Coord. Conj.",
+          "features": {},
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0099",
+          "surface": "ἀδίκου",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ἄδικος",
+          "gloss": "of unjust",
+          "pos": "ADJ",
+          "morphology": "Gen. Sg. n.",
+          "features": {
+            "Case": "Gen",
+            "Number": "Sing",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0100",
+          "surface": "καὶ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "καί",
+          "gloss": "and",
+          "pos": "CCONJ",
+          "morphology": "Coord. Conj.",
+          "features": {},
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0101",
+          "surface": "τῶν",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ὁ",
+          "gloss": "the",
+          "pos": "DET",
+          "morphology": "Gen. Pl. n.",
+          "features": {
+            "Case": "Gen",
+            "Number": "Plur",
+            "Gender": "Neut"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0102",
+          "surface": "ἄλλων",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ἄλλος",
+          "gloss": "of the other things",
+          "pos": "ADJ",
+          "morphology": "Gen. Pl. n.",
+          "features": {
+            "Case": "Gen",
+            "Number": "Plur",
+            "Gender": "Neut"
+          },
+          "confidence": 0.99,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0103",
+          "surface": "αἴσθησιν",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "αἴσθησις",
+          "gloss": "perception",
+          "pos": "NOUN",
+          "morphology": "Acc. Sg. f.",
+          "features": {
+            "Case": "Acc",
+            "Number": "Sing",
+            "Gender": "Fem"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0104",
+          "surface": "ἔχειν",
+          "punctuationBefore": "",
+          "punctuationAfter": "·",
+          "lemma": "ἔχω",
+          "gloss": "to have",
+          "pos": "VERB",
+          "morphology": "Pres. Act. Inf.",
+          "features": {
+            "Tense": "Pres",
+            "Voice": "Act",
+            "VerbForm": "Inf"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0105",
+          "surface": "ἡ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ὁ",
+          "gloss": "the",
+          "pos": "DET",
+          "morphology": "Nom. Sg. f.",
+          "features": {
+            "Case": "Nom",
+            "Number": "Sing",
+            "Gender": "Fem"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0106",
+          "surface": "δὲ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "δέ",
+          "gloss": "and",
+          "pos": "PART",
+          "morphology": "Postpos. Part.",
+          "features": {},
+          "confidence": 0.99,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0107",
+          "surface": "τούτων",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "οὗτος",
+          "gloss": "of these things",
+          "pos": "PRON",
+          "morphology": "Gen. Pl. n.",
+          "features": {
+            "Case": "Gen",
+            "Number": "Plur",
+            "Gender": "Neut"
+          },
+          "confidence": 0.99,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0108",
+          "surface": "κοινωνία",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "κοινωνία",
+          "gloss": "sharing",
+          "pos": "NOUN",
+          "morphology": "Nom. Sg. f.",
+          "features": {
+            "Case": "Nom",
+            "Number": "Sing",
+            "Gender": "Fem"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0109",
+          "surface": "ποιεῖ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "ποιέω",
+          "gloss": "constitutes",
+          "pos": "VERB",
+          "morphology": "3S Pres. Act. Ind.",
+          "features": {
+            "Person": "3",
+            "Number": "Sing",
+            "Tense": "Pres",
+            "Voice": "Act",
+            "Mood": "Ind"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0110",
+          "surface": "οἰκίαν",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "οἰκία",
+          "gloss": "household",
+          "pos": "NOUN",
+          "morphology": "Acc. Sg. f.",
+          "features": {
+            "Case": "Acc",
+            "Number": "Sing",
+            "Gender": "Fem"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0111",
+          "surface": "καὶ",
+          "punctuationBefore": "",
+          "punctuationAfter": "",
+          "lemma": "καί",
+          "gloss": "and",
+          "pos": "CCONJ",
+          "morphology": "Coord. Conj.",
+          "features": {},
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        },
+        {
+          "id": "tok-0112",
+          "surface": "πόλιν",
+          "punctuationBefore": "",
+          "punctuationAfter": ".",
+          "lemma": "πόλις",
+          "gloss": "city",
+          "pos": "NOUN",
+          "morphology": "Acc. Sg. f.",
+          "features": {
+            "Case": "Acc",
+            "Number": "Sing",
+            "Gender": "Fem"
+          },
+          "confidence": 1,
+          "alternatives": [],
+          "breakAfter": "none",
+          "blankLinesAfter": 1
+        }
+      ],
+      "notes": [
+        {
+          "id": "note-0001",
+          "tokenId": "tok-0001",
+          "text": "Here διότι introduces the proposition whose truth is predicated by the following impersonal δῆλον; it is therefore best taken as content 'that', not causal 'because'."
+        },
+        {
+          "id": "note-0002",
+          "tokenId": "tok-0013",
+          "text": "μᾶλλον takes the genitives πάσης μελίττης and παντὸς ἀγελαίου ζῴου as genitives of comparison."
+        },
+        {
+          "id": "note-0003",
+          "tokenId": "tok-0025",
+          "text": "Although μόνον is formally compatible with an accusative singular masculine adjective agreeing with λόγον, the syntax and argument require adverbial 'alone': the human being alone among animals possesses λόγος."
+        },
+        {
+          "id": "note-0004",
+          "tokenId": "tok-0053",
+          "text": "The genitive article introduces an epexegetical articular infinitive dependent on τούτου: the point reached is the capacity to perceive pain and pleasure and to signal them."
+        },
+        {
+          "id": "note-0005",
+          "tokenId": "tok-0065",
+          "text": "The δέ preceding λόγος answers the earlier μέν and establishes a conceptual contrast between φωνή, voice as a sign of pleasure and pain, and λόγος, articulate or rational speech capable of expressing evaluative distinctions."
+        },
+        {
+          "id": "note-0006",
+          "tokenId": "tok-0068",
+          "text": "ἐπί with the dative articular infinitive expresses function or purpose: λόγος exists 'for making clear' the distinctions that follow."
+        },
+        {
+          "id": "note-0007",
+          "tokenId": "tok-0075",
+          "text": "ὥστε introduces an elliptical continuation of δηλοῦν: speech thereby also makes clear the just and the unjust."
+        },
+        {
+          "id": "note-0008",
+          "tokenId": "tok-0091",
+          "text": "The nominative neuter article introduces an articular infinitive phrase in apposition to τοῦτο, specifying what is ἴδιον to human beings."
+        },
+        {
+          "id": "note-0009",
+          "tokenId": "tok-0107",
+          "text": "τούτων gathers the preceding objects of human perception—good and bad, just and unjust, and related values—and κοινωνία denotes participation or sharing in them, which is said to constitute household and polis."
+        }
+      ]
+    },
+    "settings": {
+      "translationSize": 9.5,
+      "wordGap": 12,
+      "lineGap": 16,
+      "paperWidthMm": 210,
+      "paperHeightMm": 297,
+      "marginTopMm": 16,
+      "marginRightMm": 16,
+      "marginBottomMm": 16,
+      "marginLeftMm": 16,
+      "paperPreset": "A4",
+      "headerLeft": "",
+      "headerRight": "Ancient Greek · Interlinear reading",
+      "footerLeft": "ἈΡΙΣΤΟΤΕΛΗΣ · ΠΟΛΙΤΙΚΑ",
+      "footerRight": "I.2",
+      "background": "#eee2cc",
+      "ink": "#29271f",
+      "accent": "#9e4a32",
+      "showLemma": true,
+      "showPos": false,
+      "hideIndeclinableDetails": true,
+      "showTranslation": true,
+      "showNotes": true,
+      "showNoteMarkers": true,
+      "showPronunciation": true,
+      "orientation": "portrait",
+      "annotationTarget": "english",
+      "tokenStyle": {
+        "layers": {
+          "source": {
+            "fontFamily": "'Vusillus', 'Palatino Linotype', 'Book Antiqua', Palatino, serif",
+            "sizePt": 23,
+            "color": "#29271f",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "gloss": {
+            "fontFamily": "'Noto Serif STOA', 'Times New Roman', Times, serif",
+            "sizePt": 10,
+            "color": "#29271f",
+            "bold": true,
+            "italic": false,
+            "underline": false
+          },
+          "lemma": {
+            "fontFamily": "'Vusillus', 'Palatino Linotype', 'Book Antiqua', Palatino, serif",
+            "sizePt": 12,
+            "color": "#6f6b62",
+            "bold": false,
+            "italic": true,
+            "underline": false
+          },
+          "pos": {
+            "fontFamily": "'Noto Serif STOA', 'Times New Roman', Times, serif",
+            "sizePt": 6.5,
+            "color": "#9e4a32",
+            "bold": true,
+            "italic": false,
+            "underline": false
+          },
+          "morphology": {
+            "fontFamily": "'Noto Serif STOA', 'Times New Roman', Times, serif",
+            "sizePt": 8.5,
+            "color": "#625f56",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          }
+        },
+        "gapAfterPx": {
+          "source": 5,
+          "gloss": 3,
+          "lemma": 3,
+          "pos": 3
+        }
+      }
+    }
+  }
+}

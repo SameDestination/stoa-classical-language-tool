@@ -1,0 +1,7 @@
+Liberation Sans complete fonts, version 2.1.5.
+Downloaded from the official release archive:
+https://github.com/liberationfonts/liberation-fonts/files/7261482/liberation-fonts-ttf-2.1.5.tar.gz
+Release: https://github.com/liberationfonts/liberation-fonts/releases/tag/2.1.5
+The four Sans TTF files are copied unmodified. License: OFL-LiberationSans.txt.
+STOA 5.9.4 replaces earlier incomplete font subsets to cover Hanyu Pinyin,
+Latin Extended romanization and combining marks in Preview and vector PDF.
