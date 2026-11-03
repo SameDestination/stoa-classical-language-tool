@@ -122,9 +122,7 @@ xattr -dr com.apple.quarantine /Applications/STOA.app
 
 1. **在窗口顶部选择语言。** 每种语言都附带一份示例文本；点击 **New blank document** 可以从空白文档开始。
 2. **在 *01 · Source* 中输入文本。**
-3. **进行分析。**
-   - 桌面版：在 *Desktop automation* 卡片中点击 **Add API key**，选择 OpenAI 或 Anthropic 以及模型，由 STOA 直接请求分析。
-   - 所有版本：点击 **Full AI Prompt**，把提示词粘贴到你选择的 AI 对话中，复制它返回的 JSON，再点击 **Import Analysis**。
+3. **进行分析。** 点击 **Full AI Prompt**，把提示词粘贴到你选择的 AI 对话中，复制它返回的 JSON，再点击 **Import Analysis**。长文本可以使用 **Guided chunk analysis**，把工作拆成若干较短的提示词。
 4. **逐词检查和修改。** 点击页面上的词，在 *02 · Token Editor* 中修改释义、词元、词性和形态。按住 Ctrl（Mac 上为 ⌘）点击可选择多个词，按住 Shift 点击可选择一段范围。
 5. **在 *03 · Composition* 中设置版面：** 纸张、字体、间距、换行和译文。
 6. **导出** PDF、PNG 页面或 LaTeX，并保存项目（桌面版用 **Save**，其他版本用 **Export Project**），以便日后继续。
@@ -133,8 +131,7 @@ xattr -dr com.apple.quarantine /Applications/STOA.app
 
 STOA 没有账户系统，也从不把你的文本上传到 STOA 的服务器。
 
-- **桌面版**可以用你自己的 API 密钥，把文本直接发送给 OpenAI 或 Anthropic。密钥由操作系统的安全存储加密保存，不会出现在项目文件或导出文件中。
-- **便携版和网页版**从不索要 API 密钥。由你自己把提示词复制到 AI 服务中，因此分享哪些内容完全由你决定。
+- STOA 不连接任何 AI 服务，也从不索要 API 密钥。由你自己把提示词复制到 AI 服务中，因此分享哪些内容完全由你决定。
 - 你的文档、导入的字体和词典都保存在你的设备上。
 
 使用 AI 服务时，适用该服务自身的条款和隐私政策。AI 模型会出错，尤其是遇到罕见词形时，因此请把每一份分析都当作需要核对的草稿。安全问题请参阅 [SECURITY.md](SECURITY.md)。
@@ -165,7 +162,7 @@ npm run dev:web          # 编辑器地址：http://127.0.0.1:5173
 ```text
 app/
   stoa-studio.tsx        编辑器：所有版本共用的同一个渲染层
-  lib/                   语言规则、AI 流程、版式、PDF/PNG/LaTeX 导出、项目格式
+  lib/                   语言规则、AI 提示词与 JSON 导入、版式、PDF/PNG/LaTeX 导出、项目格式
   developer-defaults/    内置示例项目和默认设置（唯一来源）
   page.tsx, privacy/, …  宣传网站
 desktop/                 Electron 外壳：主进程、preload 桥接、安装包构建脚本
@@ -177,7 +174,7 @@ scripts/                 便携版优化和桌面版 QA 脚本
 worker/, build/          网站的 Cloudflare Worker 入口和构建插件
 ```
 
-网页版、便携版和桌面版都打包 `app/` 中的同一个编辑器。桌面外壳通过一个受限的沙盒桥接层提供原生文件操作和 API 密钥存储，安全模型见 [desktop/README.md](desktop/README.md)。
+网页版、便携版和桌面版都打包 `app/` 中的同一个编辑器。桌面外壳通过一个受限的沙盒桥接层提供原生文件操作，安全模型见 [desktop/README.md](desktop/README.md)。
 
 ## 项目文件格式
 

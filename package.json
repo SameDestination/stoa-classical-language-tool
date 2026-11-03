@@ -38,8 +38,7 @@
     "test:selection": "node --import tsx --test tests/token-selection.test.ts",
     "test:web-documents": "node --import tsx --test tests/web-document-lifecycle.test.ts tests/omni-compact-morphology.test.ts",
     "test:languages": "node --import tsx --test tests/language-config.test.mjs tests/classical-chinese.test.ts tests/developer-defaults.test.ts tests/official-samples.test.ts tests/omni-sample.test.ts tests/document-revision.test.ts tests/json-workspace.test.mjs tests/best-effort-json-import.test.ts tests/json-first-workflow.test.mjs tests/workspace-history.test.ts tests/history-coalescing.test.ts tests/history-coalescing-ui-contract.test.mjs tests/workspace-navigation-ui-contract.test.mjs tests/analysis-notes.test.ts tests/analysis-notes-ui-contract.test.mjs tests/page-flow.test.ts tests/publication-layout.test.ts tests/smart-pagination-contract.test.mjs tests/vector-pdf-cjk.test.ts tests/vector-pdf-notes.test.ts tests/omni-language.test.ts tests/omni-language-profiles.test.ts tests/omni-permissive-import.test.ts tests/omni-export.test.ts tests/omni-page-contract.test.mjs tests/omni-preferences.test.ts tests/raster-pdf.test.ts",
-    "test:ai": "node --import tsx --test tests/ai-pipeline.test.mjs tests/ai-providers.test.ts tests/desktop-preload-contract.test.mjs",
-    "test:ai-providers": "node --import tsx --test tests/ai-providers.test.ts tests/desktop-preload-contract.test.mjs",
+    "test:ai": "node --import tsx --test tests/ai-pipeline.test.mjs tests/manual-ai-session.test.mjs tests/desktop-preload-contract.test.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "check": "npm run typecheck && npm run lint && npm test"

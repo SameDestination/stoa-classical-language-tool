@@ -2,13 +2,11 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
-  AiPipelineError,
   AiJsonResponseError,
   buildChunkPrompts,
   chunkSourceTokens,
   extractJsonBody,
   parseAiJsonResponse,
-  runAiPipeline,
   tokenizeClassicalText,
   tokenizeStoaText,
   validateChunkResponse,
@@ -224,100 +222,4 @@ test("Classical Chinese validation requires and NFC-normalizes Pinyin while Lati
   );
   assert.deepEqual(unchangedLatin.failedTokenIds, []);
   assert.equal(unchangedLatin.tokens[0].pinyin, undefined);
-});
-
-test("pipeline limits concurrency to two, merges by stable ID, and retries only failed tokens", async () => {
-  const text = Array.from({ length: 120 }, (_, index) => `verbum${index + 1}${index % 12 === 11 ? "." : ""}`).join(" ");
-  let active = 0;
-  let maximumActive = 0;
-  const calls = [];
-
-  const result = await runAiPipeline({
-    text,
-    language: "latin",
-    concurrency: 99,
-    maxRetries: 2,
-    request: async (request) => {
-      active += 1;
-      maximumActive = Math.max(maximumActive, active);
-      calls.push({
-        attempt: request.attempt,
-        rootChunkId: request.rootChunkId,
-        tokenIds: request.tokens.map((token) => token.id),
-        contextTokenIds: request.contextTokens.map((token) => token.id),
-        userPrompt: request.userPrompt,
-      });
-      await new Promise((resolve) => setTimeout(resolve, 8));
-      active -= 1;
-
-      const tokens = request.attempt === 0 && request.chunkIndex === 0
-        ? request.tokens.slice(1)
-        : request.tokens;
-      return JSON.stringify({
-        chunkId: request.rootChunkId,
-        literalTranslation: `literal-${request.rootChunkId}`,
-        naturalTranslation: `natural-${request.rootChunkId}`,
-        tokens: tokens.map((token) => enrich(token)),
-        notes: [],
-      });
-    },
-  });
-
-  assert.equal(result.chunks.length, 2);
-  assert.equal(maximumActive, 2);
-  assert.equal(result.diagnostics.requestCount, 3);
-  assert.equal(result.diagnostics.retryRequestCount, 1);
-  assert.equal(result.diagnostics.complete, true);
-  const retry = calls.find((call) => call.attempt === 1);
-  assert.ok(retry);
-  assert.equal(retry.tokenIds.length, 1);
-  assert.equal(retry.tokenIds[0], result.sourceTokens[0].id);
-  assert.ok(retry.contextTokenIds.length > retry.tokenIds.length);
-  assert.match(retry.userPrompt, /READ-ONLY ORIGINAL CHUNK CONTEXT/u);
-  assert.ok(retry.userPrompt.includes(retry.contextTokenIds.at(-1)));
-  assert.equal(result.analysis.tokens.length, 120);
-  assert.deepEqual(result.analysis.tokens.map((token) => token.id), result.sourceTokens.map((token) => token.id));
-  assert.deepEqual(result.analysis.tokens.map((token) => token.surface), result.sourceTokens.map((token) => token.surface));
-  assert.ok(result.analysis.tokens.every((token) => token.gloss));
-});
-
-test("an invalid whole-chunk response retries the whole chunk and then succeeds", async () => {
-  const calls = [];
-  const result = await runAiPipeline({
-    text: "Gallia est omnis divisa.",
-    language: "latin",
-    maxRetries: 1,
-    request: async (request) => {
-      calls.push({ attempt: request.attempt, count: request.tokens.length });
-      if (request.attempt === 0) return "A link only: https://example.test";
-      return JSON.stringify({
-        chunkId: request.rootChunkId,
-        tokens: request.tokens.map((token) => enrich(token)),
-      });
-    },
-  });
-
-  assert.deepEqual(calls, [
-    { attempt: 0, count: 4 },
-    { attempt: 1, count: 4 },
-  ]);
-  assert.equal(result.diagnostics.complete, true);
-  assert.equal(result.diagnostics.retryRequestCount, 1);
-});
-
-test("strict Guided/API analysis still rejects unresolved source tokens", async () => {
-  await assert.rejects(
-    runAiPipeline({
-      text: "Gallia est omnis.",
-      language: "latin",
-      maxRetries: 0,
-      strict: true,
-      request: async (request) => JSON.stringify({
-        chunkId: request.rootChunkId,
-        tokens: request.tokens.slice(1).map((token) => enrich(token)),
-      }),
-    }),
-    (error) => error instanceof AiPipelineError
-      && error.result.diagnostics.unresolvedTokenIds.length === 1,
-  );
 });

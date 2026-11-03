@@ -3,21 +3,7 @@
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties, KeyboardEvent as ReactKeyboardEvent, MouseEvent as ReactMouseEvent, PointerEvent as ReactPointerEvent, ReactNode } from "react";
 import DictionaryPopover, { type DictionaryPopoverState } from "./dictionary-popover";
-import {
-  cancelAiRequests,
-  deleteApiKey,
-  getApiKeyStorageStatus,
-  hasApiKey,
-  saveApiKey,
-  type AiProvider,
-} from "./ai-key-runtime";
-import { createProviderChunkRequest } from "./ai-providers";
-import {
-  AiPipelineError,
-  parseAiJsonResponse,
-  runAiPipeline,
-  type AiPipelineProgress,
-} from "./lib/ai-pipeline";
+import { parseAiJsonResponse } from "./lib/ai-pipeline";
 import {
   activateManualChunk,
   activateAvailableManualChunks,
@@ -479,10 +465,6 @@ type AutoLayoutResult = {
 const STOA_VERSION = "5.9.7";
 const MANUAL_AI_SESSION_STORAGE_KEY = "stoa-manual-ai-session-v1";
 const MANUAL_AI_DRAFT_STORAGE_KEY = "stoa-manual-ai-drafts-v1";
-const DEFAULT_AI_MODELS: Record<AiProvider, string> = {
-  openai: "gpt-5.6-terra",
-  anthropic: "claude-sonnet-5",
-};
 
 const cloneAnalysis = (value: Analysis): Analysis => ({
   ...value,
@@ -2725,21 +2707,10 @@ export default function Home() {
   );
   const [localPreferencesHydrated, setLocalPreferencesHydrated] = useState(false);
   const [layoutPlanValue, setLayoutPlanValue] = useState("");
-  const [desktopAiAvailable, setDesktopAiAvailable] = useState(false);
   const [desktopDocumentsAvailable, setDesktopDocumentsAvailable] = useState(false);
   const [desktopDocumentState, setDesktopDocumentState] = useState<StoaDesktopDocumentState | null>(null);
   const [desktopSavedRevisionGeneration, setDesktopSavedRevisionGeneration] = useState(0);
   const [desktopHelpOpen, setDesktopHelpOpen] = useState(false);
-  const [apiKeyStorage, setApiKeyStorage] = useState<"encrypted" | "session" | "unavailable">("unavailable");
-  const [apiKeyOpen, setApiKeyOpen] = useState(false);
-  const [apiKeyValue, setApiKeyValue] = useState("");
-  const [apiKeyConfigured, setApiKeyConfigured] = useState(false);
-  const [apiKeyBusy, setApiKeyBusy] = useState(false);
-  const [aiProvider, setAiProvider] = useState<AiProvider>("openai");
-  const [aiModels, setAiModels] = useState<Record<AiProvider, string>>(DEFAULT_AI_MODELS);
-  const [aiRunning, setAiRunning] = useState(false);
-  const [aiProgress, setAiProgress] = useState<AiPipelineProgress | null>(null);
-  const [aiError, setAiError] = useState("");
   const [toast, setToast] = useState("");
   const exportBusyRef = useRef(false);
   const [activeDocumentExport, setActiveDocumentExport] = useState<"pdf" | "png" | null>(null);
@@ -2762,8 +2733,6 @@ export default function Home() {
   >({});
   const workspaceHistoriesRef = useRef<WorkspaceHistories<TextLanguage, DocumentSnapshot>>({});
   const historyCoalescingRef = useRef<HistoryCoalescingState<TextLanguage> | null>(null);
-  const aiAbortController = useRef<AbortController | null>(null);
-  const contentRevision = useRef(0);
   const latestLayoutSourceKey = useRef("");
   const latestSettings = useRef(settings);
   const activeLanguageRef = useRef<TextLanguage>(language);
@@ -3230,39 +3199,6 @@ export default function Home() {
   }, [fontLibraryReady, fontRequestEntries, fontRequestKey]);
 
   useEffect(() => {
-    let active = true;
-    void getApiKeyStorageStatus()
-      .then((status) => {
-        if (!active) return;
-        setDesktopAiAvailable(status.available);
-        setApiKeyStorage(status.storage);
-      })
-      .catch(() => {
-        if (!active) return;
-        setDesktopAiAvailable(false);
-        setApiKeyStorage("unavailable");
-      });
-    return () => {
-      active = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!desktopAiAvailable) return;
-    let active = true;
-    void hasApiKey(aiProvider)
-      .then((configured) => {
-        if (active) setApiKeyConfigured(configured);
-      })
-      .catch(() => {
-        if (active) setApiKeyConfigured(false);
-      });
-    return () => {
-      active = false;
-    };
-  }, [aiProvider, desktopAiAvailable]);
-
-  useEffect(() => {
     latestSettings.current = settings;
   }, [settings]);
 
@@ -3415,7 +3351,6 @@ export default function Home() {
   const applySnapshot = (snapshot: DocumentSnapshot, switchLanguage = false) => {
     if (!switchLanguage && snapshot.language !== activeLanguageRef.current) return;
     historyCoalescingRef.current = null;
-    contentRevision.current += 1;
     const restoredSettings = cloneSettings(snapshot.settings);
     const restoredAnalysis = cloneAnalysis(snapshot.analysis);
     const restoredSelection = sanitizeTokenSelection(
@@ -3506,9 +3441,6 @@ export default function Home() {
     if (historySnapshot && historyDecision.recordSnapshot) {
       recordWorkspaceEdit(nextLanguage, historySnapshot);
     }
-    if (nextAnalysis !== analysis || nextLanguage !== language) {
-      contentRevision.current += 1;
-    }
     setAnalysis(nextAnalysis);
     setLanguage(nextLanguage);
     latestSettings.current = nextSettings;
@@ -3544,7 +3476,6 @@ export default function Home() {
   };
 
   const undo = () => {
-    if (aiRunning) return;
     historyCoalescingRef.current = null;
     const step = undoWorkspaceHistory(
       workspaceHistoriesRef.current,
@@ -3558,7 +3489,6 @@ export default function Home() {
   };
 
   const redo = () => {
-    if (aiRunning) return;
     historyCoalescingRef.current = null;
     const step = redoWorkspaceHistory(
       workspaceHistoriesRef.current,
@@ -3597,7 +3527,6 @@ export default function Home() {
     key: K,
     value: StudioSettings[K],
   ) => {
-    if (aiRunning) return;
     if (
       key === "hideIndeclinableDetails"
       && value === true
@@ -3713,7 +3642,7 @@ export default function Home() {
   };
 
   const updateOmniDocument = (patch: Partial<OmniDocumentConfig>) => {
-    if (aiRunning || !isOmniLanguageId(language)) return;
+    if (!isOmniLanguageId(language)) return;
     const current = createOmniDocumentConfig(settings.omni, analysis.sourceText);
     const omni = createOmniDocumentConfig({ ...current, ...patch }, analysis.sourceText);
     const nextAnalysis: Analysis = {
@@ -3734,7 +3663,6 @@ export default function Home() {
   };
 
   const updateCompositionDocumentStyle = (nextStyle: DocumentTokenStyle) => {
-    if (aiRunning) return;
     commitDocument(
       analysis,
       selection,
@@ -3744,7 +3672,6 @@ export default function Home() {
   };
 
   const saveCompositionStyleAsDefault = (nextStyle: DocumentTokenStyle) => {
-    if (aiRunning) return;
     try {
       const nextDefaults = setUserTokenStyleDefault(
         userTokenStyleDefaults,
@@ -3768,7 +3695,6 @@ export default function Home() {
   };
 
   const clearCompositionStyleDefault = () => {
-    if (aiRunning) return;
     const nextDefaults = removeUserTokenStyleDefault(userTokenStyleDefaults, language);
     const result = writeUserTokenStyleDefaults(
       window.localStorage,
@@ -3784,7 +3710,6 @@ export default function Home() {
   };
 
   const updatePaperPreset = (preset: string) => {
-    if (aiRunning) return;
     const size = PAPER_SIZES[preset];
     const nextSettings = !size
       ? { ...settings, paperPreset: preset }
@@ -3798,7 +3723,6 @@ export default function Home() {
   };
 
   const updateOrientation = (orientation: "portrait" | "landscape") => {
-    if (aiRunning) return;
     if (settings.orientation === orientation) return;
     const preset = PAPER_SIZES[settings.paperPreset];
     const nextSettings = preset
@@ -3821,7 +3745,6 @@ export default function Home() {
     key: "surface" | "punctuationBefore" | "punctuationAfter" | "gloss" | "lemma" | "pos" | "morphology" | "pinyin" | "romanization",
     value: string,
   ) => {
-    if (aiRunning) return;
     if (!singleSelectedToken) return;
     const tokens = analysis.tokens.map((item) =>
       item.id === singleSelectedToken.id
@@ -3835,7 +3758,7 @@ export default function Home() {
   };
 
   const addSelectedTokenNote = (text: string, requestedPosition: number) => {
-    if (aiRunning || !singleSelectedToken || omniDocument) return;
+    if (!singleSelectedToken || omniDocument) return;
     const normalizedText = text.trim();
     if (!normalizedText) return;
     const noteId = nextAnalysisNoteId(analysis.notes);
@@ -3849,7 +3772,7 @@ export default function Home() {
   };
 
   const updateSelectedTokenNote = (noteId: string, text: string) => {
-    if (aiRunning || omniDocument) return;
+    if (omniDocument) return;
     const normalizedText = text.trim();
     if (!normalizedText) return;
     const notes = analysis.notes.map((note) => note.id === noteId
@@ -3861,30 +3784,16 @@ export default function Home() {
   };
 
   const moveSelectedTokenNote = (noteId: string, requestedPosition: number) => {
-    if (aiRunning || omniDocument) return;
+    if (omniDocument) return;
     const notes = moveAnalysisNote(analysis.notes, noteId, requestedPosition);
     commitDocument({ ...analysis, notes });
   };
 
   const removeSelectedTokenNote = (noteId: string) => {
-    if (aiRunning || omniDocument) return;
+    if (omniDocument) return;
     const notes = deleteAnalysisNote(analysis.notes, noteId);
     commitDocument({ ...analysis, notes });
     setToast("Scholarly note deleted; following note numbers were updated");
-  };
-
-  const cancelAnalysisForWorkspaceChange = () => {
-    if (!aiRunning && !aiAbortController.current) return;
-    contentRevision.current += 1;
-    const controller = aiAbortController.current;
-    aiAbortController.current = null;
-    controller?.abort();
-    setAiRunning(false);
-    setAiProgress(null);
-    void cancelAiRequests().catch(() => {
-      // The local AbortController and revision guard are sufficient to reject
-      // a stale result even when the desktop bridge is already unavailable.
-    });
   };
 
   const performLanguageChange = (nextLanguage: TextLanguage) => {
@@ -3896,7 +3805,6 @@ export default function Home() {
     void getDesktopDocumentsBridge()?.setActiveWorkspace(nextLanguage).catch(() => {
       // The regular state-sync effect will retry if the desktop window remains.
     });
-    cancelAnalysisForWorkspaceChange();
     if (activeLanguage === language) {
       languageDocuments.current[activeLanguage] = currentSnapshot();
     }
@@ -3980,7 +3888,6 @@ export default function Home() {
   };
 
   const insertTokenAfter = (afterId?: string | null) => {
-    if (aiRunning) return;
     const defaults = languageConfig.newTokenDefaults;
     const idPrefix = language.replace(/[^a-z]/g, "").slice(0, 5) || "token";
     const existingIds = new Set(analysis.tokens.map((item) => item.id));
@@ -4038,7 +3945,6 @@ export default function Home() {
   };
 
   const updateBreakAfter = (value: BreakAfter) => {
-    if (aiRunning) return;
     if (!selectedTokens.length) return;
     const tokens = updateSelectedItems(analysis.tokens, selection.selectedIds, (item) =>
       ({ ...item, breakAfter: value }),
@@ -4048,7 +3954,6 @@ export default function Home() {
   };
 
   const updateBlankLinesAfter = (value: number) => {
-    if (aiRunning) return;
     if (!selectedTokens.length) return;
     const nextValue = Math.min(20, Math.max(1, Math.round(value)));
     const tokens = updateSelectedItems(analysis.tokens, selection.selectedIds, (item) =>
@@ -4061,7 +3966,6 @@ export default function Home() {
   };
 
   const updateBlankLineSpacing = (value: number) => {
-    if (aiRunning) return;
     if (!selectedTokens.length) return;
     const nextValue = Math.min(200, Math.max(1, value));
     const tokens = updateSelectedItems(analysis.tokens, selection.selectedIds, (item) =>
@@ -4074,7 +3978,7 @@ export default function Home() {
   };
 
   const applyTokenEditorDraft = (draftTokens: readonly TokenEditorToken[]) => {
-    if (aiRunning || !selectedTokens.length) return;
+    if (!selectedTokens.length) return;
     const draftsById = new Map(draftTokens.map((token) => [token.id, token]));
     const tokens = analysis.tokens.map((token) => {
       const draft = draftsById.get(token.id);
@@ -4111,7 +4015,6 @@ export default function Home() {
   };
 
   const deleteSelectedToken = () => {
-    if (aiRunning) return;
     if (!selectedTokens.length) return;
     const removal = removeSelectedItems(analysis.tokens, selection);
     const tokens = removal.items;
@@ -4142,7 +4045,6 @@ export default function Home() {
     tokenId: string,
     event: ReactMouseEvent<HTMLButtonElement>,
   ) => {
-    if (aiRunning) return;
     const macLikePlatform = /Mac|iPhone|iPad|iPod/i.test(window.navigator.platform);
     if (macLikePlatform && event.ctrlKey && !event.metaKey) return;
     setSelection((current) => applyPointerSelection(current, tokenIds, tokenId, {
@@ -4155,7 +4057,6 @@ export default function Home() {
     tokenId: string,
     event: ReactKeyboardEvent<HTMLButtonElement>,
   ) => {
-    if (aiRunning) return;
     if ((event.metaKey || event.ctrlKey) && (event.key === " " || event.key === "Spacebar")) {
       event.preventDefault();
       setSelection((current) => toggleFocusedToken(
@@ -4200,7 +4101,6 @@ export default function Home() {
   };
 
   const clearSelectionFromPaper = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (aiRunning) return;
     const target = event.target;
     if (!(target instanceof Element)) return;
     if (target.closest("[data-stoa-token-id], button, a, input, textarea, select, [role='dialog']")) return;
@@ -4213,7 +4113,6 @@ export default function Home() {
   };
 
   const openGuidedManualSession = (restart = false) => {
-    if (aiRunning) return;
     if (!isStoaLanguageId(language)) {
       setToast("OMNI uses one concise AI request and Import Analysis so the model can apply language-appropriate tokenization.");
       return;
@@ -4260,7 +4159,7 @@ export default function Home() {
   };
 
   const restoreManualSessionSource = () => {
-    if (!manualSession || aiRunning) return;
+    if (!manualSession) return;
     if (!window.confirm("Replace the current source text and language with the source snapshot saved in this guided session?")) return;
     const targetLanguage = manualSession.language;
     const targetSnapshot = snapshotForWorkspace(targetLanguage);
@@ -4280,7 +4179,6 @@ export default function Home() {
         restoredSnapshot.settings,
       );
     } else {
-      cancelAnalysisForWorkspaceChange();
       languageDocuments.current[language] = currentSnapshot();
       recordWorkspaceEdit(targetLanguage, targetSnapshot);
       historyCoalescingRef.current = null;
@@ -4300,7 +4198,7 @@ export default function Home() {
   };
 
   const updateRawSourceText = (value: string) => {
-    if (aiRunning || value === analysis.sourceText) return;
+    if (value === analysis.sourceText) return;
     commitDocument(
       { ...analysis, sourceText: value },
       selection,
@@ -4477,170 +4375,7 @@ export default function Home() {
     }
   };
 
-  const changeAiProvider = (provider: AiProvider) => {
-    setAiProvider(provider);
-    setApiKeyValue("");
-    setApiKeyConfigured(false);
-    setAiError("");
-  };
-
-  const updateAiModel = (value: string) => {
-    setAiModels((current) => ({ ...current, [aiProvider]: value }));
-  };
-
-  const openApiKeyManager = () => {
-    setApiKeyValue("");
-    setApiKeyOpen(true);
-  };
-
-  const saveCurrentApiKey = async () => {
-    if (!apiKeyValue.trim()) return;
-    setApiKeyBusy(true);
-    try {
-      const result = await saveApiKey(aiProvider, apiKeyValue);
-      setApiKeyConfigured(true);
-      setApiKeyStorage(result.storage);
-      setApiKeyValue("");
-      setToast(
-        result.storage === "encrypted"
-          ? `${aiProvider === "openai" ? "OpenAI" : "Anthropic"} API key saved with system encryption`
-          : "System encryption is unavailable; the key will be kept for this app session only",
-      );
-    } catch (error) {
-      setToast(error instanceof Error ? error.message : "Unable to save the API key");
-    } finally {
-      setApiKeyBusy(false);
-    }
-  };
-
-  const removeCurrentApiKey = async () => {
-    setApiKeyBusy(true);
-    try {
-      await deleteApiKey(aiProvider);
-      setApiKeyConfigured(false);
-      setApiKeyValue("");
-      setToast(`${aiProvider === "openai" ? "OpenAI" : "Anthropic"} API key removed`);
-    } catch (error) {
-      setToast(error instanceof Error ? error.message : "Unable to remove the API key");
-    } finally {
-      setApiKeyBusy(false);
-    }
-  };
-
-  const runAutomaticAnalysis = async () => {
-    if (aiRunning) return;
-    if (!isStoaLanguageId(language)) {
-      setToast("Direct API analysis is unavailable in experimental OMNI. Use Generate AI Request and Import Analysis.");
-      return;
-    }
-    if (!sourceText.trim()) {
-      setToast(`Paste ${languageConfig.sourceLanguageLabel} text first`);
-      return;
-    }
-    const model = aiModels[aiProvider].trim();
-    if (!model) {
-      setToast("Enter a model name first");
-      return;
-    }
-    try {
-      if (!(await hasApiKey(aiProvider))) {
-        setApiKeyConfigured(false);
-        openApiKeyManager();
-        setToast(`Add your ${aiProvider === "openai" ? "OpenAI" : "Anthropic"} API key first`);
-        return;
-      }
-    } catch (error) {
-      setToast(error instanceof Error ? error.message : "Unable to check the API key");
-      return;
-    }
-
-    const controller = new AbortController();
-    const startingRevision = contentRevision.current;
-    const sourceSnapshot = sourceText;
-    const languageSnapshot = language;
-    aiAbortController.current = controller;
-    setAiRunning(true);
-    setAiError("");
-    setPromptOpen(false);
-    setImportOpen(false);
-    setProjectImportOpen(false);
-    setLayoutAiOpen(false);
-    setAiProgress({
-      phase: "tokenized",
-      completedRequests: 0,
-      totalScheduledRequests: 1,
-      attempt: 0,
-    });
-    setToast("Preparing local tokens, punctuation, and paragraph structure…");
-
-    try {
-      const result = await runAiPipeline({
-        text: sourceSnapshot,
-        language: languageSnapshot,
-        annotationTarget,
-        request: createProviderChunkRequest(aiProvider, model),
-        chunkMinTokens: 50,
-        chunkMaxTokens: 80,
-        concurrency: 2,
-        maxRetries: 2,
-        signal: controller.signal,
-        strict: true,
-        onProgress: setAiProgress,
-      });
-      if (contentRevision.current !== startingRevision) {
-        throw new Error("The document changed during analysis. Run the analysis again to avoid replacing newer edits.");
-      }
-      const next = normalizeImportedAnalysis(result.analysis, languageSnapshot);
-      commitDocument(
-        next,
-        next.tokens[0]?.id ?? null,
-        next.language,
-        latestSettings.current,
-      );
-      detachProjectBase(next.language);
-      setToast(
-        `AI analysis complete · ${result.diagnostics.sourceTokenCount} tokens · ${result.diagnostics.chunkCount} chunk${result.diagnostics.chunkCount === 1 ? "" : "s"}`,
-      );
-    } catch (error) {
-      const ownsActiveRequest = aiAbortController.current === controller;
-      if (controller.signal.aborted || (error instanceof DOMException && error.name === "AbortError")) {
-        if (ownsActiveRequest) {
-          setToast("AI analysis cancelled; the current preview was not changed");
-        }
-      } else if (error instanceof AiPipelineError) {
-        const message = `${error.message} The current preview was not changed.`;
-        if (ownsActiveRequest) {
-          setAiError(message);
-          setToast(message);
-        }
-      } else {
-        const message = error instanceof Error ? error.message : "AI analysis failed; the current preview was not changed";
-        if (ownsActiveRequest) {
-          setAiError(message);
-          setToast(message);
-        }
-      }
-    } finally {
-      if (aiAbortController.current === controller) {
-        aiAbortController.current = null;
-        setAiRunning(false);
-        setAiProgress(null);
-      }
-    }
-  };
-
-  const cancelAutomaticAnalysis = async () => {
-    aiAbortController.current?.abort();
-    try {
-      await cancelAiRequests();
-    } catch {
-      // The local abort still prevents an in-flight result from replacing the preview.
-    }
-    setToast("Cancelling AI analysis…");
-  };
-
   const applyAutoTypesetting = async () => {
-    if (aiRunning) return;
     if (omniVertical) {
       setToast("Auto Typeset is unavailable for vertical OMNI documents because the current paginator measures horizontal lines. Your project data remains unchanged.");
       return;
@@ -4674,7 +4409,6 @@ export default function Home() {
   };
 
   const importLayoutPlan = () => {
-    if (aiRunning) return;
     if (omniVertical) {
       setToast("A horizontal layout plan cannot be applied to a vertical OMNI document.");
       return;
@@ -4747,7 +4481,7 @@ export default function Home() {
   };
 
   const loadAnalysisJsonFile = async (file?: File) => {
-    if (aiRunning || !file) return;
+    if (!file) return;
     setAnalysisImportFilename("");
     setAnalysisImportFeedback(null);
     if (file.size > 25 * 1024 * 1024) {
@@ -4766,7 +4500,6 @@ export default function Home() {
   };
 
   const importJson = () => {
-    if (aiRunning) return;
     try {
       const workspace = jsonWorkspaces[language] ?? createJsonWorkspace(analysis);
       if (new TextEncoder().encode(workspace.draftText).byteLength > 25 * 1024 * 1024) {
@@ -4889,7 +4622,6 @@ export default function Home() {
   };
 
   const loadProjectFile = async (file?: File) => {
-    if (aiRunning) return;
     if (!file) return;
     if (file.size > 25 * 1024 * 1024) {
       setToast("Project files must be smaller than 25 MB");
@@ -4940,7 +4672,6 @@ export default function Home() {
   };
 
   const importProject = () => {
-    if (aiRunning) return;
     try {
       const imported = normalizeImportedProject(
         JSON.parse(projectImportValue),
@@ -5032,7 +4763,6 @@ export default function Home() {
   };
 
   const resetSample = () => {
-    if (aiRunning) return;
     setJsonWorkspaces((current) => {
       const next = { ...current };
       delete next[language];
@@ -5068,7 +4798,6 @@ export default function Home() {
   };
 
   const newBlankDocument = () => {
-    if (aiRunning) return;
     try {
       const blank = createDeveloperWebBlankProject(language);
       applyImportedProject(importedStateFromParsedProject(blank, language));
@@ -5685,19 +5414,6 @@ export default function Home() {
   const latexExportReason = latexExportCapability && !latexExportCapability.supported
     ? latexExportCapability.reason.message
     : "Export Unicode LaTeX source";
-  const aiProviderName = aiProvider === "openai" ? "OpenAI" : "Anthropic";
-  const aiProgressPercent = aiProgress
-    ? Math.min(100, Math.round((aiProgress.completedRequests / Math.max(1, aiProgress.totalScheduledRequests)) * 100))
-    : 0;
-  const aiProgressLabel = aiProgress?.phase === "tokenized"
-    ? "Tokenizing locally and preserving source structure"
-    : aiProgress?.phase === "retrying"
-      ? `Retrying only failed tokens · attempt ${aiProgress.attempt + 1}`
-      : aiProgress?.phase === "merging"
-        ? "Auditing IDs, order, omissions, and duplicates"
-        : aiProgress?.phase === "complete"
-          ? "Building the complete STOA preview"
-          : `Analyzing chunks · ${aiProgress?.completedRequests ?? 0} of ${aiProgress?.totalScheduledRequests ?? 0} requests complete`;
 
   return (
     <main className="studio-shell" data-language={language}>
@@ -5756,8 +5472,8 @@ export default function Home() {
         >⚙ Settings</button>
         <div className="topbar-status">
           <span className="language-chip">{languageAutonym}</span>
-          <span className={`local-badge ${aiRunning ? "is-online" : ""}`}>
-            <i /> {aiRunning ? `${aiProviderName} analysis` : desktopAiAvailable ? "Local documents · BYOK" : "Offline studio"}
+          <span className="local-badge">
+            <i /> {desktopDocumentsAvailable ? "Local documents" : "Offline studio"}
           </span>
         </div>
       </header>
@@ -5786,7 +5502,6 @@ export default function Home() {
               aria-label={`${languageName} source text`}
               spellCheck={false}
               lang={languageConfig.sourceLocale}
-              disabled={aiRunning}
             />
             {language === "classical-chinese" && (
               <div className="classical-chinese-workflow" role="note">
@@ -5800,14 +5515,12 @@ export default function Home() {
                     className={annotationTarget === "english" ? "active" : ""}
                     aria-pressed={annotationTarget === "english"}
                     onClick={() => updateSetting("annotationTarget", "english")}
-                    disabled={aiRunning}
                   >English</button>
                   <button
                     type="button"
                     className={annotationTarget === "chinese" ? "active" : ""}
                     aria-pressed={annotationTarget === "chinese"}
                     onClick={() => updateSetting("annotationTarget", "chinese")}
-                    disabled={aiRunning}
                   >中文</button>
                 </div>
                 <p>{CLASSICAL_CHINESE_MODEL_RECOMMENDATION}</p>
@@ -5819,91 +5532,12 @@ export default function Home() {
                 <span>Generate a concise AI request, then use Import Analysis. STOA will not force Ancient Greek or Latin morphology onto this text.</span>
               </div>
             )}
-            {desktopAiAvailable && (
-              <div className="api-automation-card">
-                <div className="api-automation-heading">
-                  <div>
-                    <span>DESKTOP AUTOMATION · BYOK</span>
-                    <b>Analyze directly with your API</b>
-                  </div>
-                  <button type="button" onClick={openApiKeyManager} disabled={aiRunning}>
-                    {apiKeyConfigured ? "Manage key" : "Add API key"}
-                  </button>
-                </div>
-                <div className="api-provider-controls">
-                  <label>
-                    <span>Provider</span>
-                    <select
-                      value={aiProvider}
-                      onChange={(event) => changeAiProvider(event.target.value as AiProvider)}
-                      disabled={aiRunning}
-                    >
-                      <option value="openai">OpenAI</option>
-                      <option value="anthropic">Anthropic</option>
-                    </select>
-                  </label>
-                  <label>
-                    <span>Model</span>
-                    <input
-                      value={aiModels[aiProvider]}
-                      onChange={(event) => updateAiModel(event.target.value)}
-                      list={`${aiProvider}-model-suggestions`}
-                      spellCheck={false}
-                      disabled={aiRunning}
-                    />
-                    <datalist id="openai-model-suggestions">
-                      <option value="gpt-5.6-terra" />
-                      <option value="gpt-5.6-luna" />
-                      <option value="gpt-5.6-sol" />
-                    </datalist>
-                    <datalist id="anthropic-model-suggestions">
-                      <option value="claude-sonnet-5" />
-                      <option value="claude-fable-5" />
-                      <option value="claude-opus-5" />
-                    </datalist>
-                  </label>
-                </div>
-                <div className="api-action-row">
-                  <span className={apiKeyConfigured ? "configured" : ""}>
-                    <i /> {apiKeyConfigured ? `${aiProviderName} key ready` : `${aiProviderName} key required`}
-                  </span>
-                  <button
-                    className="api-analyze-button"
-                    type="button"
-                    onClick={() => void runAutomaticAnalysis()}
-                    disabled={aiRunning || !sourceText.trim() || isOmniLanguageId(language)}
-                    title={isOmniLanguageId(language)
-                      ? "OMNI direct API analysis is disabled until arbitrary-script tokenization can be validated safely"
-                      : undefined}
-                  >
-                    {aiRunning ? "Analyzing…" : "✦ Analyze with API"}
-                  </button>
-                </div>
-                {aiRunning && aiProgress && (
-                  <div className="api-progress" role="status" aria-live="polite">
-                    <div><span>{aiProgressLabel}</span><b>{aiProgressPercent}%</b></div>
-                    <progress value={aiProgressPercent} max={100} />
-                    <button type="button" onClick={() => void cancelAutomaticAnalysis()}>Cancel analysis</button>
-                  </div>
-                )}
-                {!aiRunning && aiError && (
-                  <div className="api-error" role="alert">
-                    <b>Analysis was not applied</b>
-                    <span>{aiError}</span>
-                    <button type="button" onClick={() => setAiError("")} aria-label="Dismiss API error">×</button>
-                  </div>
-                )}
-                <p>{isOmniLanguageId(language)
-                  ? "OMNI direct API analysis is intentionally unavailable in this release. Generate one concise AI request, then use Import Analysis."
-                  : "Local token IDs, punctuation, and line breaks stay authoritative. At most two 50–80-token chunks are sent at once."}</p>
-              </div>
-            )}
             {desktopDocumentsAvailable && !isOmniLanguageId(language) && (
               <button
                 className="manual-workflow-launch"
                 type="button"
                 onClick={() => openGuidedManualSession(false)}
-                disabled={aiRunning || !sourceText.trim()}
+                disabled={!sourceText.trim()}
               >
                 <span className="manual-workflow-icon">≡</span>
                 <span>
@@ -5921,11 +5555,11 @@ export default function Home() {
             )}
             <div className="manual-legacy-label"><span>JSON-first manual workflow</span></div>
             <div className="action-grid">
-              <button className="primary-action" onClick={() => setPromptOpen(true)} disabled={aiRunning}>
+              <button className="primary-action" onClick={() => setPromptOpen(true)}>
                 <span className="button-glyph">✦</span>
                 {isOmniLanguageId(language) ? "Generate OMNI prompt" : "Full AI Prompt"}
               </button>
-              <button className="secondary-action" onClick={openJsonImport} disabled={aiRunning}>
+              <button className="secondary-action" onClick={openJsonImport}>
                 <span className="button-glyph">↳</span>
                 Import Analysis
               </button>
@@ -5944,7 +5578,7 @@ export default function Home() {
               <button onClick={resetSample}>Restore sample</button>
               <button className="new-blank-document" onClick={desktopDocumentsAvailable
                 ? () => { void getDesktopDocumentsBridge()?.newDocument(language, "blank"); }
-                : newBlankDocument} disabled={aiRunning}>New blank document</button>
+                : newBlankDocument}>New blank document</button>
             </div>
             {supportsUserDictionary && (
               <div className="dictionary-library" aria-label={`${languageName} dictionary library`}>
@@ -6030,7 +5664,7 @@ export default function Home() {
                 className="composition-more-button token-editor-more-button"
                 type="button"
                 onClick={() => setTokenEditorOpen(true)}
-                disabled={aiRunning || !selectedTokens.length}
+                disabled={!selectedTokens.length}
                 aria-expanded={tokenEditorOpen}
                 title={pronunciationLabel
                   ? `Edit ${pronunciationLabel} plus all five interlinear layers for the selected tokens`
@@ -6101,7 +5735,6 @@ export default function Home() {
                         tokenId={singleSelectedToken.id}
                         allNotes={analysis.notes}
                         tokenNotes={selectedTokenNotes}
-                        disabled={aiRunning}
                         onAdd={addSelectedTokenNote}
                         onUpdate={updateSelectedTokenNote}
                         onMove={moveSelectedTokenNote}
@@ -6178,7 +5811,6 @@ export default function Home() {
                 className="composition-more-button"
                 type="button"
                 onClick={() => setCompositionStyleOpen(true)}
-                disabled={aiRunning}
                 aria-expanded={compositionStyleOpen}
                 title="Edit all five document-default token layers and future-document defaults"
               >More · Default styles</button>
@@ -6541,7 +6173,7 @@ export default function Home() {
                   className="auto-layout-button"
                   type="button"
                   onClick={applyAutoTypesetting}
-                  disabled={aiRunning || omniVertical || !documentLayoutReady}
+                  disabled={omniVertical || !documentLayoutReady}
                   title={omniVertical
                     ? "Vertical OMNI preview uses browser writing-mode; the horizontal auto-paginator is intentionally disabled"
                     : missingDocumentFonts.length
@@ -6554,7 +6186,7 @@ export default function Home() {
                   className="ai-layout-button"
                   type="button"
                   onClick={() => setLayoutAiOpen(true)}
-                  disabled={aiRunning || omniVertical}
+                  disabled={omniVertical}
                   title={omniVertical
                     ? "AI layout plans are disabled until STOA has an axis-aware vertical paginator"
                     : "Export a layout diagnostic prompt and import the plan returned by your own AI"}
@@ -6573,29 +6205,28 @@ export default function Home() {
                 className="history-action"
                 type="button"
                 onClick={undo}
-                disabled={aiRunning || !undoStack.length}
+                disabled={!undoStack.length}
                 title="Undo · Command/Ctrl + Z"
               >↶ Undo</button>
               <button
                 className="history-action"
                 type="button"
                 onClick={redo}
-                disabled={aiRunning || !redoStack.length}
+                disabled={!redoStack.length}
                 title="Redo · Command/Ctrl + Y or Command/Ctrl + Shift + Z"
               >↷ Redo</button>
-              <button className="add-word-main" onClick={() => insertTokenAfter(selectionTailId)} disabled={aiRunning}>
+              <button className="add-word-main" onClick={() => insertTokenAfter(selectionTailId)}>
                 ＋ Add word {selectionTailId ? "after selection" : "at end"}
               </button>
               {desktopDocumentsAvailable && (
                 <>
-                  <button type="button" onClick={openDesktopDocument} disabled={aiRunning}>Open…</button>
-                  <button type="button" onClick={() => saveDesktopDocument(false)} disabled={aiRunning}>Save</button>
-                  <button type="button" onClick={() => saveDesktopDocument(true)} disabled={aiRunning}>Save As…</button>
+                  <button type="button" onClick={openDesktopDocument}>Open…</button>
+                  <button type="button" onClick={() => saveDesktopDocument(false)}>Save</button>
+                  <button type="button" onClick={() => saveDesktopDocument(true)}>Save As…</button>
                 </>
               )}
               {!desktopDocumentsAvailable && <><button
                 onClick={() => setProjectImportOpen(true)}
-                disabled={aiRunning}
                 title="Restore a complete STOA project from another device or user"
               >↑ Import Project</button>
               <button
@@ -6706,7 +6337,6 @@ export default function Home() {
                                   onSelect={(event) => selectTokenFromPointer(item.id, event)}
                                   onSelectionKeyDown={(event) => selectTokenFromKeyboard(item.id, event)}
                                   onLookup={dictionaryLookupEnabled ? (event) => {
-                                    if (aiRunning) return;
                                     event.preventDefault();
                                     setDictionaryTrigger(event.currentTarget);
                                     setDictionaryPopover({
@@ -6719,7 +6349,6 @@ export default function Home() {
                                     });
                                   } : undefined}
                                   onLookupFromKeyboard={dictionaryLookupEnabled ? (event) => {
-                                    if (aiRunning) return;
                                     const rectangle = event.currentTarget.getBoundingClientRect();
                                     setDictionaryTrigger(event.currentTarget);
                                     setDictionaryPopover({
@@ -6735,7 +6364,6 @@ export default function Home() {
                                 <button
                                   className="insert-token-button"
                                   onClick={() => insertTokenAfter(item.id)}
-                                  disabled={aiRunning}
                                   title={`Add a ${languageName} word after ${getTokenSourceText(item)}`}
                                   aria-label={`Add a word after ${getTokenSourceText(item)}`}
                                 >＋</button>
@@ -6889,64 +6517,6 @@ export default function Home() {
             onUseAsDefault={saveCompositionStyleAsDefault}
             onClearSavedDefault={clearCompositionStyleDefault}
           />
-        </Modal>
-      )}
-
-      {apiKeyOpen && desktopAiAvailable && (
-        <Modal
-          eyebrow="BRING YOUR OWN KEY"
-          title={`${aiProviderName} API access`}
-          subtitle="Your key stays outside STOA documents and is used only for requests to the selected provider"
-          onClose={() => {
-            if (apiKeyBusy) return;
-            setApiKeyValue("");
-            setApiKeyOpen(false);
-          }}
-        >
-          <div className="api-key-security">
-            <div>
-              <span className={apiKeyConfigured ? "configured" : ""}><i /></span>
-              <p><b>{apiKeyConfigured ? "A key is configured" : "No key is configured"}</b><small>{aiProviderName} · {aiModels[aiProvider]}</small></p>
-            </div>
-            <strong>{apiKeyStorage === "encrypted" ? "System encrypted" : "Session only"}</strong>
-          </div>
-          <div className="api-key-form">
-            <label>
-              <span>Provider</span>
-              <select value={aiProvider} onChange={(event) => changeAiProvider(event.target.value as AiProvider)} disabled={apiKeyBusy}>
-                <option value="openai">OpenAI</option>
-                <option value="anthropic">Anthropic</option>
-              </select>
-            </label>
-            <label>
-              <span>API key</span>
-              <input
-                type="password"
-                value={apiKeyValue}
-                onChange={(event) => setApiKeyValue(event.target.value)}
-                placeholder={apiKeyConfigured ? "Enter a new key to replace the saved key" : `Paste your ${aiProviderName} API key`}
-                autoComplete="new-password"
-                spellCheck={false}
-                disabled={apiKeyBusy}
-              />
-            </label>
-          </div>
-          <div className="api-key-explanation">
-            <b>{apiKeyStorage === "encrypted" ? "Protected on this Mac" : "Available for this session only"}</b>
-            <p>
-              {apiKeyStorage === "encrypted"
-                ? "STOA encrypts the key through the operating system and stores only encrypted data in the app's private data folder."
-                : "Secure operating-system storage is unavailable, so STOA keeps the key only in main-process memory until the app closes."}
-              {" "}The key is never added to localStorage, exported projects, prompts, previews, or logs.
-            </p>
-          </div>
-          <div className="modal-actions api-key-actions">
-            <button className="secondary-action remove-api-key" onClick={() => void removeCurrentApiKey()} disabled={!apiKeyConfigured || apiKeyBusy}>Remove saved key</button>
-            <button className="primary-action" onClick={() => void saveCurrentApiKey()} disabled={!apiKeyValue.trim() || apiKeyBusy}>
-              {apiKeyBusy ? "Saving…" : apiKeyConfigured ? "Replace key" : "Save API key"}
-            </button>
-          </div>
-          <p className="api-key-safety-note">Automatic analysis is desktop-only. Requests go to the fixed official {aiProviderName} API endpoint; custom proxy URLs are not accepted.</p>
         </Modal>
       )}
 
@@ -7297,7 +6867,7 @@ export default function Home() {
               Load Analysis into Preview
             </button>
           </div>
-          <p className="json-workspace-safety">Manual AI JSON is parsed as untrusted data. STOA loads usable surface tokens in JSON order, safely repairs IDs, and ignores malformed optional fields independently. The previous preview remains available through Undo; Guided Chunk Analysis, direct API analysis, and Project Import keep their stricter validation.</p>
+          <p className="json-workspace-safety">Manual AI JSON is parsed as untrusted data. STOA loads usable surface tokens in JSON order, safely repairs IDs, and ignores malformed optional fields independently. The previous preview remains available through Undo; Guided Chunk Analysis and Project Import keep their stricter validation.</p>
         </Modal>
       )}
 
@@ -7477,7 +7047,6 @@ function TokenNotesEditor({
   tokenId,
   allNotes,
   tokenNotes,
-  disabled,
   onAdd,
   onUpdate,
   onMove,
@@ -7486,7 +7055,6 @@ function TokenNotesEditor({
   tokenId: string;
   allNotes: readonly AnalysisNote[];
   tokenNotes: readonly AnalysisNote[];
-  disabled: boolean;
   onAdd: (text: string, requestedPosition: number) => void;
   onUpdate: (noteId: string, text: string) => void;
   onMove: (noteId: string, requestedPosition: number) => void;
@@ -7561,7 +7129,6 @@ function TokenNotesEditor({
                     min={1}
                     max={Math.max(1, allNotes.length)}
                     value={positionDrafts[note.id] ?? String(ordinal)}
-                    disabled={disabled}
                     onChange={(event) => setPositionDrafts((current) => ({ ...current, [note.id]: event.target.value }))}
                     onBlur={() => commitPosition(note)}
                     aria-label={`Publication number for note ${ordinal}`}
@@ -7572,7 +7139,6 @@ function TokenNotesEditor({
                   <textarea
                     rows={3}
                     value={drafts[note.id] ?? note.text}
-                    disabled={disabled}
                     onChange={(event) => setDrafts((current) => ({ ...current, [note.id]: event.target.value }))}
                     onBlur={() => commitText(note)}
                   />
@@ -7580,7 +7146,6 @@ function TokenNotesEditor({
                 <button
                   type="button"
                   className="token-note-delete"
-                  disabled={disabled}
                   onClick={() => onDelete(note.id)}
                   aria-label={`Delete scholarly note ${ordinal}`}
                 >Delete</button>
@@ -7597,7 +7162,6 @@ function TokenNotesEditor({
             min={1}
             max={allNotes.length + 1}
             value={newPosition}
-            disabled={disabled}
             onChange={(event) => setNewPosition(event.target.value)}
           />
         </label>
@@ -7606,12 +7170,11 @@ function TokenNotesEditor({
           <textarea
             rows={3}
             value={newText}
-            disabled={disabled}
             placeholder="Add a concise interpretive, textual, or linguistic note in scholarly English."
             onChange={(event) => setNewText(event.target.value)}
           />
         </label>
-        <button type="button" disabled={disabled || !newText.trim()} onClick={addNote}>Add note</button>
+        <button type="button" disabled={!newText.trim()} onClick={addNote}>Add note</button>
       </div>
       {validationMessage && <p className="token-note-validation" role="alert">{validationMessage}</p>}
     </section>

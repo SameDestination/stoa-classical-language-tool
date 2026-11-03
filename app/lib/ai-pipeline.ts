@@ -6,7 +6,6 @@ import {
   type AnnotationTargetId,
 } from "../language-config.ts";
 import {
-  mergeAnalysisNotes,
   normalizeAnalysisNotes,
   type AnalysisNote,
 } from "./analysis-notes.ts";
@@ -77,23 +76,6 @@ export type AiChunk = {
   sentenceAlignedEnd: boolean;
 };
 
-export type AiChunkRequest = {
-  chunkId: string;
-  rootChunkId: string;
-  chunkIndex: number;
-  attempt: number;
-  language: AiTextLanguage;
-  /** Tokens whose analyses must be returned by this request. */
-  tokens: LocalSourceToken[];
-  /** Full original chunk, retained as read-only linguistic context on retries. */
-  contextTokens: LocalSourceToken[];
-  systemPrompt: string;
-  userPrompt: string;
-  signal?: AbortSignal;
-};
-
-export type AiRequestAdapter = (request: AiChunkRequest) => Promise<string>;
-
 export type AiPipelineIssueType =
   | "request"
   | "json"
@@ -105,54 +87,6 @@ export type AiPipelineIssueType =
   | "order"
   | "repaired-json"
   | "unresolved";
-
-export type AiPipelineIssue = {
-  type: AiPipelineIssueType;
-  chunkId: string;
-  attempt: number;
-  message: string;
-  tokenIds: string[];
-};
-
-export type AiPipelineDiagnostics = {
-  sourceTokenCount: number;
-  chunkCount: number;
-  requestCount: number;
-  retryRequestCount: number;
-  repairedResponseCount: number;
-  unresolvedTokenIds: string[];
-  complete: boolean;
-  issues: AiPipelineIssue[];
-};
-
-export type AiPipelineProgress = {
-  phase: "tokenized" | "requesting" | "retrying" | "merging" | "complete";
-  completedRequests: number;
-  totalScheduledRequests: number;
-  attempt: number;
-  chunkId?: string;
-};
-
-export type AiPipelineOptions = {
-  text: string;
-  language: AiTextLanguage;
-  annotationTarget?: AnnotationTargetId;
-  request: AiRequestAdapter;
-  chunkMinTokens?: number;
-  chunkMaxTokens?: number;
-  concurrency?: number;
-  maxRetries?: number;
-  signal?: AbortSignal;
-  strict?: boolean;
-  onProgress?: (progress: AiPipelineProgress) => void;
-};
-
-export type AiPipelineResult = {
-  analysis: AiAnalysis;
-  sourceTokens: LocalSourceToken[];
-  chunks: AiChunk[];
-  diagnostics: AiPipelineDiagnostics;
-};
 
 export type ParsedAiJson = {
   value: unknown;
@@ -188,16 +122,6 @@ export type ValidatedChunkResponse = {
   schemaErrors: string[];
 };
 
-export class AiPipelineError extends Error {
-  readonly result: AiPipelineResult;
-
-  constructor(message: string, result: AiPipelineResult) {
-    super(message);
-    this.name = "AiPipelineError";
-    this.result = result;
-  }
-}
-
 export class AiJsonResponseError extends Error {
   constructor(message: string) {
     super(message);
@@ -205,15 +129,8 @@ export class AiJsonResponseError extends Error {
   }
 }
 
-type RetryAwareError = Error & { retryable?: boolean };
-
-const errorIsRetryable = (error: unknown) =>
-  !(error instanceof Error) || (error as RetryAwareError).retryable !== false;
-
 const DEFAULT_CHUNK_MIN = 50;
 const DEFAULT_CHUNK_MAX = 80;
-const DEFAULT_MAX_RETRIES = 2;
-const MAX_CONCURRENCY = 2;
 
 const VALID_PARTS_OF_SPEECH = new Set([
   "ADJ",
@@ -890,281 +807,4 @@ ${isTargetedRetry ? "READ-ONLY ORIGINAL CHUNK CONTEXT — use readOnlyContextTok
     ? "\nFor a targeted retry, literalTranslation, naturalTranslation, and notes must still describe the complete original chunk shown in READ-ONLY ORIGINAL CHUNK CONTEXT, not only the target IDs."
     : "";
   return { systemPrompt: configured.systemPrompt, userPrompt: `${userPrompt}${retryTranslationRule}` };
-};
-
-const mapWithConcurrency = async <Input, Output>(
-  values: Input[],
-  concurrency: number,
-  worker: (value: Input, index: number) => Promise<Output>,
-) => {
-  const output = new Array<Output>(values.length);
-  let cursor = 0;
-  const runners = Array.from({ length: Math.min(concurrency, values.length) }, async () => {
-    while (cursor < values.length) {
-      const index = cursor;
-      cursor += 1;
-      output[index] = await worker(values[index], index);
-    }
-  });
-  await Promise.all(runners);
-  return output;
-};
-
-const abortIfNeeded = (signal?: AbortSignal) => {
-  if (!signal?.aborted) return;
-  if (typeof signal.throwIfAborted === "function") signal.throwIfAborted();
-  throw new DOMException("The AI analysis was cancelled.", "AbortError");
-};
-
-type PipelineJob = {
-  rootChunk: AiChunk;
-  tokens: LocalSourceToken[];
-  attempt: number;
-};
-
-type CompletedJob = {
-  job: PipelineJob;
-  response: ValidatedChunkResponse | null;
-  repaired: boolean;
-  failureMessage: string;
-  retryable: boolean;
-};
-
-const placeholderEnrichment = (token: LocalSourceToken): AiTokenEnrichment => ({
-  id: token.id,
-  surface: token.surface,
-  lemma: "",
-  gloss: "",
-  pos: "X",
-  morphology: "",
-  features: {},
-  confidence: 0,
-  alternatives: [],
-});
-
-/**
- * Runs the provider-independent analysis pipeline. The adapter can call OpenAI,
- * Anthropic, or a test double; this module never reads or stores API keys.
- */
-export const runAiPipeline = async (options: AiPipelineOptions): Promise<AiPipelineResult> => {
-  const sourceText = options.text;
-  const sourceTokens = tokenizeClassicalText(sourceText, options.language);
-  if (!sourceTokens.length) throw new Error("No analyzable word tokens were found in the source text.");
-  const minTokens = clampInteger(options.chunkMinTokens, DEFAULT_CHUNK_MIN, 1, 500);
-  const maxTokens = clampInteger(options.chunkMaxTokens, DEFAULT_CHUNK_MAX, minTokens, 500);
-  const chunks = chunkSourceTokens(sourceTokens, { minTokens, maxTokens });
-  const concurrency = clampInteger(options.concurrency, MAX_CONCURRENCY, 1, MAX_CONCURRENCY);
-  const maxRetries = clampInteger(options.maxRetries, DEFAULT_MAX_RETRIES, 0, 5);
-  const issues: AiPipelineIssue[] = [];
-  const enrichments = new Map<string, AiTokenEnrichment>();
-  const translations = new Map<string, { literal: string; natural: string }>();
-  const notesByChunk = new Map<string, AnalysisNote[]>();
-  let requestCount = 0;
-  let retryRequestCount = 0;
-  let repairedResponseCount = 0;
-  let completedRequests = 0;
-  let totalScheduledRequests = chunks.length;
-
-  options.onProgress?.({
-    phase: "tokenized",
-    completedRequests,
-    totalScheduledRequests,
-    attempt: 0,
-  });
-  let jobs: PipelineJob[] = chunks.map((rootChunk) => ({ rootChunk, tokens: rootChunk.tokens, attempt: 0 }));
-
-  while (jobs.length) {
-    abortIfNeeded(options.signal);
-    const results = await mapWithConcurrency(jobs, concurrency, async (job): Promise<CompletedJob> => {
-      abortIfNeeded(options.signal);
-      requestCount += 1;
-      if (job.attempt > 0) retryRequestCount += 1;
-      options.onProgress?.({
-        phase: job.attempt ? "retrying" : "requesting",
-        completedRequests,
-        totalScheduledRequests,
-        attempt: job.attempt,
-        chunkId: job.rootChunk.id,
-      });
-      const prompts = buildChunkPrompts(
-        options.language,
-        job.rootChunk.id,
-        job.tokens,
-        job.rootChunk.tokens,
-        options.annotationTarget,
-      );
-      try {
-        const rawResponse = await options.request({
-          chunkId: job.attempt ? `${job.rootChunk.id}-retry-${job.attempt}` : job.rootChunk.id,
-          rootChunkId: job.rootChunk.id,
-          chunkIndex: job.rootChunk.index,
-          attempt: job.attempt,
-          language: options.language,
-          tokens: job.tokens,
-          contextTokens: job.rootChunk.tokens,
-          ...prompts,
-          signal: options.signal,
-        });
-        abortIfNeeded(options.signal);
-        const parsed = parseAiJsonResponse(rawResponse);
-        const response = validateChunkResponse(
-          parsed.value,
-          job.tokens,
-          job.rootChunk.id,
-          job.rootChunk.tokens,
-          options.language,
-        );
-        return {
-          job,
-          response,
-          repaired: parsed.repaired,
-          failureMessage: "",
-          retryable: true,
-        };
-      } catch (error) {
-        if (options.signal?.aborted) abortIfNeeded(options.signal);
-        return {
-          job,
-          response: null,
-          repaired: false,
-          failureMessage: error instanceof Error ? error.message : String(error),
-          retryable: errorIsRetryable(error),
-        };
-      } finally {
-        completedRequests += 1;
-      }
-    });
-
-    const retryJobs: PipelineJob[] = [];
-    results.forEach(({ job, response, repaired, failureMessage, retryable }) => {
-      if (!response) {
-        issues.push({
-          type: /json/iu.test(failureMessage) ? "json" : "request",
-          chunkId: job.rootChunk.id,
-          attempt: job.attempt,
-          message: failureMessage,
-          tokenIds: job.tokens.map((token) => token.id),
-        });
-        if (retryable && job.attempt < maxRetries) {
-          retryJobs.push({ ...job, attempt: job.attempt + 1 });
-        }
-        return;
-      }
-      if (repaired) {
-        repairedResponseCount += 1;
-        issues.push({
-          type: "repaired-json",
-          chunkId: job.rootChunk.id,
-          attempt: job.attempt,
-          message: "The response required safe structural JSON repair.",
-          tokenIds: job.tokens.map((token) => token.id),
-        });
-      }
-      response.tokens.forEach((token) => enrichments.set(token.id, token));
-      if (!translations.has(job.rootChunk.id) && (response.literalTranslation || response.naturalTranslation)) {
-        translations.set(job.rootChunk.id, {
-          literal: response.literalTranslation,
-          natural: response.naturalTranslation,
-        });
-      }
-      if (response.notes.length) {
-        const returnedAnchors = new Set(response.notes.map((note) => note.tokenId).filter(Boolean));
-        const retained = (notesByChunk.get(job.rootChunk.id) || [])
-          .filter((note) => !note.tokenId || !returnedAnchors.has(note.tokenId));
-        notesByChunk.set(job.rootChunk.id, mergeAnalysisNotes(retained, response.notes));
-      }
-      const addIssue = (type: AiPipelineIssueType, ids: string[], message: string) => {
-        if (!ids.length) return;
-        issues.push({ type, chunkId: job.rootChunk.id, attempt: job.attempt, message, tokenIds: ids });
-      };
-      addIssue("schema", response.failedTokenIds.filter((id) => !response.missingTokenIds.includes(id)), "One or more token objects failed schema validation.");
-      addIssue("missing", response.missingTokenIds, "The response omitted requested token IDs.");
-      addIssue("duplicate", response.duplicateTokenIds, "The response returned a token ID more than once.");
-      addIssue("unknown", response.unknownTokenIds, "The response returned IDs that were not requested; they were ignored.");
-      addIssue("surface-mismatch", response.surfaceMismatchTokenIds, "The response changed an authoritative source surface.");
-      addIssue("order", response.outOfOrderTokenIds, "The response changed token order; valid tokens were merged by ID.");
-      if (response.schemaErrors.length) {
-        issues.push({
-          type: "schema",
-          chunkId: job.rootChunk.id,
-          attempt: job.attempt,
-          message: response.schemaErrors.join(" "),
-          tokenIds: response.failedTokenIds,
-        });
-      }
-      if (response.failedTokenIds.length && job.attempt < maxRetries) {
-        const failedSet = new Set(response.failedTokenIds);
-        retryJobs.push({
-          rootChunk: job.rootChunk,
-          tokens: job.tokens.filter((token) => failedSet.has(token.id)),
-          attempt: job.attempt + 1,
-        });
-      }
-    });
-    jobs = retryJobs;
-    totalScheduledRequests += retryJobs.length;
-  }
-
-  options.onProgress?.({
-    phase: "merging",
-    completedRequests,
-    totalScheduledRequests,
-    attempt: maxRetries,
-  });
-  const unresolvedTokenIds = sourceTokens.filter((token) => !enrichments.has(token.id)).map((token) => token.id);
-  if (unresolvedTokenIds.length) {
-    issues.push({
-      type: "unresolved",
-      chunkId: "pipeline",
-      attempt: maxRetries,
-      message: "Some tokens remain unanalyzed after the retry limit; source-preserving placeholders were inserted.",
-      tokenIds: unresolvedTokenIds,
-    });
-  }
-  const analyzedTokens = sourceTokens.map<AiAnalyzedToken>((sourceToken) => {
-    const enrichment = enrichments.get(sourceToken.id) || placeholderEnrichment(sourceToken);
-    return {
-      ...sourceToken,
-      ...(enrichment.pinyin !== undefined ? { pinyin: enrichment.pinyin } : {}),
-      ...(enrichment.romanization !== undefined ? { romanization: enrichment.romanization } : {}),
-      lemma: enrichment.lemma,
-      gloss: enrichment.gloss,
-      pos: enrichment.pos,
-      morphology: enrichment.morphology,
-      features: enrichment.features,
-      confidence: enrichment.confidence,
-      alternatives: enrichment.alternatives,
-    };
-  });
-  const orderedTranslations = chunks.map((chunk) => translations.get(chunk.id));
-  const uniqueNotes = mergeAnalysisNotes(...chunks.map((chunk) => notesByChunk.get(chunk.id) || []));
-  const analysis: AiAnalysis = {
-    language: options.language,
-    sourceText,
-    literalTranslation: orderedTranslations.map((item) => item?.literal || "").filter(Boolean).join("\n"),
-    naturalTranslation: orderedTranslations.map((item) => item?.natural || "").filter(Boolean).join("\n"),
-    tokens: analyzedTokens,
-    notes: uniqueNotes,
-  };
-  const diagnostics: AiPipelineDiagnostics = {
-    sourceTokenCount: sourceTokens.length,
-    chunkCount: chunks.length,
-    requestCount,
-    retryRequestCount,
-    repairedResponseCount,
-    unresolvedTokenIds,
-    complete: unresolvedTokenIds.length === 0,
-    issues,
-  };
-  const result: AiPipelineResult = { analysis, sourceTokens, chunks, diagnostics };
-  options.onProgress?.({
-    phase: "complete",
-    completedRequests,
-    totalScheduledRequests,
-    attempt: maxRetries,
-  });
-  if (options.strict && unresolvedTokenIds.length) {
-    throw new AiPipelineError(`AI analysis is incomplete for ${unresolvedTokenIds.length} token(s).`, result);
-  }
-  return result;
 };

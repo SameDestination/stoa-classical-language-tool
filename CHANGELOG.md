@@ -58,6 +58,13 @@ application version.
   STOA by default. Projects and saved style defaults that name Vusillus open
   with Noto Serif STOA. You can still import your own licensed copy of
   Vusillus, or any other TTF/OTF font, in Typography.
+- The Desktop AI provider integration: the *Desktop automation* card with
+  **Add API key**, direct requests to OpenAI and Anthropic, encrypted key
+  storage and the `stoaDesktopAI` bridge. Every edition now uses the same
+  copy-and-paste workflow (**Full AI Prompt**, **Guided chunk analysis** and
+  **Import Analysis**), and STOA makes no network requests to AI services. On
+  startup, the Desktop edition deletes the encrypted key file that earlier
+  versions could create (`stoa-secure-api-keys.json` in the user data folder).
 - The website's Web Trial (`/trial`), which ran STOA 3.5. The website now
   links to the downloads.
 

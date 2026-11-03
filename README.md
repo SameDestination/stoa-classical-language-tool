@@ -159,12 +159,9 @@ edition starts fresh each time, so use **Export Project** to save your work.
 1. **Choose a language** at the top of the window. Each language opens with a
    sample text you can explore; **New blank document** starts from scratch.
 2. **Enter your text** in *01 · Source*.
-3. **Analyse it.**
-   - In the Desktop edition, click **Add API key** in the *Desktop
-     automation* card, choose OpenAI or Anthropic and a model, and let STOA
-     request the analysis directly.
-   - In any edition, click **Full AI Prompt**, paste the prompt into the AI
-     chat of your choice, copy its JSON answer, and click **Import Analysis**.
+3. **Analyse it.** Click **Full AI Prompt**, paste the prompt into the AI chat
+   of your choice, copy its JSON answer, and click **Import Analysis**. For
+   long texts, **Guided chunk analysis** splits the work into smaller prompts.
 4. **Check and correct each word.** Click a word on the page to edit its
    gloss, lemma, part of speech and morphology in *02 · Token Editor*.
    Ctrl-click (⌘-click on a Mac) selects several words; Shift-click selects a
@@ -178,11 +175,9 @@ edition starts fresh each time, so use **Export Project** to save your work.
 
 STOA has no accounts and never uploads your texts to a STOA server.
 
-- **Desktop** can send your text directly to OpenAI or Anthropic using your
-  own API key. The key is encrypted with your operating system's secure
-  storage. It never appears in project files or exports.
-- **Portable and Web** never ask for an API key. You copy the prompt to an AI
-  service yourself, so you decide exactly what is shared.
+- STOA does not connect to AI services and never asks for an API key. You
+  copy the prompt to an AI service yourself, so you decide exactly what is
+  shared.
 - Your documents, imported fonts and dictionaries stay on your device.
 
 When you use an AI service, that service's own terms and privacy policy
@@ -217,7 +212,7 @@ run individual tests.
 ```text
 app/
   stoa-studio.tsx        The editor: one renderer shared by every edition
-  lib/                   Language rules, AI pipeline, layout, PDF/PNG/LaTeX export, project format
+  lib/                   Language rules, AI prompts and JSON import, layout, PDF/PNG/LaTeX export, project format
   developer-defaults/    Bundled sample projects and default settings (single source)
   page.tsx, privacy/, …  The marketing website
 desktop/                 Electron shell: main process, preload bridges, installer builders
@@ -230,8 +225,8 @@ worker/, build/          Cloudflare Worker entry and build plugin for the websit
 ```
 
 The Web, Portable and Desktop editions all bundle the same editor from `app/`.
-The desktop shell adds native file handling and API-key storage behind a
-narrow, sandboxed bridge; see [desktop/README.md](desktop/README.md) for its
+The desktop shell adds native file handling behind a narrow, sandboxed
+bridge; see [desktop/README.md](desktop/README.md) for its
 security model.
 
 ## The project file format

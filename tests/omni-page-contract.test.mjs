@@ -40,7 +40,7 @@ test("OMNI uses one concise prompt and permissive analysis loader without guided
   assert.match(page, /punctuationBefore: item\.punctuationBefore/);
   assert.match(page, /breakAfter: getBreakAfter\(item\)/);
   assert.match(page, /OMNI uses one concise AI request and Import Analysis/);
-  assert.match(page, /Direct API analysis is unavailable in experimental OMNI/);
+  assert.doesNotMatch(page, /Direct API analysis/);
   assert.match(page, /!isOmniLanguageId\(language\) && \([\s\S]*?className="manual-workflow-launch"/);
   assert.match(page, /const importLabel = "Import Analysis"/);
   assert.match(page, /loadPermissiveOmniAnalysis\(parsed\.value\)/);
@@ -67,7 +67,7 @@ test("OMNI export UI follows local Rich/Generic policy and unsafe vector layouts
     pageSource(),
     readFile(new URL("../app/lib/omni-export.ts", import.meta.url), "utf8"),
   ]);
-  assert.match(page, /disabled=\{aiRunning \|\| omniVertical\}/);
+  assert.match(page, /disabled=\{omniVertical\}/);
   assert.match(page, /assertCurrentExportSupported\("project"\)/);
   assert.match(page, /assertCurrentExportSupported\("pdf"\)/);
   assert.match(page, /assertCurrentExportSupported\("png"\)/);

@@ -134,7 +134,7 @@ test("More Token Editor is unique and belongs to the left inspector header", () 
   const inspector = renderer.slice(renderer.indexOf('<section className="panel-section inspector-section">'), renderer.indexOf('<section className="panel-section style-section">'));
   assert.equal((renderer.match(/>More · Token Editor<\/button>/g) ?? []).length, 1);
   assert.match(inspector, /02 · TOKEN EDITOR[\s\S]*className="composition-more-button token-editor-more-button"/);
-  assert.match(inspector, /disabled=\{aiRunning \|\| !selectedTokens\.length\}/);
+  assert.match(inspector, /disabled=\{!selectedTokens\.length\}/);
   assert.match(inspector, /aria-expanded=\{tokenEditorOpen\}/);
   assert.match(inspector, /onClick=\{\(\) => setTokenEditorOpen\(true\)\}/);
 });
@@ -145,7 +145,6 @@ for (const language of STOA_DEVELOPER_WORKSPACE_IDS) {
     const canonical = serializeStoaProject(sample);
     const calls: unknown[] = [];
     const newDocument = handler("newBlankDocument", {
-      aiRunning: false,
       language,
       createDeveloperWebBlankProject,
       importedStateFromParsedProject: (project: ReturnType<typeof createDeveloperWebBlankProject>, workspace: typeof language) =>
@@ -208,6 +207,7 @@ for (const language of STOA_DEVELOPER_WORKSPACE_IDS) {
     assert.deepEqual(imported.settings.tokenStyle?.pronunciation, expectedPronunciation);
   });
 }
+
 test("older projects that name the retired Vusillus font open, export and reopen with Noto Serif STOA", async () => {
   const raw = JSON.parse(await readFile(
     new URL("./fixtures/canonical/stoa-ancient-greek-20260819-184926.stoa.json", import.meta.url),
@@ -224,7 +224,6 @@ test("older projects that name the retired Vusillus font open, export and reopen
   assert.deepEqual(reopened.analysis, imported.analysis);
   assert.equal(reopened.settings.greekFont, NOTO_SERIF_STOA_FAMILY);
 });
-
 
 test("OMNI blank resets detection and sample overrides instead of inheriting the Hebrew sample", () => {
   const imported = normalizeImportedProject(serializeStoaProject(createDeveloperWebBlankProject("omni")), "omni", undefined, "bundled");
@@ -278,7 +277,7 @@ test("New reports a recoverable error without claiming success or replacing the 
   let applied = false;
   let message = "";
   const action = handler("newBlankDocument", {
-    aiRunning: false, language: "latin",
+    language: "latin",
     createDeveloperWebBlankProject: () => { throw new Error("test failure"); },
     applyImportedProject: () => { applied = true; },
     setToast: (value: string) => { message = value; },
