@@ -1,6 +1,9 @@
 import {
+  DEFAULT_BACKGROUND,
+  DEFAULT_INK,
   TOKEN_CARD_METRICS,
   TOKEN_LAYER_LINE_HEIGHT,
+  canonicalizeTokenColor,
   deriveDocumentTokenStyleDefaults,
   deriveLegacyTokenLayerVisibility,
   normalizeDocumentTokenStyle,
@@ -111,9 +114,23 @@ const texEscape = (value: string) => {
     "_": "\\_",
     "{": "\\{",
     "}": "\\}",
+    "~": "\\textasciitilde{}",
+    "^": "\\textasciicircum{}",
   };
-  return value.replace(/[\\&%$#_{}]/g, (character) => replacements[character]);
+  return value.replace(/[\\&%$#_{}~^]/g, (character) => replacements[character]);
 };
+
+/** A `%` comment ends at the line break, so project text must stay on one line. */
+const texCommentText = (value: string) => value.replace(/[\r\n]+/gu, " ");
+
+/**
+ * Colors come from project files, which may be hand-edited. xcolor's HTML
+ * model accepts exactly six hex digits, so anything else uses the fallback.
+ */
+const projectColor = (value: unknown, fallback: string) =>
+  canonicalizeTokenColor(value) ?? fallback;
+
+const texHtmlColor = (color: string) => color.slice(1).toUpperCase();
 
 const texMultiline = (value: string, underline: boolean) => value
   .split(/\r\n|\r|\n/)
@@ -155,7 +172,7 @@ const translationSection = (
 \\vspace{14.25pt}
 {\\NoteFont\\fontsize{8}{10}\\selectfont\\bfseries\\addfontfeatures{LetterSpace=15}\\color{Accent}${texEscape(label)}\\par}
 \\vspace{6.75pt}
-{${font}\\fontsize{${translationSize}}{${lineHeight}}\\selectfont${emphasis}\\color[HTML]{${(settings.translationColor ?? settings.ink).slice(1).toUpperCase()}}${decorated}\\par}
+{${font}\\fontsize{${translationSize}}{${lineHeight}}\\selectfont${emphasis}\\color[HTML]{${texHtmlColor(projectColor(settings.translationColor, projectColor(settings.ink, DEFAULT_INK)))}}${decorated}\\par}
 \\nopagebreak[4]\\vspace{14.25pt}
 \\noindent{\\color{Ink!14}\\rule{\\linewidth}{0.40pt}}`;
 };
@@ -446,7 +463,7 @@ export const buildStoaLatex = (
   }).join("\n");
 
   const noteFamily = settings.englishFont ?? documentStyle.layers.gloss.fontFamily;
-  const noteFont = latexFontName(noteFamily);
+  const noteFont = texEscape(latexFontName(noteFamily));
   const importedNoteFont = importedFontFor(noteFamily, false, false, importedFonts);
   const bundledChineseNoteFont = findClassicalChineseBuiltinFont(noteFamily);
   const noteFontSetup = importedNoteFont
@@ -513,12 +530,13 @@ export const buildStoaLatex = (
       ? "% Compile with XeLaTeX. The TeX environment must provide Noto Sans CJK SC."
       : "% Compile with XeLaTeX or LuaLaTeX.";
   const importedFontNote = importedFonts.length
-    ? `\n% User fonts are not embedded for licensing reasons. Put these device-local files beside this .tex file:\n${importedFonts.map((font) => `% - ${safeLatexFilename(font.filename)} (${font.familyName} ${font.subfamilyName})`).join("\n")}`
+    ? `\n% User fonts are not embedded for licensing reasons. Put these device-local files beside this .tex file:\n${importedFonts.map((font) => `% - ${texCommentText(`${safeLatexFilename(font.filename)} (${font.familyName} ${font.subfamilyName})`)}`).join("\n")}`
     : "";
   const pronunciationFontNote = usesPinyin
     ? "\n% - LiberationSans-Regular.ttf (fixed Pinyin reading-aid face)"
     : "";
   const compileNote = `${baseCompileNote}${pronunciationFontNote}${importedFontNote}`;
+  const inkColor = projectColor(settings.ink, DEFAULT_INK);
   const pronunciationFontSetup = usesPinyin
     ? `\\newfontfamily\\PronunciationFont[Path=./fonts/]{LiberationSans-Regular.ttf}% ${texEscape(PRONUNCIATION_FONT_FAMILY)}`
     : "";
@@ -538,9 +556,9 @@ ${cjkSetup}
 ${analysisNoteHyperref}
 ${noteFontSetup}
 ${pronunciationFontSetup}
-\\definecolor{Paper}{HTML}{${settings.background.slice(1).toUpperCase()}}
-\\definecolor{Ink}{HTML}{${settings.ink.slice(1).toUpperCase()}}
-\\definecolor{Accent}{HTML}{${(settings.accent ?? settings.ink).slice(1).toUpperCase()}}
+\\definecolor{Paper}{HTML}{${texHtmlColor(projectColor(settings.background, DEFAULT_BACKGROUND))}}
+\\definecolor{Ink}{HTML}{${texHtmlColor(inkColor)}}
+\\definecolor{Accent}{HTML}{${texHtmlColor(projectColor(settings.accent, inkColor))}}
 \\pagecolor{Paper}
 \\color{Ink}
 \\setlength{\\parindent}{0pt}

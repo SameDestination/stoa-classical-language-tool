@@ -43,6 +43,13 @@ application version.
   versions `mdict-js` uses (`bl` 2.2.1, `pako` 1.0.11).
 - `tsx`, used by every test script, is now a declared development dependency.
   It was previously available only as a transitive dependency.
+- LaTeX export escapes `~` and `^`. Previously a tilde became a non-breaking
+  space and a caret stopped XeLaTeX with an error.
+- LaTeX export no longer passes font names, colors or imported-font details
+  from a project file into the `.tex` file unescaped. A crafted project could
+  previously add LaTeX commands, for example to read other files on the
+  computer that compiles it. Invalid colors fall back to the defaults, and
+  three-digit colors such as `#fff` now work.
 
 ### Removed
 

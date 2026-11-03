@@ -544,3 +544,87 @@ test("all six built-in Classical Chinese families export portable XeLaTeX font p
     assert.doesNotMatch(latex, /\\setCJKmainfont\{Noto Sans CJK SC\}/u);
   }
 });
+
+test("LaTeX escapes tildes and carets instead of passing them to TeX", async () => {
+  const project = await fixture(fixtureFiles[1]);
+  const token = { ...distinctCanonicalToken(project), gloss: "about ~5" };
+  const latex = buildStoaLatex({
+    tokens: [token],
+    naturalTranslation: "x^2 ~ y",
+  }, {
+    ...project.document.settings,
+    showTranslation: true,
+    headerLeft: "p. ~{page}",
+  });
+
+  assert.match(latex, /about \\textasciitilde\{\}5/u);
+  assert.match(latex, /x\\textasciicircum\{\}2 \\textasciitilde\{\} y/u);
+  assert.match(latex, /p\. \\textasciitilde\{\}\\thepage/u);
+});
+
+test("font names, colors and font metadata from a crafted project cannot add LaTeX commands", async () => {
+  const project = await fixture(fixtureFiles[1]);
+  const injected = "X}\\input{/etc/passwd}\\iffalse{";
+  const settings = clone(project.document.settings);
+  const cssFamily = "'STOAUser-0123456789abcdef'";
+  const tokenStyle = deriveDocumentTokenStyleDefaults(settings);
+  tokenStyle.layers.source = { ...tokenStyle.layers.source, fontFamily: cssFamily };
+  const latex = buildStoaLatex({
+    tokens: [project.document.analysis.tokens[0]],
+    naturalTranslation: "Text.",
+  }, {
+    ...settings,
+    tokenStyle,
+    showTranslation: true,
+    englishFont: injected,
+    translationFont: injected,
+    background: "#fff}\\input{/etc/passwd}%",
+    ink: "red}\\input{/etc/passwd}%",
+    accent: "#zzzzzz",
+    translationColor: "\\input{/etc/passwd}",
+    fontReferences: [{
+      id: "user-font-0123456789abcdef01234567",
+      familyId: "user-family-0123456789abcdef0123",
+      familyName: "Scholarly Serif\n\\input{/etc/passwd}",
+      subfamilyName: "Regular\r\n\\iffalse",
+      postscriptName: "ScholarlySerif-Regular",
+      cssFamily,
+      filename: "Scholarly Serif.ttf",
+      sha256: "0123456789abcdef".repeat(4),
+      format: "ttf",
+      faceStyle: "normal",
+      byteLength: 456789,
+    }],
+  });
+
+  const lines = latex.split("\n");
+  const code = lines.filter((line) => !line.startsWith("%"));
+  assert.ok(code.every((line) => !line.includes("\\input{")), "no unescaped \\input outside comments");
+  assert.match(latex, /\\setmainfont\{X\\\}\\textbackslash\{\}input\\\{/u);
+
+  const preamble = lines.slice(1, lines.findIndex((line) => line.startsWith("\\usepackage[paperwidth")));
+  assert.ok(preamble.length > 0 && preamble.every((line) => line.startsWith("%")), "font notes stay inside comments");
+  assert.match(latex, /% - Scholarly Serif\.ttf \(Scholarly Serif \\input\{\/etc\/passwd\} Regular \\iffalse\)/u);
+
+  // Invalid colors fall back: Paper and Ink to the defaults, Accent and the translation to Ink.
+  assert.match(latex, /\\definecolor\{Paper\}\{HTML\}\{EEE2CC\}/u);
+  assert.match(latex, /\\definecolor\{Ink\}\{HTML\}\{29271F\}/u);
+  assert.match(latex, /\\definecolor\{Accent\}\{HTML\}\{29271F\}/u);
+  const colors = [...latex.matchAll(/\\definecolor\{\w+\}\{HTML\}\{([^}]*)\}|\\color\[HTML\]\{([^}]*)\}/gu)]
+    .map((match) => match[1] ?? match[2]);
+  assert.ok(colors.length > 3, "the export must contain colors to check");
+  for (const color of colors) assert.match(color, /^[0-9A-F]{6}$/u);
+});
+
+test("LaTeX expands three-digit project colors to the six digits xcolor requires", async () => {
+  const project = await fixture(fixtureFiles[1]);
+  const latex = buildStoaLatex({ tokens: [project.document.analysis.tokens[0]] }, {
+    ...project.document.settings,
+    background: "#FFF",
+    ink: "#123",
+    accent: "#a3482f",
+  });
+  assert.match(latex, /\\definecolor\{Paper\}\{HTML\}\{FFFFFF\}/u);
+  assert.match(latex, /\\definecolor\{Ink\}\{HTML\}\{112233\}/u);
+  assert.match(latex, /\\definecolor\{Accent\}\{HTML\}\{A3482F\}/u);
+});
