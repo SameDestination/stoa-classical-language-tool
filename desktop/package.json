@@ -3,6 +3,7 @@
   "version": "5.9.7",
   "description": "STOA Classical Interlinear Studio desktop application",
   "author": "STOA",
+  "license": "GPL-3.0-only",
   "private": true,
   "type": "module",
   "main": "main.mjs"
