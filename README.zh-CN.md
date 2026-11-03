@@ -79,30 +79,15 @@ STOA 适合学生、教师、自学者和研究者，满足一般翻译框做不
 
 ## 下载
 
-STOA 有三个版本，它们使用同一个编辑器。
+STOA 有三个版本，它们使用同一个编辑器。请从[最新发布版本](https://github.com/SameDestination/stoa-classical-language-tool/releases/latest)下载。
 
-| 版本 | 适合 | 系统要求 | 下载（5.9.7） |
+| 版本 | 适合 | 系统要求 | 文件 |
 | --- | --- | --- | --- |
-| **macOS 桌面版** | 日常使用、自动 AI 分析、原生打开/保存 | Apple 芯片 Mac，macOS 12 或更高 | [STOA-macOS-arm64.dmg](https://github.com/SameDestination/stoa-classical-language-tool/releases/download/archive-2026-10-09/STOA-macOS-arm64.dmg)（168 MB） |
-| **Windows 桌面版** | 日常使用、自动 AI 分析、原生打开/保存 | 64 位 Windows 10 或更高 | [STOA-Windows-x64.msi](https://github.com/SameDestination/stoa-classical-language-tool/releases/download/archive-2026-10-09/STOA-Windows-x64.msi)（214 MB） |
-| **便携版（Portable）** | 免安装，从文件夹或 U 盘运行 | 任意桌面浏览器和 Python 3 | [STOA-5.9.7-Portable.zip](https://github.com/SameDestination/stoa-classical-language-tool/releases/download/archive-2026-10-09/STOA-5.9.7-Portable.zip)（82 MB） |
+| **macOS 桌面版** | 日常使用、原生打开/保存 | Apple 芯片 Mac，macOS 12 或更高 | `STOA-macOS-arm64.dmg` |
+| **Windows 桌面版** | 日常使用、原生打开/保存 | 64 位 Windows 10 或更高 | `STOA-Windows-x64.msi` |
+| **便携版（Portable）** | 免安装，从文件夹或 U 盘运行 | 任意桌面浏览器和 Python 3 | `STOA-<版本号>-Portable.zip` |
 
-[网站](https://stoa-interlinear-studio.goldnerbaum.chatgpt.site)上还有一个网页试用版。它运行的是较早的 STOA 3.5（仅支持古希腊语和拉丁语），只适合初步体验，不适合正式使用。
-
-从第 2 版起的旧版本都原样保存在[历史安装包存档](https://github.com/SameDestination/stoa-classical-language-tool/releases/tag/archive-2026-10-09)中（见 [docs/historical-releases.md](docs/historical-releases.md)）。
-
-<details>
-<summary><strong>SHA-256 校验值</strong></summary>
-
-```text
-4ce9478111554fcfb86b120b4f62c6a84d7e5ec59ed5ab2d4776ed23a40e2555  STOA-macOS-arm64.dmg
-518959ab291e029ca018983c2d1866eca033fe90b79a29fdf8c68243db4edc20  STOA-Windows-x64.msi
-d3a2148a690f53b563f6de91e6335afa11bceddd0b6a181e23171ce7bd658246  STOA-5.9.7-Portable.zip
-```
-
-在 macOS 上用 `shasum -a 256 <文件>`，在 Windows PowerShell 中用 `Get-FileHash <文件>` 核对下载的文件。
-
-</details>
+每个发布版本都列出了所有文件的 SHA-256 校验值。在 macOS 上用 `shasum -a 256 <文件>`，在 Windows PowerShell 中用 `Get-FileHash <文件>` 核对下载的文件。STOA 5.9.7 及更早版本的安装包已不再提供下载，见 [docs/historical-releases.md](docs/historical-releases.md)。
 
 ### 安装
 
@@ -114,7 +99,7 @@ d3a2148a690f53b563f6de91e6335afa11bceddd0b6a181e23171ce7bd658246  STOA-5.9.7-Por
 xattr -dr com.apple.quarantine /Applications/STOA.app
 ```
 
-**Windows。** 运行 MSI。如果 SmartScreen 显示“Windows 已保护你的电脑”，请点击 **更多信息 → 仍要运行**。安装程序可以选择安装文件夹，只为当前用户安装，会添加开始菜单和桌面快捷方式，并用 STOA 打开 `.stoa` 文件。Windows 安装程序是 5.9.7 新增的；如果安装过程中出现问题，请[提交 issue](https://github.com/SameDestination/stoa-classical-language-tool/issues/new/choose)。
+**Windows。** 运行 MSI。如果 SmartScreen 显示“Windows 已保护你的电脑”，请点击 **更多信息 → 仍要运行**。安装程序可以选择安装文件夹，只为当前用户安装，会添加开始菜单和桌面快捷方式，并用 STOA 打开 `.stoa` 文件。如果安装过程中出现问题，请[提交 issue](https://github.com/SameDestination/stoa-classical-language-tool/issues/new/choose)。
 
 **便携版。** 解压文件夹，在 macOS 上双击 `Start-STOA-macOS.command`，在 Windows 上双击 `Start-STOA-Windows.bat`。一个小型本地服务器会启动，STOA 会在浏览器中打开 `http://127.0.0.1:8765/`。使用期间请保持启动窗口打开，不要直接打开 `index.html`。便携版每次启动都会恢复初始状态，请用 **Export Project** 保存你的工作。详细说明见包内的 `README-使用说明.txt`。
 

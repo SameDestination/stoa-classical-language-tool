@@ -67,8 +67,11 @@ application version.
   versions could create (`stoa-secure-api-keys.json` in the user data folder).
 - The website's Web Trial (`/trial`), which ran STOA 3.5. The website now
   links to the downloads.
+- Download links to the packages for STOA 5.9.7 and earlier. They bundle the
+  Vusillus font and are no longer distributed (see
+  [docs/historical-releases.md](docs/historical-releases.md)).
 
-## [5.9.7] - 2026-09-08
+## 5.9.7 - 2026-09-08
 
 ### Changed
 
@@ -88,7 +91,7 @@ ad-hoc signed, not notarized), `STOA-Windows-x64.msi` (unsigned). Details:
 [Web report](docs/releases/STOA-5.9.7-validation.md),
 [Desktop report](docs/releases/STOA-5.9.7-desktop-validation.md).
 
-## [5.9.6] - 2026-09-08
+## 5.9.6 - 2026-09-08
 
 ### Changed
 
@@ -105,7 +108,7 @@ ad-hoc signed, not notarized), `STOA-Windows-x64.msi` (unsigned). Details:
 
 Details: [report](docs/releases/STOA-5.9.6-validation.md).
 
-## [5.9.4] - 2026-09-07
+## 5.9.4 - 2026-09-07
 
 ### Added
 
@@ -131,12 +134,8 @@ Details: [report](docs/releases/STOA-5.9.4-validation.md),
 
 ## Earlier versions
 
-Packages for versions 2 through 5.9.2 are preserved unmodified in the
-[historical package archive](https://github.com/SameDestination/stoa-classical-language-tool/releases/tag/archive-2026-10-09)
-(see [docs/historical-releases.md](docs/historical-releases.md)). Detailed
-change notes for those versions were not recorded in this repository.
+Versions 2 through 5.9.2 are listed in
+[docs/historical-releases.md](docs/historical-releases.md). Detailed change
+notes for those versions were not recorded in this repository.
 
-[Unreleased]: https://github.com/SameDestination/stoa-classical-language-tool/compare/archive-2026-10-09...HEAD
-[5.9.7]: https://github.com/SameDestination/stoa-classical-language-tool/releases/tag/archive-2026-10-09
-[5.9.6]: https://github.com/SameDestination/stoa-classical-language-tool/releases/tag/archive-2026-10-09
-[5.9.4]: https://github.com/SameDestination/stoa-classical-language-tool/releases/tag/archive-2026-10-09
+[Unreleased]: https://github.com/SameDestination/stoa-classical-language-tool/commits/main

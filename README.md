@@ -97,35 +97,20 @@ device.
 
 ## Download
 
-STOA comes in three editions. All three contain the same editor.
+STOA comes in three editions. All three contain the same editor. Download
+them from the
+[latest release](https://github.com/SameDestination/stoa-classical-language-tool/releases/latest).
 
-| Edition | Best for | Requirements | Download (5.9.7) |
+| Edition | Best for | Requirements | File |
 | --- | --- | --- | --- |
-| **Desktop for macOS** | Daily use, automatic AI analysis, native Open/Save | Apple Silicon Mac, macOS 12 or later | [STOA-macOS-arm64.dmg](https://github.com/SameDestination/stoa-classical-language-tool/releases/download/archive-2026-10-09/STOA-macOS-arm64.dmg) (168 MB) |
-| **Desktop for Windows** | Daily use, automatic AI analysis, native Open/Save | 64-bit Windows 10 or later | [STOA-Windows-x64.msi](https://github.com/SameDestination/stoa-classical-language-tool/releases/download/archive-2026-10-09/STOA-Windows-x64.msi) (214 MB) |
-| **Portable** | Running from a folder or USB stick without installing | Any desktop browser and Python 3 | [STOA-5.9.7-Portable.zip](https://github.com/SameDestination/stoa-classical-language-tool/releases/download/archive-2026-10-09/STOA-5.9.7-Portable.zip) (82 MB) |
+| **Desktop for macOS** | Daily use, native Open/Save | Apple Silicon Mac, macOS 12 or later | `STOA-macOS-arm64.dmg` |
+| **Desktop for Windows** | Daily use, native Open/Save | 64-bit Windows 10 or later | `STOA-Windows-x64.msi` |
+| **Portable** | Running from a folder or USB stick without installing | Any desktop browser and Python 3 | `STOA-<version>-Portable.zip` |
 
-The [website](https://stoa-interlinear-studio.goldnerbaum.chatgpt.site) also
-offers a quick web trial. It runs the older STOA 3.5 (Greek and Latin only)
-and is meant for a first look, not for real work.
-
-Older versions, back to version 2, are kept unmodified in the
-[historical package archive](https://github.com/SameDestination/stoa-classical-language-tool/releases/tag/archive-2026-10-09)
-(see [docs/historical-releases.md](docs/historical-releases.md)).
-
-<details>
-<summary><strong>SHA-256 checksums</strong></summary>
-
-```text
-4ce9478111554fcfb86b120b4f62c6a84d7e5ec59ed5ab2d4776ed23a40e2555  STOA-macOS-arm64.dmg
-518959ab291e029ca018983c2d1866eca033fe90b79a29fdf8c68243db4edc20  STOA-Windows-x64.msi
-d3a2148a690f53b563f6de91e6335afa11bceddd0b6a181e23171ce7bd658246  STOA-5.9.7-Portable.zip
-```
-
-Check a download with `shasum -a 256 <file>` on macOS or
-`Get-FileHash <file>` in Windows PowerShell.
-
-</details>
+Each release lists the SHA-256 checksum of every file. Check a download with
+`shasum -a 256 <file>` on macOS or `Get-FileHash <file>` in Windows
+PowerShell. Packages for STOA 5.9.7 and earlier are no longer distributed;
+see [docs/historical-releases.md](docs/historical-releases.md).
 
 ### Installing
 
@@ -144,9 +129,8 @@ xattr -dr com.apple.quarantine /Applications/STOA.app
 **Windows.** Run the MSI. If SmartScreen shows "Windows protected your PC",
 click **More info → Run anyway**. The installer lets you choose a folder,
 installs for the current user only, adds Start menu and desktop shortcuts and
-opens `.stoa` files with STOA. The Windows installer is new in 5.9.7; if
-anything goes wrong during installation, please
-[open an issue](https://github.com/SameDestination/stoa-classical-language-tool/issues/new/choose).
+opens `.stoa` files with STOA. If anything goes wrong during installation,
+please [open an issue](https://github.com/SameDestination/stoa-classical-language-tool/issues/new/choose).
 
 **Portable.** Unzip the folder and double-click `Start-STOA-macOS.command` on
 macOS or `Start-STOA-Windows.bat` on Windows. A small local server starts and
