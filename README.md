@@ -219,10 +219,10 @@ app/
   stoa-studio.tsx        The editor: one renderer shared by every edition
   lib/                   Language rules, AI pipeline, layout, PDF/PNG/LaTeX export, project format
   developer-defaults/    Bundled sample projects and default settings (single source)
-  page.tsx, trial/, …    The marketing website
+  page.tsx, privacy/, …  The marketing website
 desktop/                 Electron shell: main process, preload bridges, installer builders
 standalone/              Vite entry for the Web and Portable editions, Portable launcher
-public/                  Fonts, PDF.js worker, website images, web-trial bundle
+public/                  Fonts, PDF.js worker, website images
 tests/                   Unit and contract tests (Node test runner)
 docs/                    Release checklist, release reports, historical archive index
 scripts/                 Portable optimisation and desktop QA scripts

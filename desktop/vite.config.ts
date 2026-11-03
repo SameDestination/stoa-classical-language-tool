@@ -62,7 +62,6 @@ const removeWebsiteOnlyDesktopAssets = {
   async closeBundle() {
     await Promise.all([
       "dictionaries",
-      "trial-app",
       "og.png",
       "favicon.svg",
       "file.svg",

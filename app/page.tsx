@@ -1,5 +1,7 @@
 import styles from "./marketing.module.css";
 
+const downloadUrl = "https://github.com/SameDestination/stoa-classical-language-tool/releases/latest";
+
 const sampleTokens = [
   { source: "ἡ", gloss: "the", note: "Nom. Sg. f." },
   { source: "ψυχὴ", gloss: "soul", note: "Nom. Sg." },
@@ -22,7 +24,7 @@ export default function MarketingHome() {
           <a href="#workflow">Workflow</a>
           <a href="#features">Features</a>
         </div>
-        <a className={styles.navCta} href="/trial">Try STOA online</a>
+        <a className={styles.navCta} href={downloadUrl}>Download STOA</a>
       </nav>
 
       <section className={styles.hero} id="top">
@@ -34,11 +36,11 @@ export default function MarketingHome() {
             interlinear readings in Ancient Greek, Latin, and Classical Chinese.
           </p>
           <div className={styles.heroActions}>
-            <a className={styles.primaryCta} href="/trial">Try the Web Trial</a>
+            <a className={styles.primaryCta} href={downloadUrl}>Download STOA</a>
             <a className={styles.secondaryCta} href="#early-access">Explore the studio <span>↓</span></a>
           </div>
           <p className={styles.privacyNote}>
-            <span aria-hidden="true">●</span> Your text stays in your browser.
+            <span aria-hidden="true">●</span> Your text stays on your computer.
             No account required.
           </p>
         </div>
@@ -139,7 +141,7 @@ export default function MarketingHome() {
             STOA does not hide the linguistic structure behind a black box.
             Every result remains visible, editable, and portable.
           </p>
-          <a href="/trial">Open the live workspace <span>↗</span></a>
+          <a href={downloadUrl}>Download the studio <span>↗</span></a>
         </div>
         <ol className={styles.workflowList}>
           <li>
@@ -193,12 +195,12 @@ export default function MarketingHome() {
         </div>
         <div className={styles.localDetails}>
           <p>
-            The Web Trial keeps your working document in this browser. STOA does
-            not require an account and does not upload your classical text to a
+            STOA keeps your working document on your own computer. It does not
+            require an account and does not upload your classical text to a
             STOA server.
           </p>
           <div>
-            <span>01 <b>Browser-local working state</b></span>
+            <span>01 <b>Device-local working state</b></span>
             <span>02 <b>Portable project files</b></span>
             <span>03 <b>Your choice of AI model</b></span>
           </div>
@@ -207,29 +209,30 @@ export default function MarketingHome() {
 
       <section className={styles.compareSection} id="early-access">
         <div className={styles.compareCopy}>
-          <p className={styles.sectionEyebrow}>START WITH THE WEB TRIAL</p>
+          <p className={styles.sectionEyebrow}>DOWNLOAD STOA</p>
           <h2>Explore the method.<br />Keep the finished work.</h2>
           <p>
-            The Web Trial uses STOA 3.5 for Ancient Greek and Latin. The desktop
-            edition is being prepared as the complete offline studio.
+            STOA is free software. Install the desktop edition for macOS or
+            Windows, or run the Portable edition from a folder without
+            installing anything.
           </p>
-          <a className={styles.primaryCta} href="/trial">Launch Web Trial</a>
+          <a className={styles.primaryCta} href={downloadUrl}>Download STOA</a>
         </div>
         <div className={styles.compareTable}>
-          <div className={styles.compareHead}><span>CAPABILITY</span><b>WEB TRIAL</b><b>DESKTOP</b></div>
+          <div className={styles.compareHead}><span>CAPABILITY</span><b>PORTABLE</b><b>DESKTOP</b></div>
           <div><span>Token-level editing</span><b>Included</b><b>Included</b></div>
           <div><span>Page composition</span><b>Included</b><b>Included</b></div>
-          <div><span>Project import &amp; export</span><b>Included</b><b>Included</b></div>
-          <div><span>Automatic AI with your key</span><b>—</b><b>Included</b></div>
-          <div><span>Searchable vector PDF</span><b>Preview</b><b>Included</b></div>
-          <div><span>Offline operation</span><b>—</b><b>Included</b></div>
+          <div><span>PDF, PNG &amp; LaTeX export</span><b>Included</b><b>Included</b></div>
+          <div><span>Offline operation</span><b>Included</b><b>Included</b></div>
+          <div><span>Native Open &amp; Save</span><b>—</b><b>Included</b></div>
+          <div><span>Installation</span><b>Not needed</b><b>Installer</b></div>
         </div>
       </section>
 
       <footer className={styles.footer}>
         <div className={styles.footerBrand}><span>Σ</span><b>STOA</b><p>Interlinear Reading &amp; Scholarly Typesetting</p></div>
         <div className={styles.footerLinks}>
-          <div><b>PRODUCT</b><a href="/trial">Web Trial</a><a href="#features">Features</a><a href="#languages">Languages</a></div>
+          <div><b>PRODUCT</b><a href={downloadUrl}>Download</a><a href="#features">Features</a><a href="#languages">Languages</a></div>
           <div><b>INFORMATION</b><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div>
         </div>
         <p className={styles.copyright}>© 2026 STOA. Built for careful readers.</p>

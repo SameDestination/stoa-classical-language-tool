@@ -56,7 +56,6 @@ test("portable optimizer excludes bundled dictionaries and retains lossless gzip
   ]);
   assert.doesNotMatch(optimizer, /stoa-lexica-binary-gzip|optimizeDictionary|manifest\.json\.gz/u);
   assert.match(optimizer, /rm\(path\.join\(outputRoot, "dictionaries"\), \{ force: true, recursive: true \}\)/u);
-  assert.match(optimizer, /rm\(path\.join\(outputRoot, "trial-app"\), \{ force: true, recursive: true \}\)/u);
   assert.match(optimizer, /\["og\.png", "favicon\.svg"\]/u);
   assert.match(optimizer, /rm\(path\.join\(outputRoot, websiteOnlyAsset\), \{ force: true \}\)/u);
   assert.match(optimizer, /"stoa-omni\.stoa\.json"/u);
@@ -107,9 +106,9 @@ test("generated slim folder meets size and byte-integrity gates when present", a
     ]);
     assert.equal(digest(unzipGzip(compressed)), digest(source));
   }
+
   assert.equal(await exists(path.join(output, "fonts/vu3r.ttf")), false);
   assert.equal(await exists(path.join(output, "fonts/vu3r.ttf.gz")), false);
-
   assert.equal(await exists(path.join(output, "dictionaries")), false);
   assert.equal(await exists(path.join(output, "trial-app")), false);
   assert.equal(await exists(path.join(output, "og.png")), false);

@@ -84,11 +84,9 @@ const beforeBytes = await directorySize(outputRoot);
 // reintroduce the former bundled LSJ/OLD assets.
 await rm(path.join(outputRoot, "dictionaries"), { force: true, recursive: true });
 
-// The standalone editor does not use the marketing site's social image,
-// favicon, or its retired 3.5 trial iframe. Vite copies the entire shared
-// public tree, so explicitly remove these website-only artifacts from the
-// customer-facing portable package.
-await rm(path.join(outputRoot, "trial-app"), { force: true, recursive: true });
+// The standalone editor does not use the marketing site's social image or
+// favicon. Vite copies the entire shared public tree, so explicitly remove
+// these website-only artifacts from the customer-facing portable package.
 for (const websiteOnlyAsset of ["og.png", "favicon.svg"]) {
   await rm(path.join(outputRoot, websiteOnlyAsset), { force: true });
 }

@@ -58,6 +58,8 @@ application version.
   STOA by default. Projects and saved style defaults that name Vusillus open
   with Noto Serif STOA. You can still import your own licensed copy of
   Vusillus, or any other TTF/OTF font, in Typography.
+- The website's Web Trial (`/trial`), which ran STOA 3.5. The website now
+  links to the downloads.
 
 ## [5.9.7] - 2026-09-08
 

@@ -167,10 +167,10 @@ app/
   stoa-studio.tsx        编辑器：所有版本共用的同一个渲染层
   lib/                   语言规则、AI 流程、版式、PDF/PNG/LaTeX 导出、项目格式
   developer-defaults/    内置示例项目和默认设置（唯一来源）
-  page.tsx, trial/, …    宣传网站
+  page.tsx, privacy/, …  宣传网站
 desktop/                 Electron 外壳：主进程、preload 桥接、安装包构建脚本
 standalone/              网页版和便携版的 Vite 入口、便携版启动器
-public/                  字体、PDF.js worker、网站图片、网页试用版
+public/                  字体、PDF.js worker、网站图片
 tests/                   单元测试和契约测试（Node 测试运行器）
 docs/                    发布清单、发布报告、历史存档索引
 scripts/                 便携版优化和桌面版 QA 脚本

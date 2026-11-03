@@ -35,10 +35,6 @@ glyphs they use, as PDF exports normally do.
 | PDF.js worker (Mozilla Foundation, from `pdfjs-dist`) | `public/vendor/pdf.worker.min.mjs` | Apache-2.0 | [`LICENSE-pdfjs.txt`](public/vendor/LICENSE-pdfjs.txt) |
 | Browser adaptation of `mdict-js` (© 2018 terasum) | `app/lib/vendor/mdict-base-browser.cjs` | MIT | [`MDICT-JS-LICENSE.txt`](app/lib/vendor/MDICT-JS-LICENSE.txt) |
 
-`public/trial-app/STOA-Interlinear-Studio-3.5.html` is a prebuilt STOA 3.5
-bundle, served by the marketing website's `/trial` page. It contains STOA's
-own code and the libraries it was built with at the time.
-
 ## Main npm dependencies included in builds
 
 These packages are bundled into the Web, Portable or Desktop builds. All
