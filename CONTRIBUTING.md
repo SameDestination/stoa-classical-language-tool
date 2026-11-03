@@ -49,8 +49,8 @@ cd stoa-classical-language-tool
 npm ci
 ```
 
-If you are not working on the Desktop app, you can skip the Electron download
-(about 100 MB) with `ELECTRON_SKIP_BINARY_DOWNLOAD=1 npm ci`.
+`npm ci` does not download the Electron binary (about 100 MB). `npm run desktop`
+downloads it the first time you run it.
 
 ### Commands
 

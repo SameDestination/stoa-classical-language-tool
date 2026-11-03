@@ -103,7 +103,7 @@ them from the
 
 | Edition | Best for | Requirements | File |
 | --- | --- | --- | --- |
-| **Desktop for macOS** | Daily use, native Open/Save | Apple Silicon Mac, macOS 12 or later | `STOA-macOS-arm64.dmg` |
+| **Desktop for macOS** | Daily use, native Open/Save | Apple Silicon Mac, macOS 13 or later | `STOA-macOS-arm64.dmg` |
 | **Desktop for Windows** | Daily use, native Open/Save | 64-bit Windows 10 or later | `STOA-Windows-x64.msi` |
 | **Portable** | Running from a folder or USB stick without installing | Any desktop browser and Python 3 | `STOA-<version>-Portable.zip` |
 

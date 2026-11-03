@@ -71,7 +71,8 @@ module.exports = {
     forceCodeSigning: distributionBuild,
     notarize: distributionBuild,
     hardenedRuntime: true,
-    minimumSystemVersion: "12.0.0",
+    // Electron 44 and later need macOS 13.
+    minimumSystemVersion: "13.0.0",
     artifactName: "STOA-macOS-arm64.dmg",
     target: [
       { target: "dmg", arch: ["arm64"] },

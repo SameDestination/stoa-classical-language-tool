@@ -83,7 +83,7 @@ STOA 有三个版本，它们使用同一个编辑器。请从[最新发布版�
 
 | 版本 | 适合 | 系统要求 | 文件 |
 | --- | --- | --- | --- |
-| **macOS 桌面版** | 日常使用、原生打开/保存 | Apple 芯片 Mac，macOS 12 或更高 | `STOA-macOS-arm64.dmg` |
+| **macOS 桌面版** | 日常使用、原生打开/保存 | Apple 芯片 Mac，macOS 13 或更高 | `STOA-macOS-arm64.dmg` |
 | **Windows 桌面版** | 日常使用、原生打开/保存 | 64 位 Windows 10 或更高 | `STOA-Windows-x64.msi` |
 | **便携版（Portable）** | 免安装，从文件夹或 U 盘运行 | 任意桌面浏览器和 Python 3 | `STOA-<版本号>-Portable.zip` |
 
