@@ -54,6 +54,9 @@ application version.
   changes. A document counts as saved when it is first shown, opened from a
   project file, or exported with Export Project. Previously the changes were
   lost without warning. Desktop already asked before closing.
+- The Portable server answers only requests addressed to `127.0.0.1` or
+  `localhost` and no longer lists folders. A website could previously use DNS
+  rebinding to read files in the Portable folder, including saved projects.
 
 ### Removed
 
