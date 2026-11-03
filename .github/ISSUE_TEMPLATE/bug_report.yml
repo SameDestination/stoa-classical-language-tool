@@ -1,0 +1,89 @@
+name: Bug report
+description: Something in STOA does not work as expected.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a problem. Please search the
+        [existing issues](https://github.com/SameDestination/stoa-classical-language-tool/issues)
+        first. **Do not report security vulnerabilities here**; see the
+        [security policy](https://github.com/SameDestination/stoa-classical-language-tool/security/policy).
+  - type: dropdown
+    id: edition
+    attributes:
+      label: Edition
+      options:
+        - Desktop (macOS)
+        - Desktop (Windows)
+        - Portable
+        - Web trial (website)
+        - Built from source
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: STOA version
+      description: Shown in the app (for example 5.9.7), or the commit hash if you built from source.
+      placeholder: "5.9.7"
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Operating system and browser
+      description: For Portable and Web, include the browser and its version.
+      placeholder: "macOS 15.1, Safari 18.1"
+    validations:
+      required: true
+  - type: dropdown
+    id: language
+    attributes:
+      label: Language page
+      options:
+        - Ancient Greek
+        - Latin
+        - Classical Chinese
+        - OMNI
+        - Not language-specific
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open the Latin sample
+        2. Select the token "sapientia"
+        3. Choose Export → PDF
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened instead
+      description: Include any error message exactly as shown.
+    validations:
+      required: true
+  - type: textarea
+    id: attachments
+    attributes:
+      label: Project file, screenshots or exports
+      description: |
+        A small `.stoa.json` or `.stoa` project that reproduces the problem
+        helps most. Drag files here. Remove any text you do not want to make
+        public, and never include API keys.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched the existing issues and this has not been reported.
+          required: true

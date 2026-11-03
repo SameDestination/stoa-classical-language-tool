@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use STOA in your research or teaching, please cite it as below."
+type: software
+title: "STOA: Classical Interlinear Studio"
+abstract: >-
+  STOA is an interlinear reading and scholarly typesetting tool for Ancient
+  Greek, Latin, Classical Chinese and other languages. It combines AI-assisted
+  token-level analysis (gloss, lemma, part of speech, morphology) with manual
+  correction, dictionary lookup, and publication-quality PDF, PNG and LaTeX
+  export.
+authors:
+  - alias: SameDestination
+version: 5.9.7
+date-released: 2026-09-08
+license: GPL-3.0-only
+repository-code: "https://github.com/SameDestination/stoa-classical-language-tool"
+keywords:
+  - interlinear
+  - ancient greek
+  - latin
+  - classical chinese
+  - morphology
+  - philology
+  - digital humanities
+  - typesetting

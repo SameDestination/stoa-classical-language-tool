@@ -1,0 +1,8 @@
+# Keep GitHub's language statistics and diffs focused on STOA's own source.
+# Prebuilt bundles and vendored third-party code are excluded from the
+# language bar and collapsed in pull request diffs.
+public/trial-app/** linguist-generated
+public/vendor/** linguist-vendored
+app/lib/vendor/** linguist-vendored
+package-lock.json linguist-generated
+desktop/package-lock.json linguist-generated
