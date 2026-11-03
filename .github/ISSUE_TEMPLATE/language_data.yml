@@ -1,0 +1,54 @@
+name: Language data correction
+description: Wrong morphology labels, glosses, Pinyin, romanization, abbreviations or AI prompt rules.
+labels: ["language-data"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form when STOA's linguistic conventions are wrong or
+        incomplete. A single wrong analysis returned by an AI model is
+        usually not a STOA bug; please report it here only if STOA's prompt,
+        validation or labels caused it.
+  - type: dropdown
+    id: language
+    attributes:
+      label: Language
+      options:
+        - Ancient Greek
+        - Latin
+        - Classical Chinese
+        - OMNI (name the language below)
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What is wrong
+      options:
+        - Morphology label or abbreviation
+        - Part-of-speech mapping
+        - Gloss or lemma in a bundled sample
+        - Pinyin or romanization
+        - AI prompt rule
+        - Tokenization or punctuation
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Example
+      description: The word or passage, what STOA shows, and what it should show.
+      placeholder: |
+        Word: φιλεῖ
+        STOA shows: 3P Pres. Act. Ind.
+        Should be: 3S Pres. Act. Ind.
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Reference
+      description: A grammar, lexicon or standard that supports the correction (for example Smyth §, Allen and Greenough §, Leiden conventions).
+    validations:
+      required: true
