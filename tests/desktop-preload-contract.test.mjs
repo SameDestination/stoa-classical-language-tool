@@ -224,7 +224,7 @@ test("desktop main owns a secure, atomic, per-workspace document lifecycle", asy
   assert.doesNotMatch(source, /loadFile\(applicationPage/u);
   assert.match(source, /STOA_DESKTOP_SMOKE_TEST/u);
   assert.match(source, /runDesktopRuntimeSmokeTest/u);
-  assert.match(source, /fetchAsset\("fonts\/vu3r\.ttf"\)/u);
+  assert.match(source, /fetchAsset\("fonts\/NotoSerif-Regular\.ttf"\)/u);
   assert.match(source, /fetchAsset\("vendor\/pdf\.worker\.min\.mjs"\)/u);
   assert.match(source, /bypassCustomProtocolHandlers: false/u);
   assert.match(source, /contextIsolation: true[\s\S]*nodeIntegration: false[\s\S]*sandbox: true/u);

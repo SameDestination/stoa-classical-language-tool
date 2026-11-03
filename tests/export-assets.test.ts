@@ -14,7 +14,7 @@ import {
 test("file URLs fail before any export asset request and explain the portable launcher", async () => {
   let requestCount = 0;
   await assert.rejects(
-    fetchExportAsset("fonts/vu3r.ttf", "Vusillus font", {
+    fetchExportAsset("fonts/NotoSerif-Regular.ttf", "Noto Serif font", {
       protocol: "file:",
       baseUri: "file:///Users/example/STOA/index.html",
       fetcher: async () => {
@@ -38,7 +38,7 @@ test("file URLs fail before any export asset request and explain the portable la
 
 test("runtime export assets resolve relative to the active STOA page", async () => {
   let requestedUrl = "";
-  const response = await fetchExportAsset("fonts/vu3r.ttf", "Vusillus font", {
+  const response = await fetchExportAsset("fonts/NotoSerif-Regular.ttf", "Noto Serif font", {
     protocol: "http:",
     baseUri: "http://127.0.0.1:8765/subdirectory/index.html",
     fetcher: async (url) => {
@@ -46,7 +46,7 @@ test("runtime export assets resolve relative to the active STOA page", async () 
       return new Response(new Uint8Array([1, 2, 3]), { status: 200 });
     },
   });
-  assert.equal(requestedUrl, "http://127.0.0.1:8765/subdirectory/fonts/vu3r.ttf");
+  assert.equal(requestedUrl, "http://127.0.0.1:8765/subdirectory/fonts/NotoSerif-Regular.ttf");
   assert.deepEqual(new Uint8Array(await response.arrayBuffer()), new Uint8Array([1, 2, 3]));
   assert.equal(
     resolveExportAssetUrl("vendor/pdf.worker.min.mjs", "http://127.0.0.1:8765/"),
@@ -61,7 +61,7 @@ test("runtime export assets resolve relative to the active STOA page", async () 
 
 test("the packaged desktop protocol can fetch export assets without file URL warnings", async () => {
   let requestedUrl = "";
-  const response = await fetchExportAsset("fonts/vu3r.ttf", "Vusillus font", {
+  const response = await fetchExportAsset("fonts/NotoSerif-Regular.ttf", "Noto Serif font", {
     protocol: "stoa:",
     baseUri: "stoa://app/index.html",
     fetcher: async (url) => {
@@ -69,13 +69,13 @@ test("the packaged desktop protocol can fetch export assets without file URL war
       return new Response(new Uint8Array([7, 8]), { status: 200 });
     },
   });
-  assert.equal(requestedUrl, "stoa://app/fonts/vu3r.ttf");
+  assert.equal(requestedUrl, "stoa://app/fonts/NotoSerif-Regular.ttf");
   assert.deepEqual(new Uint8Array(await response.arrayBuffer()), new Uint8Array([7, 8]));
 });
 
 test("network and missing-asset errors provide recovery actions instead of raw fetch errors", async () => {
   await assert.rejects(
-    fetchExportAsset("fonts/vu3r.ttf", "Vusillus font", {
+    fetchExportAsset("fonts/NotoSerif-Regular.ttf", "Noto Serif font", {
       protocol: "http:",
       baseUri: "http://127.0.0.1:8765/",
       fetcher: async () => {
@@ -120,7 +120,7 @@ test("network and missing-asset errors provide recovery actions instead of raw f
 
 test("a transient network failure is retried once and can recover", async () => {
   let attempts = 0;
-  const response = await fetchExportAsset("fonts/vu3r.ttf", "Vusillus font", {
+  const response = await fetchExportAsset("fonts/NotoSerif-Regular.ttf", "Noto Serif font", {
     protocol: "http:",
     baseUri: "http://127.0.0.1:8765/",
     retryDelayMs: 0,

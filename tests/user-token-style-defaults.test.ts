@@ -27,6 +27,7 @@ import {
   type DocumentTokenStyle,
   type LegacyTokenStyleSettings,
 } from "../app/lib/token-style.ts";
+import { NOTO_SERIF_STOA_FAMILY } from "../app/lib/font-registry.ts";
 
 type CanonicalProject = {
   document: {
@@ -163,6 +164,25 @@ test("an explicit OMNI default round-trips after official languages in determini
   assert.equal(withoutOmni.byLanguage.omni, undefined);
   assert.ok(withoutOmni.byLanguage["ancient-greek"]);
   assert.ok(withoutOmni.byLanguage.latin);
+});
+
+test("saved defaults that name the retired Vusillus font decode with Noto Serif STOA", async () => {
+  const { styles } = await fixtureBuiltIns();
+  const greek = customStyle(styles["ancient-greek"], "#aabbcc", 18);
+  greek.layers.source = { ...greek.layers.source, fontFamily: "'Vusillus', serif" };
+  greek.layers.lemma = { ...greek.layers.lemma, fontFamily: "Vusillus" };
+  const defaults = setUserTokenStyleDefault(
+    createEmptyUserTokenStyleDefaults(),
+    "ancient-greek",
+    greek,
+    styles["ancient-greek"],
+  );
+  const decoded = decodeUserTokenStyleDefaults(encodeUserTokenStyleDefaults(defaults, styles), styles);
+  assert.deepEqual(decoded.issues, []);
+  const saved = decoded.value.byLanguage["ancient-greek"];
+  assert.equal(saved?.layers.source.fontFamily, NOTO_SERIF_STOA_FAMILY);
+  assert.equal(saved?.layers.lemma.fontFamily, NOTO_SERIF_STOA_FAMILY);
+  assert.equal(saved?.layers.source.color, "#aabbcc");
 });
 
 test("safe decoding isolates corrupt entries and rejects incompatible envelopes", async () => {

@@ -278,7 +278,7 @@ async function runDesktopRuntimeSmokeTest() {
   };
 
   const [font, pdfWorker] = await Promise.all([
-    fetchAsset("fonts/vu3r.ttf"),
+    fetchAsset("fonts/NotoSerif-Regular.ttf"),
     fetchAsset("vendor/pdf.worker.min.mjs"),
   ]);
   return {

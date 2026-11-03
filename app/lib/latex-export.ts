@@ -282,9 +282,7 @@ const latexInlineFontCommand = (
   if (bundledChinese) return bundledChineseInlineFont(bundledChinese, bold, italic);
   const imported = importedFontFor(family, bold, italic, references);
   if (imported) return `\\fontspec[Path=./]{\\detokenize{${safeLatexFilename(imported.filename)}}}`;
-  return family.includes("Vusillus")
-    ? "\\fontspec[Path=./]{vu3r.ttf}"
-    : `\\fontspec{${texEscape(latexFontName(family))}}`;
+  return `\\fontspec{${texEscape(latexFontName(family))}}`;
 };
 
 const latexPageText = (template: string, tokenCount: number) => template
@@ -513,7 +511,7 @@ export const buildStoaLatex = (
     ? `% Compile with XeLaTeX. Keep these STOA open-font files in ./fonts/:\n${bundledChineseFiles.map((filename) => `% - ${filename}`).join("\n")}`
     : usesCjk
       ? "% Compile with XeLaTeX. The TeX environment must provide Noto Sans CJK SC."
-      : "% Compile with XeLaTeX or LuaLaTeX. If Vusillus is used, upload vu3r.ttf beside this file.";
+      : "% Compile with XeLaTeX or LuaLaTeX.";
   const importedFontNote = importedFonts.length
     ? `\n% User fonts are not embedded for licensing reasons. Put these device-local files beside this .tex file:\n${importedFonts.map((font) => `% - ${safeLatexFilename(font.filename)} (${font.familyName} ${font.subfamilyName})`).join("\n")}`
     : "";

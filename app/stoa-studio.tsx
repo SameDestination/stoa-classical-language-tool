@@ -250,12 +250,12 @@ import {
   STOA_BUILTIN_FONTS,
   findFontByCssFamily,
   fontAvailableInWorkspace,
+  replaceRetiredFontFamilies,
 } from "./lib/font-registry";
 
 // Public assets deliberately stay external in local/portable builds. Importing
 // these files with `?url` made the single-file build embed ~104 MB of fonts as
 // Base64 while also copying the same files into `fonts/`.
-const vusillusFontUrl = "fonts/vu3r.ttf";
 const notoSansScFontUrl = "fonts/NotoSansSC-Variable.ttf";
 const notoSerifRegularFontUrl = "fonts/NotoSerif-Regular.ttf";
 const notoSerifBoldFontUrl = "fonts/NotoSerif-Bold.ttf";
@@ -522,9 +522,9 @@ const DEFAULT_SETTINGS: StudioSettings = {
   translationSize: 10.5,
   wordGap: 18,
   lineGap: 22,
-  greekFont: "'Vusillus', 'Palatino Linotype', 'Book Antiqua', Palatino, serif",
+  greekFont: "'Noto Serif STOA', 'Times New Roman', Times, serif",
   englishFont: "'Noto Serif STOA', 'Times New Roman', Times, serif",
-  lemmaFont: "'Vusillus', 'Palatino Linotype', 'Book Antiqua', Palatino, serif",
+  lemmaFont: "'Noto Serif STOA', 'Times New Roman', Times, serif",
   morphFont: "'Noto Serif STOA', 'Times New Roman', Times, serif",
   paperPreset: "A4",
   orientation: "portrait",
@@ -976,9 +976,7 @@ const omniExportFontUsesFor = (
         ? "noto-serif-stoa-unicode"
         : bundled.id === "bundled:liberation-sans-stoa"
           ? "liberation-sans-stoa-unicode"
-          : bundled.id === "bundled:vusillus"
-            ? "vusillus-greek"
-            : undefined;
+          : undefined;
       return {
         cssFamily,
         source: bundled.source,
@@ -2279,7 +2277,9 @@ export const normalizeImportedProject = (
   userDefaults?: UserTokenStyleDefaults,
   origin: StoaProjectOpenOrigin = "exchange",
 ): ImportedProjectState => {
-  const parsed = parseStoaProject(value);
+  // Fonts STOA no longer bundles are replaced before validation, so Preview,
+  // export and the next save all use the same, available font.
+  const parsed = parseStoaProject(replaceRetiredFontFamilies(value));
   const documentData = parsed.project.document;
   const preferredLanguage = isStoaWorkspaceLanguageId(documentData.language)
     ? documentData.language
@@ -2502,7 +2502,6 @@ const downloadBlob = (blob: Blob, filename: string) => {
   window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 };
 
-let vusillusFontBase64Promise: Promise<string> | null = null;
 let notoSansScFontBase64Promise: Promise<string> | null = null;
 let unicodePdfFontsBase64Promise: Promise<{
   serif: VectorPdfFontFaces;
@@ -2535,17 +2534,6 @@ const loadExportAssetBase64 = async (url: string, label: string) =>
     protocol: window.location.protocol,
     baseUri: document.baseURI,
   }));
-
-const loadVusillusFontBase64 = () => {
-  if (!vusillusFontBase64Promise) {
-    vusillusFontBase64Promise = loadExportAssetBase64(vusillusFontUrl, "Vusillus font")
-      .catch((error) => {
-        vusillusFontBase64Promise = null;
-        throw error;
-      });
-  }
-  return vusillusFontBase64Promise;
-};
 
 const loadNotoSansScFontBase64 = () => {
   if (!notoSansScFontBase64Promise) {
@@ -5123,8 +5111,7 @@ export default function Home() {
     assertLayoutSnapshotCurrent(expectedLayoutKey);
     await document.fonts.ready;
     const usedFamilies = usedDocumentFontFamilies(currentProjectSettings, publicationAnalysis.tokens);
-    const [vusillusFontBase64, notoSansScFontBase64, unicodePdfFonts, classicalChineseFonts] = await Promise.all([
-      loadVusillusFontBase64(),
+    const [notoSansScFontBase64, unicodePdfFonts, classicalChineseFonts] = await Promise.all([
       language === "classical-chinese" ? loadNotoSansScFontBase64() : Promise.resolve(undefined),
       loadUnicodePdfFontsBase64(),
       language === "classical-chinese"
@@ -5139,7 +5126,6 @@ export default function Home() {
       tokens: publicationAnalysis.tokens,
       notes: publicationAnalysis.notes,
       settings: currentProjectSettings,
-      vusillusFontBase64,
       notoSansScFontBase64,
       unicodeSerifFontBase64: unicodePdfFonts.serif,
       unicodeTimesSerifFontBase64: unicodePdfFonts.timesSerif,
@@ -6246,7 +6232,6 @@ export default function Home() {
               <label className="select-control">
                 <span>Source typeface</span>
                 <select value={settings.greekFont} onChange={(event) => updateSetting("greekFont", event.target.value)}>
-                  <option value="'Vusillus', 'Palatino Linotype', 'Book Antiqua', Palatino, serif">Vusillus — Classical Greek</option>
                   <option value="'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif">Palatino Greek</option>
                   <option value="Georgia, 'Times New Roman', serif">Georgia</option>
                   <option value="'Noto Serif STOA', 'Times New Roman', Times, serif">Noto Serif STOA — Unicode PDF</option>
@@ -6281,7 +6266,6 @@ export default function Home() {
               <label className="select-control">
                 <span>Lemma typeface</span>
                 <select value={settings.lemmaFont} onChange={(event) => updateSetting("lemmaFont", event.target.value)}>
-                  <option value="'Vusillus', 'Palatino Linotype', 'Book Antiqua', Palatino, serif">Vusillus — Classical Greek</option>
                   <option value="'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif">Palatino Greek</option>
                   <option value="'Noto Serif STOA', 'Times New Roman', Times, serif">Noto Serif STOA — Unicode PDF</option>
                   <option value="'Liberation Sans STOA', Arial, sans-serif">Liberation Sans STOA — Unicode PDF</option>
@@ -6306,7 +6290,6 @@ export default function Home() {
                   <option value="'Times New Roman', Times, serif">Times New Roman</option>
                   <option value="Georgia, 'Times New Roman', serif">Georgia</option>
                   <option value="'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif">Palatino</option>
-                  <option value="'Vusillus', 'Palatino Linotype', 'Book Antiqua', Palatino, serif">Vusillus</option>
                   <option value="Inter, ui-sans-serif, system-ui, sans-serif">Inter / System Sans</option>
                   <option value="Arial, Helvetica, sans-serif">Arial</option>
                   <option value="'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif">Noto Sans SC — Chinese</option>

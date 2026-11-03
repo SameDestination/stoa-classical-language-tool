@@ -53,6 +53,11 @@ application version.
   starter icons.
 - The stale root `main.mjs`, an outdated copy of `desktop/main.mjs` that no
   build used.
+- The bundled Vusillus font (`public/fonts/vu3r.ttf`), whose redistribution
+  terms are not documented. Ancient Greek now uses the bundled Noto Serif
+  STOA by default. Projects and saved style defaults that name Vusillus open
+  with Noto Serif STOA. You can still import your own licensed copy of
+  Vusillus, or any other TTF/OTF font, in Typography.
 
 ## [5.9.7] - 2026-09-08
 

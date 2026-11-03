@@ -41,13 +41,6 @@ export const STOA_BUILTIN_FONTS: readonly StoaFontOption[] = [
     scripts: ["greek", "latin"],
   },
   {
-    id: "bundled:vusillus",
-    label: "Vusillus — Classical Greek",
-    cssFamily: "'Vusillus', 'Palatino Linotype', 'Book Antiqua', Palatino, serif",
-    source: "bundled",
-    scripts: ["greek"],
-  },
-  {
     id: "system:palatino",
     label: "Palatino",
     cssFamily: "'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif",
@@ -112,6 +105,57 @@ export const STOA_BUILTIN_FONTS: readonly StoaFontOption[] = [
     workspaces: classicalChineseOnly,
   })),
 ] as const;
+
+/** The bundled serif that replaces fonts STOA no longer ships. */
+export const NOTO_SERIF_STOA_FAMILY = "'Noto Serif STOA', 'Times New Roman', Times, serif";
+
+/**
+ * Fonts that earlier STOA versions bundled but that are no longer
+ * distributed, keyed by their lower-case primary family name. Projects and
+ * saved style defaults that name one of them open with the replacement.
+ * Fonts a user imports are stored under internal `STOAUser-…` names, so an
+ * imported copy of a retired font is never affected.
+ */
+const RETIRED_BUNDLED_FONT_REPLACEMENTS: Readonly<Record<string, string>> = Object.freeze({
+  vusillus: NOTO_SERIF_STOA_FAMILY,
+});
+
+const FONT_FAMILY_KEYS = new Set([
+  "fontFamily",
+  "greekFont",
+  "englishFont",
+  "lemmaFont",
+  "morphFont",
+  "translationFont",
+  "wordFont",
+]);
+
+const primaryFontFamilyName = (family: string) =>
+  family.split(",")[0].trim().replace(/^['"]|['"]$/gu, "").trim().toLowerCase();
+
+/** Returns the replacement for a retired bundled font, or the family unchanged. */
+export const replaceRetiredFontFamily = (family: string): string =>
+  RETIRED_BUNDLED_FONT_REPLACEMENTS[primaryFontFamilyName(family)] ?? family;
+
+/**
+ * Returns a copy of a JSON value in which every font-family field that names
+ * a retired bundled font uses its replacement. Other values are unchanged and
+ * the input is never mutated.
+ */
+export const replaceRetiredFontFamilies = <T>(value: T): T => {
+  const visit = (node: unknown): unknown => {
+    if (Array.isArray(node)) return node.map(visit);
+    if (!node || typeof node !== "object") return node;
+    const copy: Record<string, unknown> = {};
+    for (const [key, child] of Object.entries(node)) {
+      copy[key] = FONT_FAMILY_KEYS.has(key) && typeof child === "string"
+        ? replaceRetiredFontFamily(child)
+        : visit(child);
+    }
+    return copy;
+  };
+  return visit(value) as T;
+};
 
 export const mergeFontOptions = (
   userFonts: readonly StoaFontOption[] = [],

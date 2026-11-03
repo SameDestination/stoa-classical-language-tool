@@ -61,7 +61,7 @@ export const STOA_DEVELOPER_DEFAULTS: Readonly<
   "ancient-greek": Object.freeze({
     id: "ancient-greek",
     sampleFilename: "stoa-ancient-greek.stoa.json",
-    sampleSha256: "f57e5b9a530400f7b93f50d106f0f2597991eb20baf3340e7a23b8350c7073f6",
+    sampleSha256: "fdd85dc51760f93fe6c30e9f27d774764ac46688dba37fed3f1a72648ad3e3b6",
     settings: translationVisible,
   }),
   latin: Object.freeze({

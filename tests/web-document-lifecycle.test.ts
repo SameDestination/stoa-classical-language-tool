@@ -11,6 +11,7 @@ import {
 import { serializeStoaProject, parseStoaProject, STOA_PROJECT_V6_SCHEMA } from "../app/lib/stoa-project.ts";
 import { createOmniDocumentConfig } from "../app/lib/omni-language.ts";
 import { academicPronunciationDefault } from "../app/lib/pronunciation.ts";
+import { NOTO_SERIF_STOA_FAMILY } from "../app/lib/font-registry.ts";
 
 // These tests run the real renderer's project normalization and button handler.
 // Only Vite's non-JavaScript CSS/worker imports are inert in this Node process;
@@ -207,6 +208,23 @@ for (const language of STOA_DEVELOPER_WORKSPACE_IDS) {
     assert.deepEqual(imported.settings.tokenStyle?.pronunciation, expectedPronunciation);
   });
 }
+test("older projects that name the retired Vusillus font open, export and reopen with Noto Serif STOA", async () => {
+  const raw = JSON.parse(await readFile(
+    new URL("./fixtures/canonical/stoa-ancient-greek-20260819-184926.stoa.json", import.meta.url),
+    "utf8",
+  ));
+  assert.match(JSON.stringify(raw), /Vusillus/u, "the fixture must still exercise the migration");
+  const imported = normalizeImportedProject(raw, "ancient-greek");
+  assert.equal(imported.settings.greekFont, NOTO_SERIF_STOA_FAMILY);
+  assert.equal(imported.settings.lemmaFont, NOTO_SERIF_STOA_FAMILY);
+  assert.ok(imported.analysis.tokens.length > 0);
+  const exported = exportState(imported);
+  assert.doesNotMatch(JSON.stringify(exported), /Vusillus/iu);
+  const reopened = normalizeImportedProject(exported, "ancient-greek");
+  assert.deepEqual(reopened.analysis, imported.analysis);
+  assert.equal(reopened.settings.greekFont, NOTO_SERIF_STOA_FAMILY);
+});
+
 
 test("OMNI blank resets detection and sample overrides instead of inheriting the Hebrew sample", () => {
   const imported = normalizeImportedProject(serializeStoaProject(createDeveloperWebBlankProject("omni")), "omni", undefined, "bundled");

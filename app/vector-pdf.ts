@@ -131,7 +131,6 @@ export type VectorPdfInput = {
   notes?: AnalysisNote[];
   tokens: VectorPdfToken[];
   settings: VectorPdfSettings;
-  vusillusFontBase64: string;
   notoSansScFontBase64?: string;
   notoSansJpFontBase64?: string;
   unicodeSerifFontBase64?: VectorPdfFontFaces;
@@ -602,13 +601,6 @@ const resolvePdfFont = (
   if (usesCjkScript(text) || requestsNotoSansJp(family) || requestsNotoSansSc(family)) {
     return {
       name: resolveCjkPdfFont(family, text, fonts),
-      syntheticBold: requestedStyle === "bold" || requestedStyle === "bolditalic",
-      syntheticItalic: requestedStyle === "italic" || requestedStyle === "bolditalic",
-    };
-  }
-  if (family.includes("Vusillus")) {
-    return {
-      name: `Vusillus-${requestedStyle}`,
       syntheticBold: requestedStyle === "bold" || requestedStyle === "bolditalic",
       syntheticItalic: requestedStyle === "italic" || requestedStyle === "bolditalic",
     };
@@ -1338,7 +1330,7 @@ const drawCenteredLines = (
   italic = false,
   underline = false,
 ) => {
-  const name = selectFont(pdf, family, text, fonts, bold, italic);
+  selectFont(pdf, family, text, fonts, bold, italic);
   pdf.setFontSize(sizePt);
   pdf.setTextColor(color);
   pdf.setDrawColor(color);
@@ -1350,7 +1342,7 @@ const drawCenteredLines = (
     pdf.text(content, centerX, baseline, {
       align: "center",
       baseline: "alphabetic",
-      renderingMode: name.startsWith("Vusillus-") && bold ? "fillThenStroke" : "fill",
+      renderingMode: "fill",
     });
     if (underline) {
       const width = pdf.getTextWidth(content);
@@ -1649,9 +1641,6 @@ export const createVectorPdf = async (input: VectorPdfInput): Promise<VectorPdfR
   const { settings, tokens } = input;
   const pdf = new VectorPdfSurface(settings.paperWidthMm, settings.paperHeightMm);
   pdf.addPage(settings.paperWidthMm, settings.paperHeightMm);
-  (["normal", "bold", "italic", "bolditalic"] as const).forEach((style) => {
-    pdf.registerFont(`Vusillus-${style}`, input.vusillusFontBase64);
-  });
   const fonts: RegisteredPdfFonts = {
     notoSansSc: Boolean(input.notoSansScFontBase64),
     notoSansJp: Boolean(input.notoSansJpFontBase64),

@@ -40,7 +40,6 @@ test("audited bundled European Unicode fonts pass deterministic vector preflight
   assert.deepEqual(OMNI_PAGE_DEFAULT_EXPORT_COVERAGE, [
     "noto-serif-stoa-unicode",
     "liberation-sans-stoa-unicode",
-    "vusillus-greek",
   ]);
   assert.deepEqual(OMNI_DETECTABLE_SOURCE_SCRIPTS.slice(0, 3), ["latin", "greek", "cyrillic"]);
 
