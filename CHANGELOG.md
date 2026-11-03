@@ -12,8 +12,8 @@ application version.
 
 ### Added
 
-- STOA is now licensed under the GNU General Public License v3.0 only
-  ([LICENSE](LICENSE)). Contributions require the
+- STOA is now licensed under the GNU General Public License v3.0 or later
+  (`GPL-3.0-or-later`, [LICENSE](LICENSE)). Contributions require the
   [Contributor License Agreement](CLA.md), checked automatically on pull
   requests.
 - Project documentation: a rewritten [README](README.md) with screenshots, a

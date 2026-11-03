@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="https://github.com/SameDestination/stoa-classical-language-tool/actions/workflows/ci.yml"><img src="https://github.com/SameDestination/stoa-classical-language-tool/actions/workflows/ci.yml/badge.svg" alt="CI 状态"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPL--3.0--only-blue" alt="许可证：GPL-3.0-only"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPL--3.0--or--later-blue" alt="许可证：GPL-3.0-or-later"></a>
   <img src="https://img.shields.io/badge/version-5.9.7-informational" alt="版本 5.9.7">
   <img src="https://img.shields.io/badge/platforms-macOS%20%C2%B7%20Windows%20%C2%B7%20browser-lightgrey" alt="平台：macOS、Windows、浏览器">
 </p>
@@ -191,7 +191,7 @@ STOA 项目是一个 JSON 文档。网页版和便携版保存为 `.stoa.json`�
 
 ## 许可证
 
-STOA 是自由软件，采用 [GNU 通用公共许可证第 3 版（仅限此版本）](LICENSE)授权。你可以使用、研究、分享和修改它；如果分发修改后的版本，必须以同一许可证公开其源代码。
+STOA 是自由软件，采用 [GNU 通用公共许可证](LICENSE)第 3 版或（由你选择）任何更高版本授权（`GPL-3.0-or-later`）。你可以使用、研究、分享和修改它；如果分发修改后的版本，必须以相同条款公开其源代码。STOA 不提供任何担保，包括适销性或特定用途适用性的默示担保，详见 GNU 通用公共许可证。
 
 内置字体和第三方代码保留各自的许可证，列在 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) 中。
 

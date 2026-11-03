@@ -42,7 +42,7 @@ jobs:
             Thank you for your contribution! Before it can be merged, please read
             the [STOA Contributor License Agreement](https://github.com/SameDestination/stoa-classical-language-tool/blob/main/CLA.md).
             You keep the copyright in your work; the CLA lets STOA be distributed under
-            the GPL-3.0 and other terms. To sign, reply to this pull request with the
+            the GPL-3.0-or-later and other terms. To sign, reply to this pull request with the
             sentence below. You only need to do this once.
           create-file-commit-message: "Create CLA signature file"
           signed-commit-message: "Record CLA signature from $contributorName in #$pullRequestNo"

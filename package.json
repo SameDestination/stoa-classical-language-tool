@@ -3,7 +3,7 @@
   "version": "5.9.7",
   "description": "STOA Classical Interlinear Studio",
   "author": "STOA",
-  "license": "GPL-3.0-only",
+  "license": "GPL-3.0-or-later",
   "homepage": "https://github.com/SameDestination/stoa-classical-language-tool#readme",
   "repository": {
     "type": "git",

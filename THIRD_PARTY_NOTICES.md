@@ -1,6 +1,7 @@
 # Third-party notices
 
-STOA is licensed under the [GNU General Public License v3.0](LICENSE). It
+STOA is licensed under the [GNU General Public License v3.0 or later](LICENSE)
+(`GPL-3.0-or-later`). It
 bundles and depends on third-party work that keeps its own license. This file
 lists what the repository and the STOA builds (Web, Portable and Desktop)
 include.

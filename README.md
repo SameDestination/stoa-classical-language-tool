@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="https://github.com/SameDestination/stoa-classical-language-tool/actions/workflows/ci.yml"><img src="https://github.com/SameDestination/stoa-classical-language-tool/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPL--3.0--only-blue" alt="License: GPL-3.0-only"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPL--3.0--or--later-blue" alt="License: GPL-3.0-or-later"></a>
   <img src="https://img.shields.io/badge/version-5.9.7-informational" alt="Version 5.9.7">
   <img src="https://img.shields.io/badge/platforms-macOS%20%C2%B7%20Windows%20%C2%B7%20browser-lightgrey" alt="Platforms: macOS, Windows, browser">
 </p>
@@ -259,10 +259,15 @@ Please report security vulnerabilities privately, as described in
 
 ## License
 
-STOA is free software, licensed under the
-[GNU General Public License v3.0 only](LICENSE). You may use, study, share and
-modify it; if you distribute a modified version, you must release its source
-under the same license.
+STOA is free software: you can redistribute it and/or modify it under the
+terms of the [GNU General Public License](LICENSE) as published by the Free
+Software Foundation, either version 3 of the License, or (at your option) any
+later version (`GPL-3.0-or-later`). If you distribute a modified version, you
+must release its source under the same terms.
+
+STOA is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 Bundled fonts and third-party code keep their own licenses, listed in
 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
