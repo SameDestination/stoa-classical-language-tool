@@ -107,6 +107,7 @@ import {
   type StoaProjectOpenOrigin,
 } from "./lib/project-open-policy";
 import { getDesktopDocumentsBridge } from "./lib/desktop-platform";
+import { confirmLeavingPage, createSavedRevisionTracker } from "./lib/unsaved-changes";
 import {
   resolveHistoryCoalescing,
   type HistoryCoalescingState,
@@ -2738,6 +2739,8 @@ export default function Home() {
   const activeLanguageRef = useRef<TextLanguage>(language);
   const languageDocuments = useRef<Partial<Record<TextLanguage, DocumentSnapshot>>>({});
   const desktopSavedRevisions = useRef<Partial<Record<TextLanguage, string>>>({});
+  const [browserSaves] = useState(() => createSavedRevisionTracker<TextLanguage>());
+  const browserHasUnsavedChanges = useRef<() => boolean>(() => false);
   const desktopCommandHandler = useRef<(
     command: StoaDesktopDocumentCommand,
   ) => Promise<Record<string, unknown>>>(async () => ({ ok: false }));
@@ -4636,7 +4639,19 @@ export default function Home() {
     }
   };
 
+  /** Web and Portable: replacing a clean document moves its saved point to the
+   * replacement. Unsaved changes stay flagged, since Undo can bring them back. */
+  const moveBrowserSavedPointIfClean = (workspace: TextLanguage) => {
+    if (getDesktopDocumentsBridge()) return;
+    const dirty = browserSaves.isDirty(
+      workspace,
+      () => revisionForSnapshot(snapshotForWorkspace(workspace)),
+    );
+    if (!dirty) browserSaves.forget(workspace);
+  };
+
   const applyImportedProject = (imported: ImportedProjectState) => {
+    moveBrowserSavedPointIfClean(imported.language);
     if (
       getDesktopDocumentsBridge()
       && !desktopSavedRevisions.current[imported.language]
@@ -4754,6 +4769,9 @@ export default function Home() {
         `stoa-${language}-${timestamp}.stoa.json`,
         "application/json;charset=utf-8",
       );
+      if (!getDesktopDocumentsBridge()) {
+        browserSaves.markSaved(language, revisionForSnapshot(currentSnapshot()));
+      }
       setToast(projectFontReferences.length
         ? "Project exported with device-local font references; licensed font files are not embedded"
         : "STOA project exported with tokens, typography, colors, paper, breaks, and per-word styles");
@@ -4763,6 +4781,7 @@ export default function Home() {
   };
 
   const resetSample = () => {
+    moveBrowserSavedPointIfClean(language);
     setJsonWorkspaces((current) => {
       const next = { ...current };
       delete next[language];
@@ -5266,7 +5285,28 @@ export default function Home() {
     // latest React document state without assigning refs during render.
     desktopSerializeHandler.current = serializeDesktopWorkspace;
     desktopCommandHandler.current = handleDesktopDocumentCommand;
+    browserHasUnsavedChanges.current = () => browserSaves.hasUnsavedChanges(
+      (workspace) => revisionForSnapshot(snapshotForWorkspace(workspace)),
+    );
   });
+
+  useEffect(() => {
+    if (!localPreferencesHydrated || getDesktopDocumentsBridge()) return;
+    browserSaves.observe(language, () => revisionForSnapshot(currentSnapshot()));
+  // Runs after every document change so a forgotten saved point is set again
+  // once the replacement document is in state. observe() ignores the rest.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [analysis, language, localPreferencesHydrated, projectBases, settings, userFonts]);
+
+  useEffect(() => {
+    const warnBeforeLeaving = (event: BeforeUnloadEvent) => {
+      // Desktop asks in its own close dialog; a prompt here would block quitting.
+      if (getDesktopDocumentsBridge()) return;
+      if (browserHasUnsavedChanges.current()) confirmLeavingPage(event);
+    };
+    window.addEventListener("beforeunload", warnBeforeLeaving);
+    return () => window.removeEventListener("beforeunload", warnBeforeLeaving);
+  }, []);
 
   useEffect(() => {
     if (!localPreferencesHydrated) return;

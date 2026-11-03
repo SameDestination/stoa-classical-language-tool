@@ -50,6 +50,10 @@ application version.
   previously add LaTeX commands, for example to read other files on the
   computer that compiles it. Invalid colors fall back to the defaults, and
   three-digit colors such as `#fff` now work.
+- Web and Portable ask before you close or reload the page with unsaved
+  changes. A document counts as saved when it is first shown, opened from a
+  project file, or exported with Export Project. Previously the changes were
+  lost without warning. Desktop already asked before closing.
 
 ### Removed
 
