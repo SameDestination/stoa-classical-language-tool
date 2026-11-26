@@ -10,6 +10,8 @@ application version.
 
 ## [Unreleased]
 
+## [6.0.0] - 2026-11-27
+
 ### Added
 
 - STOA is now licensed under the GNU General Public License v3.0 or later
@@ -158,4 +160,5 @@ Versions 2 through 5.9.2 are listed in
 [docs/historical-releases.md](docs/historical-releases.md). Detailed change
 notes for those versions were not recorded in this repository.
 
-[Unreleased]: https://github.com/SameDestination/stoa-classical-language-tool/commits/main
+[Unreleased]: https://github.com/SameDestination/stoa-classical-language-tool/compare/v6.0.0...HEAD
+[6.0.0]: https://github.com/SameDestination/stoa-classical-language-tool/releases/tag/v6.0.0

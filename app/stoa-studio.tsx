@@ -463,7 +463,7 @@ type AutoLayoutResult = {
   diagnostics: LayoutDiagnostics;
 };
 
-const STOA_VERSION = "5.9.7";
+const STOA_VERSION = "6.0.0";
 const MANUAL_AI_SESSION_STORAGE_KEY = "stoa-manual-ai-session-v1";
 const MANUAL_AI_DRAFT_STORAGE_KEY = "stoa-manual-ai-drafts-v1";
 
