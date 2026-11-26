@@ -153,7 +153,7 @@ export const LANGUAGE_GROUPS: ReadonlyArray<{
   languageIds: readonly StoaLanguageId[];
 }> = [{ id: "classical", label: "Classical", languageIds: STOA_LANGUAGE_IDS }];
 
-const CLASSICAL_GREEK_FONT = "'Vusillus', 'Palatino Linotype', 'Book Antiqua', Palatino, serif";
+const CLASSICAL_GREEK_FONT = "'Noto Serif STOA', 'Times New Roman', Times, serif";
 const LATIN_SERIF_FONT = "'Noto Serif STOA', 'Times New Roman', Times, serif";
 const CLASSICAL_CHINESE_FONT = SOURCE_HAN_SERIF_SC_STOA;
 

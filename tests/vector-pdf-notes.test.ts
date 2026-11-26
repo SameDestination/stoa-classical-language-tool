@@ -31,7 +31,6 @@ import {
 } from "../app/lib/token-style.ts";
 
 const fontBase64 = (path: string) => readFile(new URL(path, import.meta.url), "base64");
-const vusillusFont = fontBase64("../public/fonts/vu3r.ttf");
 const serifFaces = Promise.all([
   fontBase64("../public/fonts/NotoSerif-Regular.ttf"),
   fontBase64("../public/fonts/NotoSerif-Bold.ttf"),
@@ -134,7 +133,6 @@ const input = async (overrides: Partial<VectorPdfInput> = {}): Promise<VectorPdf
   notes: [note()],
   tokens: [token()],
   settings: settings(),
-  vusillusFontBase64: await vusillusFont,
   unicodeSerifFontBase64: await serifFaces,
   ...overrides,
 });

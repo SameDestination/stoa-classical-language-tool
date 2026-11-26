@@ -184,9 +184,9 @@ export type AggregatedTokenStyles = {
 
 const DEFAULT_SOURCE_FONT = "'Palatino Linotype', 'Book Antiqua', Palatino, serif";
 const DEFAULT_ANNOTATION_FONT = "'Noto Serif STOA', 'Times New Roman', Times, serif";
-const DEFAULT_INK = "#29271f";
+export const DEFAULT_INK = "#29271f";
 const DEFAULT_ACCENT = "#9e4a32";
-const DEFAULT_BACKGROUND = "#eee2cc";
+export const DEFAULT_BACKGROUND = "#eee2cc";
 
 const STYLE_PROPERTIES = [
   "fontFamily",

@@ -38,10 +38,6 @@ const fixture = async (name: string): Promise<CanonicalProject> => JSON.parse(
     .replaceAll("Times New Roman", "Liberation Serif STOA"),
 ) as CanonicalProject;
 
-const vusillusFont = readFile(
-  new URL("../public/fonts/vu3r.ttf", import.meta.url),
-  "base64",
-);
 const notoSerifFonts = Promise.all([
   readFile(new URL("../public/fonts/NotoSerif-Regular.ttf", import.meta.url), "base64"),
   readFile(new URL("../public/fonts/NotoSerif-Bold.ttf", import.meta.url), "base64"),
@@ -109,7 +105,6 @@ const assertFiveLayers = async (
     naturalTranslation: "",
     tokens: [token],
     settings: fiveLayerSettings(project.document.settings),
-    vusillusFontBase64: await vusillusFont,
     unicodeSerifFontBase64: await notoSerifFonts,
     unicodeTimesSerifFontBase64: await liberationSerifFonts,
   });
@@ -163,7 +158,6 @@ test("stale frozen Greek browser geometry is rejected rather than exported with 
     literalTranslation: project.document.analysis.literalTranslation,
     naturalTranslation: project.document.analysis.naturalTranslation,
     settings: project.document.settings,
-    vusillusFontBase64: await vusillusFont,
     unicodeSerifFontBase64: await notoSerifFonts,
     unicodeTimesSerifFontBase64: await liberationSerifFonts,
     paginationPlan: plan,
@@ -172,14 +166,16 @@ test("stale frozen Greek browser geometry is rejected rather than exported with 
   // This August capture predates current layer metrics. Keeping its geometry
   // silently would undermine Preview/PDF parity. Fresh accepted preview plans
   // are exercised by packaged-runtime QA; this retained fixture guards refusal.
-  await assert.rejects(() => createVectorPdf(input), /Preview row height differs/u);
+  // The capture also used the retired Vusillus metrics, so the rows no longer
+  // fit either; any layout mismatch must refuse the export.
+  await assert.rejects(() => createVectorPdf(input), /Preview row (?:height differs|is [\d.]+ mm wide)/u);
 
   await assert.rejects(
     () => createVectorPdf({
       ...input,
       naturalTranslation: `${input.naturalTranslation} Changed after Preview.`,
     }),
-    /Preview row height differs|translation source changed/u,
+    /Preview row (?:height differs|is [\d.]+ mm wide)|translation source changed/u,
   );
 });
 
@@ -197,7 +193,6 @@ const latinGeometryPdf = async (
   naturalTranslation: "",
   tokens: [token],
   settings,
-  vusillusFontBase64: await vusillusFont,
   unicodeSerifFontBase64: await notoSerifFonts,
   unicodeTimesSerifFontBase64: await liberationSerifFonts,
 })).bytes);

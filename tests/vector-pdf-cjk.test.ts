@@ -36,7 +36,6 @@ const arrayBuffer = (buffer: Buffer) => buffer.buffer.slice(
   buffer.byteOffset + buffer.byteLength,
 ) as ArrayBuffer;
 
-const vusillusFont = fontBase64("../public/fonts/vu3r.ttf");
 const notoSansScFont = fontBase64("../public/fonts/NotoSansSC-Variable.ttf");
 const notoSansJpFont = fontBase64("../public/fonts/NotoSansJP-Variable.ttf");
 const fontFaces = async (prefix: string) => ({
@@ -187,7 +186,6 @@ test("Chinese source, annotations, running text, and translation remain searchab
       wordItalic: true,
     })],
     settings,
-    vusillusFontBase64: await vusillusFont,
     notoSansScFontBase64: await notoSansScFont,
   }, [
     "中文页眉",
@@ -219,7 +217,6 @@ test("Classical Chinese with English annotations remains searchable vector text"
       token({ id: "lzh-3", surface: "貴", punctuationAfter: "。", gloss: "most important", lemma: "貴", pos: "ADJ", morphology: "Predicate; superlative by context" }),
     ],
     settings,
-    vusillusFontBase64: await vusillusFont,
     notoSansScFontBase64: await notoSansScFont,
   }, [
     "民",
@@ -256,7 +253,6 @@ test("Classical Chinese Pinyin remains centered searchable vector text and never
       morphology: "Predicate",
     })],
     settings,
-    vusillusFontBase64: await vusillusFont,
     notoSansScFontBase64: await notoSansScFont,
     unicodeSansFontBase64: await liberationSansFonts,
   }, ["xué nǚ lǜ lǚ shuǐ hǎo ǹ ḿ ê", "學", "learn", "Predicate"]);
@@ -286,7 +282,6 @@ test("all six bundled Classical Chinese families embed as searchable vector text
         wordItalic: true,
       })],
       settings,
-      vusillusFontBase64: await vusillusFont,
       classicalChineseFonts: await Promise.all(
         font.id === sourceHanFallback.id
           ? [font].map(bundledClassicalChineseFont)
@@ -312,7 +307,6 @@ test("a Source Han Classical Chinese page rasterizes to PNG from its final vecto
     naturalTranslation: "",
     tokens: [token({ surface: "民為貴", punctuationAfter: "。", gloss: "百姓最為重要" })],
     settings,
-    vusillusFontBase64: await vusillusFont,
     classicalChineseFonts: [await bundledClassicalChineseFont(font)],
   });
   const inspected = await inspectPdf(vectorPdf.bytes);
@@ -351,7 +345,6 @@ test("Japanese kana and kanji use the JP font and remain searchable vector text"
       wordItalic: true,
     })],
     settings,
-    vusillusFontBase64: await vusillusFont,
     notoSansJpFontBase64: await notoSansJpFont,
   }, [
     "日本語の見出し",
@@ -387,7 +380,6 @@ test("non-Latin OMNI Romanization remains searchable vector text and survives PD
       morphology: "Common noun",
     })],
     settings,
-    vusillusFontBase64: await vusillusFont,
     notoSansJpFontBase64: await notoSansJpFont,
     unicodeSansFontBase64: await liberationSansFonts,
   });
@@ -409,8 +401,8 @@ test("non-Latin OMNI Romanization remains searchable vector text and survives PD
   await loadingTask.destroy();
 });
 
-test("classic Vusillus export remains searchable without CJK assets", async () => {
-  const settings = settingsFor("'Vusillus', serif");
+test("a classic Greek export in Noto Serif STOA remains searchable without CJK assets", async () => {
+  const settings = settingsFor("'Noto Serif STOA', 'Times New Roman', Times, serif");
   settings.englishFont = "'Noto Serif STOA', serif";
   settings.morphFont = "'Noto Serif STOA', serif";
   settings.showTranslation = false;
@@ -431,14 +423,13 @@ test("classic Vusillus export remains searchable without CJK assets", async () =
       morphUnderline: true,
     })],
     settings,
-    vusillusFontBase64: await vusillusFont,
     unicodeSerifFontBase64: await notoSerifFonts,
   }, ["λόγος.", "word", "NOUN", "Nom. Sg. m."]);
 });
 
 test("an imported TTF is embedded as searchable vector text and missing faces fail explicitly", async () => {
-  const bytes = await readFile(new URL("../public/fonts/vu3r.ttf", import.meta.url));
-  const record = await parseUserFont("scholarly-vusillus.ttf", arrayBuffer(bytes));
+  const bytes = await readFile(new URL("../public/fonts/LiberationSerif-Regular.ttf", import.meta.url));
+  const record = await parseUserFont("scholarly-serif.ttf", arrayBuffer(bytes));
   const settings = settingsFor(record.cssFamily);
   settings.englishFont = "'Noto Serif STOA', serif";
   settings.lemmaFont = "'Noto Serif STOA', serif";
@@ -451,7 +442,6 @@ test("an imported TTF is embedded as searchable vector text and missing faces fa
     naturalTranslation: "",
     tokens: [token({ surface: "λόγος", punctuationAfter: ".", gloss: "word" })],
     settings,
-    vusillusFontBase64: await vusillusFont,
     unicodeSerifFontBase64: await notoSerifFonts,
     importedFonts: [{ ...userFontReference(record), dataBase64: bytes.toString("base64") }],
   };
@@ -475,7 +465,7 @@ test("Times New Roman never silently substitutes and embeds the real locally sup
     language: "latin", title: "Times fidelity", settings,
     naturalTranslation: "The reader learns.", literalTranslation: "Reader learns.",
     tokens: [token({ surface: "lector", gloss: "reader", lemma: "lector", pos: "NOUN", morphology: "Nom. Sg. m." })],
-    vusillusFontBase64: await vusillusFont, unicodeSerifFontBase64: await notoSerifFonts,
+    unicodeSerifFontBase64: await notoSerifFonts,
   };
   await assert.rejects(() => createVectorPdf(input), /Times New Roman needs its original font files/);
   const filenames = ["Times New Roman.ttf", "Times New Roman Bold.ttf", "Times New Roman Italic.ttf", "Times New Roman Bold Italic.ttf"];
@@ -518,7 +508,6 @@ test("Latin Extended text preserves decomposed source code points and remains se
     naturalTranslation: "eō homō mīror mōns ingēns lātus amō amās amāmus",
     tokens,
     settings,
-    vusillusFontBase64: await vusillusFont,
     unicodeSerifFontBase64: await notoSerifFonts,
     unicodeSansFontBase64: await liberationSansFonts,
   }, [
@@ -573,7 +562,6 @@ test("vector PDF consumes the exact Preview token-page plan and rejects stale pl
     naturalTranslation: "",
     tokens,
     settings,
-    vusillusFontBase64: await vusillusFont,
     unicodeSerifFontBase64: await notoSerifFonts,
     paginationPlan: plan,
     layoutSourceKey: "preview-plan-key",
@@ -657,7 +645,6 @@ test("PNG rasterization consumes the final vector PDF page instead of a second l
     naturalTranslation: "",
     tokens: [token({ surface: "amō", gloss: "I love", morphology: "1S Pres. Act. Ind." })],
     settings,
-    vusillusFontBase64: await vusillusFont,
     unicodeSerifFontBase64: await notoSerifFonts,
   });
   const loadingTask = getDocument({ data: vectorPdf.bytes.slice() });
@@ -681,8 +668,8 @@ test("PNG rasterization consumes the final vector PDF page instead of a second l
 
 test("a long idiomatic translation creates searchable continuation pages without clipping", async () => {
   const settings = settingsFor("'Noto Serif STOA', serif");
-  settings.greekFont = "'Vusillus', serif";
-  settings.lemmaFont = "'Vusillus', serif";
+  settings.greekFont = "'Noto Serif STOA', serif";
+  settings.lemmaFont = "'Noto Serif STOA', serif";
   settings.paperWidthMm = 110;
   settings.paperHeightMm = 95;
   settings.marginTopMm = 8;
@@ -706,7 +693,6 @@ test("a long idiomatic translation creates searchable continuation pages without
       morphology: "Nom. Sg. m.",
     })],
     settings,
-    vusillusFontBase64: await vusillusFont,
     unicodeSerifFontBase64: await notoSerifFonts,
   });
   const inspected = await inspectPdf(result.bytes);
@@ -724,8 +710,8 @@ test("a long idiomatic translation creates searchable continuation pages without
 
 test("literal and idiomatic translations remain ordered, selectable, and independently splittable", async () => {
   const settings = settingsFor("'Noto Serif STOA', serif");
-  settings.greekFont = "'Vusillus', serif";
-  settings.lemmaFont = "'Vusillus', serif";
+  settings.greekFont = "'Noto Serif STOA', serif";
+  settings.lemmaFont = "'Noto Serif STOA', serif";
   settings.paperWidthMm = 110;
   settings.paperHeightMm = 90;
   settings.marginTopMm = 8;
@@ -750,7 +736,6 @@ test("literal and idiomatic translations remain ordered, selectable, and indepen
       morphology: "Nom. Sg. m.",
     })],
     settings,
-    vusillusFontBase64: await vusillusFont,
     unicodeSerifFontBase64: await notoSerifFonts,
   });
   const inspected = await inspectPdf(result.bytes);

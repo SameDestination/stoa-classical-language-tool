@@ -36,12 +36,13 @@ test("portable source keeps heavyweight runtime assets external", async () => {
   ]);
   assert.doesNotMatch(page, /\.ttf\?url|\.otf\?url|\.txt\?url/u);
   assert.doesNotMatch(page, /pdf\.worker\.min\.mjs\?url/u);
-  assert.match(page, /const vusillusFontUrl = "fonts\/vu3r\.ttf"/u);
+  assert.match(page, /const notoSerifRegularFontUrl = "fonts\/NotoSerif-Regular\.ttf"/u);
+  assert.doesNotMatch(page, /vu3r|Vusillus/iu);
   assert.match(page, /"vendor\/pdf\.worker\.min\.mjs"/u);
-  assert.match(page, /vusillusFontBase64Promise = null/u);
   assert.match(page, /unicodePdfFontsBase64Promise = null/u);
   assert.match(page, /classicalChineseFontBase64Promises\.delete\(url\)/u);
-  assert.match(css, /url\("\/fonts\/vu3r\.ttf"\)/u);
+  assert.match(css, /url\("\/fonts\/NotoSerif-Regular\.ttf"\)/u);
+  assert.doesNotMatch(css, /vu3r|Vusillus/iu);
   assert.match(config, /assetsInlineLimit:\s*0/u);
   assert.match(packageJson, /node scripts\/optimize-portable\.mjs/u);
 });
@@ -55,7 +56,6 @@ test("portable optimizer excludes bundled dictionaries and retains lossless gzip
   ]);
   assert.doesNotMatch(optimizer, /stoa-lexica-binary-gzip|optimizeDictionary|manifest\.json\.gz/u);
   assert.match(optimizer, /rm\(path\.join\(outputRoot, "dictionaries"\), \{ force: true, recursive: true \}\)/u);
-  assert.match(optimizer, /rm\(path\.join\(outputRoot, "trial-app"\), \{ force: true, recursive: true \}\)/u);
   assert.match(optimizer, /\["og\.png", "favicon\.svg"\]/u);
   assert.match(optimizer, /rm\(path\.join\(outputRoot, websiteOnlyAsset\), \{ force: true \}\)/u);
   assert.match(optimizer, /"stoa-omni\.stoa\.json"/u);
@@ -94,7 +94,7 @@ test("generated slim folder meets size and byte-integrity gates when present", a
   assert.ok(await directorySize(output) < 95_000_000);
 
   const fontPairs = [
-    ["fonts/vu3r.ttf", "fonts/vu3r.ttf.gz"],
+    ["fonts/NotoSerif-Regular.ttf", "fonts/NotoSerif-Regular.ttf.gz"],
     ["fonts/classical-chinese/SourceHanSerifSC-Regular.otf", "fonts/classical-chinese/SourceHanSerifSC-Regular.otf.gz"],
     ["vendor/pdf.worker.min.mjs", "vendor/pdf.worker.min.mjs.gz"],
   ];
@@ -107,6 +107,8 @@ test("generated slim folder meets size and byte-integrity gates when present", a
     assert.equal(digest(unzipGzip(compressed)), digest(source));
   }
 
+  assert.equal(await exists(path.join(output, "fonts/vu3r.ttf")), false);
+  assert.equal(await exists(path.join(output, "fonts/vu3r.ttf.gz")), false);
   assert.equal(await exists(path.join(output, "dictionaries")), false);
   assert.equal(await exists(path.join(output, "trial-app")), false);
   assert.equal(await exists(path.join(output, "og.png")), false);

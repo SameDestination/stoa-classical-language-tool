@@ -28,6 +28,23 @@ class StoaHandler(SimpleHTTPRequestHandler):
         ".otf": "font/otf",
     }
 
+    def parse_request(self) -> bool:
+        if not super().parse_request():
+            return False
+        # Answer only requests addressed to this server. Otherwise a website
+        # could point its own host name at 127.0.0.1 (DNS rebinding) and read
+        # files from the Portable folder, including saved projects.
+        port = self.server.server_address[1]
+        host = (self.headers.get("Host") or "").strip().lower()
+        if host not in {f"{HOST}:{port}", f"localhost:{port}"}:
+            self.send_error(403, "Forbidden")
+            return False
+        return True
+
+    def list_directory(self, path):  # type: ignore[override]
+        self.send_error(404, "File not found")
+        return None
+
     def end_headers(self) -> None:
         self.send_header("Cache-Control", "no-cache")
         self.send_header("X-Content-Type-Options", "nosniff")

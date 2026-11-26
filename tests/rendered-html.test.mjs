@@ -14,7 +14,7 @@ async function render(pathname = "/") {
   );
 }
 
-test("server-renders the STOA marketing site and 3.5 Web Trial shell", async () => {
+test("server-renders the STOA marketing site without the retired Web Trial", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
@@ -22,16 +22,20 @@ test("server-renders the STOA marketing site and 3.5 Web Trial shell", async () 
   const html = await response.text();
   assert.match(html, /<title>STOA — Interlinear Reading &amp; Scholarly Typesetting<\/title>/i);
   assert.match(html, /Read closely\./);
-  assert.match(html, /Try the Web Trial/i);
+  assert.match(html, /Download STOA/);
+  assert.match(html, /stoa-classical-language-tool\/releases\/latest/);
   assert.match(html, /Ancient Greek/);
   assert.match(html, /Classical Chinese/);
+  assert.doesNotMatch(html, /href="\/trial"|Web Trial|trial-app/i);
+
+  for (const pathname of ["/privacy", "/terms"]) {
+    const legalResponse = await render(pathname);
+    assert.equal(legalResponse.status, 200);
+    assert.doesNotMatch(await legalResponse.text(), /href="\/trial"|Web Trial/i);
+  }
 
   const trialResponse = await render("/trial");
-  assert.equal(trialResponse.status, 200);
-  const trialHtml = await trialResponse.text();
-  assert.match(trialHtml, /WEB TRIAL/);
-  assert.match(trialHtml, /STOA-Interlinear-Studio-3\.5\.html/);
-  assert.match(trialHtml, /STOA WEB TRIAL/);
+  assert.equal(trialResponse.status, 404);
 });
 
 test("source keeps classical dictionaries gated and exposes the retained JSON workspace", async () => {

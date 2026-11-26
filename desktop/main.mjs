@@ -6,7 +6,6 @@ import {
   Menu,
   net,
   protocol,
-  safeStorage,
   session,
   shell,
 } from "electron";
@@ -28,42 +27,9 @@ if (desktopRuntimeSmokeTest) {
   console.log("STOA_DESKTOP_SMOKE_ENABLED");
 }
 
-const AI_KEY_FILE_NAME = "stoa-secure-api-keys.json";
-const AI_KEY_FILE_VERSION = 1;
-const MAX_API_KEY_LENGTH = 2_048;
-const MAX_REQUEST_BYTES = 8 * 1024 * 1024;
-const MAX_RESPONSE_BYTES = 32 * 1024 * 1024;
-const DEFAULT_REQUEST_TIMEOUT_MS = 120_000;
-const MIN_REQUEST_TIMEOUT_MS = 15_000;
-const MAX_REQUEST_TIMEOUT_MS = 180_000;
-const MAX_CONCURRENT_AI_REQUESTS = 2;
-
-const AI_IPC_CHANNELS = Object.freeze({
-  capabilities: "stoa:ai:capabilities",
-  saveApiKey: "stoa:ai:key:save",
-  hasApiKey: "stoa:ai:key:has",
-  deleteApiKey: "stoa:ai:key:delete",
-  request: "stoa:ai:request",
-  cancelRequests: "stoa:ai:cancel",
-});
-
-const AI_PROVIDERS = Object.freeze({
-  openai: Object.freeze({
-    endpoint: "https://api.openai.com/v1/responses",
-    headers(apiKey) {
-      return { Authorization: `Bearer ${apiKey}` };
-    },
-  }),
-  anthropic: Object.freeze({
-    endpoint: "https://api.anthropic.com/v1/messages",
-    headers(apiKey) {
-      return {
-        "anthropic-version": "2023-06-01",
-        "x-api-key": apiKey,
-      };
-    },
-  }),
-});
+// STOA 5.9.7 and earlier could store encrypted AI provider keys in this file.
+// The AI integration has been removed, so the file is deleted on startup.
+const LEGACY_AI_KEY_FILE_NAME = "stoa-secure-api-keys.json";
 
 const STOA_VERSION = app.getVersion();
 const STOA_WORKSPACES = Object.freeze([
@@ -109,11 +75,7 @@ const DOCUMENT_IPC_CHANNELS = Object.freeze({
   stateChanged: "stoa:documents:state-changed",
 });
 
-const sessionApiKeys = new Map();
-const aiRequestsByWebContents = new Map();
 const trustedWebContents = new Set();
-let keyMutationQueue = Promise.resolve();
-let activeAiRequests = 0;
 
 const workspaceDocuments = new Map(
   STOA_WORKSPACES.map((workspace) => [
@@ -278,7 +240,7 @@ async function runDesktopRuntimeSmokeTest() {
   };
 
   const [font, pdfWorker] = await Promise.all([
-    fetchAsset("fonts/vu3r.ttf"),
+    fetchAsset("fonts/NotoSerif-Regular.ttf"),
     fetchAsset("vendor/pdf.worker.min.mjs"),
   ]);
   return {
@@ -289,398 +251,13 @@ async function runDesktopRuntimeSmokeTest() {
   };
 }
 
-function normalizeProvider(provider) {
-  if (
-    typeof provider !== "string" ||
-    !Object.hasOwn(AI_PROVIDERS, provider)
-  ) {
-    throw new Error("Unsupported AI provider.");
-  }
-  return provider;
-}
-
-function normalizeApiKey(apiKey) {
-  if (typeof apiKey !== "string") throw new Error("API key must be text.");
-
-  const normalized = apiKey.trim();
-  if (
-    normalized.length < 12 ||
-    normalized.length > MAX_API_KEY_LENGTH ||
-    /\s/u.test(normalized) ||
-    [...normalized].some(
-      (character) =>
-        character.charCodeAt(0) < 32 || character.charCodeAt(0) === 127,
-    )
-  ) {
-    throw new Error("The API key format is invalid.");
-  }
-
-  return normalized;
-}
-
-function secureStorageIsUsable() {
-  if (!safeStorage.isEncryptionAvailable()) return false;
-
-  if (
-    process.platform === "linux" &&
-    typeof safeStorage.getSelectedStorageBackend === "function" &&
-    safeStorage.getSelectedStorageBackend() === "basic_text"
-  ) {
-    return false;
-  }
-
-  return true;
-}
-
-function getApiKeyFilePath() {
-  return path.join(app.getPath("userData"), AI_KEY_FILE_NAME);
-}
-
-async function readEncryptedKeyFile() {
+async function removeLegacyApiKeyFile() {
+  const keyFilePath = path.join(app.getPath("userData"), LEGACY_AI_KEY_FILE_NAME);
   try {
-    const contents = await fs.readFile(getApiKeyFilePath(), "utf8");
-    const parsed = JSON.parse(contents);
-
-    if (
-      parsed?.version !== AI_KEY_FILE_VERSION ||
-      !parsed.keys ||
-      typeof parsed.keys !== "object" ||
-      Array.isArray(parsed.keys)
-    ) {
-      return {};
-    }
-
-    return Object.fromEntries(
-      Object.entries(parsed.keys).filter(
-        ([provider, encrypted]) =>
-          Object.hasOwn(AI_PROVIDERS, provider) &&
-          typeof encrypted === "string",
-      ),
-    );
+    await fs.rm(keyFilePath, { force: true });
   } catch (error) {
-    if (error?.code === "ENOENT" || error instanceof SyntaxError) return {};
-    throw error;
+    console.error("Unable to remove the legacy STOA API key file:", error);
   }
-}
-
-async function writeEncryptedKeyFile(keys) {
-  const keyFilePath = getApiKeyFilePath();
-  const temporaryKeyFilePath = `${keyFilePath}.${process.pid}.tmp`;
-  await fs.mkdir(path.dirname(keyFilePath), { recursive: true, mode: 0o700 });
-  try {
-    await fs.writeFile(
-      temporaryKeyFilePath,
-      `${JSON.stringify({ version: AI_KEY_FILE_VERSION, keys })}\n`,
-      { encoding: "utf8", mode: 0o600 },
-    );
-
-    if (process.platform !== "win32") {
-      await fs.chmod(temporaryKeyFilePath, 0o600);
-    }
-    await fs.rename(temporaryKeyFilePath, keyFilePath);
-  } finally {
-    await fs.rm(temporaryKeyFilePath, { force: true });
-  }
-}
-
-function serializeKeyMutation(operation) {
-  const nextMutation = keyMutationQueue.then(operation, operation);
-  keyMutationQueue = nextMutation.catch(() => undefined);
-  return nextMutation;
-}
-
-async function saveApiKey(providerValue, apiKeyValue) {
-  const provider = normalizeProvider(providerValue);
-  const apiKey = normalizeApiKey(apiKeyValue);
-
-  if (!secureStorageIsUsable()) {
-    await serializeKeyMutation(async () => {
-      const keys = await readEncryptedKeyFile();
-      if (!Object.hasOwn(keys, provider)) return;
-      delete keys[provider];
-      await writeEncryptedKeyFile(keys);
-    });
-    sessionApiKeys.set(provider, apiKey);
-    return { storage: "session" };
-  }
-
-  await serializeKeyMutation(async () => {
-    const keys = await readEncryptedKeyFile();
-    keys[provider] = safeStorage.encryptString(apiKey).toString("base64");
-    await writeEncryptedKeyFile(keys);
-  });
-
-  sessionApiKeys.delete(provider);
-  return { storage: "encrypted" };
-}
-
-async function readApiKey(providerValue) {
-  const provider = normalizeProvider(providerValue);
-  if (sessionApiKeys.has(provider)) return sessionApiKeys.get(provider);
-  if (!secureStorageIsUsable()) return null;
-
-  await keyMutationQueue;
-  const encrypted = (await readEncryptedKeyFile())[provider];
-  if (!encrypted) return null;
-
-  try {
-    return normalizeApiKey(
-      safeStorage.decryptString(Buffer.from(encrypted, "base64")),
-    );
-  } catch {
-    return null;
-  }
-}
-
-async function hasApiKey(providerValue) {
-  return Boolean(await readApiKey(providerValue));
-}
-
-async function deleteApiKey(providerValue) {
-  const provider = normalizeProvider(providerValue);
-  sessionApiKeys.delete(provider);
-
-  await serializeKeyMutation(async () => {
-    const keys = await readEncryptedKeyFile();
-    if (!Object.hasOwn(keys, provider)) return;
-    delete keys[provider];
-    await writeEncryptedKeyFile(keys);
-  });
-
-  return { deleted: true };
-}
-
-function normalizeRequestBody(provider, body) {
-  if (!body || typeof body !== "object" || Array.isArray(body)) {
-    throw new Error("AI request body must be an object.");
-  }
-  if (typeof body.model !== "string" || !body.model.trim()) {
-    throw new Error("AI request body must include a model.");
-  }
-  if (body.stream === true) {
-    throw new Error("Streaming responses are not supported by this bridge.");
-  }
-  if (provider === "openai" && body.input === undefined) {
-    throw new Error("OpenAI requests must include input.");
-  }
-  if (provider === "anthropic" && !Array.isArray(body.messages)) {
-    throw new Error("Anthropic requests must include messages.");
-  }
-
-  let serialized;
-  try {
-    serialized = JSON.stringify(body);
-  } catch {
-    throw new Error("AI request body is not valid JSON.");
-  }
-
-  if (Buffer.byteLength(serialized, "utf8") > MAX_REQUEST_BYTES) {
-    throw new Error("AI request body is too large.");
-  }
-
-  return serialized;
-}
-
-function normalizeTimeout(timeoutMs) {
-  if (!Number.isFinite(timeoutMs)) return DEFAULT_REQUEST_TIMEOUT_MS;
-  return Math.min(
-    MAX_REQUEST_TIMEOUT_MS,
-    Math.max(MIN_REQUEST_TIMEOUT_MS, Math.round(timeoutMs)),
-  );
-}
-
-async function readLimitedResponseText(response) {
-  const contentLength = Number(response.headers.get("content-length"));
-  if (Number.isFinite(contentLength) && contentLength > MAX_RESPONSE_BYTES) {
-    throw new Error("AI response is too large.");
-  }
-
-  if (!response.body) return "";
-
-  const reader = response.body.getReader();
-  const decoder = new TextDecoder();
-  let totalBytes = 0;
-  let output = "";
-
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-
-    totalBytes += value.byteLength;
-    if (totalBytes > MAX_RESPONSE_BYTES) {
-      await reader.cancel();
-      throw new Error("AI response is too large.");
-    }
-    output += decoder.decode(value, { stream: true });
-  }
-
-  return output + decoder.decode();
-}
-
-function parseResponseBody(responseText) {
-  if (!responseText) return null;
-  try {
-    return JSON.parse(responseText);
-  } catch {
-    return responseText;
-  }
-}
-
-async function performAiRequest(
-  providerValue,
-  body,
-  timeoutMs,
-  webContentsId,
-) {
-  const provider = normalizeProvider(providerValue);
-  if (activeAiRequests >= MAX_CONCURRENT_AI_REQUESTS) {
-    throw new Error("STOA allows at most two simultaneous AI requests.");
-  }
-
-  const requestState = {
-    controller: new AbortController(),
-    abortReason: null,
-  };
-  let ownedRequests = aiRequestsByWebContents.get(webContentsId);
-  if (!ownedRequests) {
-    ownedRequests = new Set();
-    aiRequestsByWebContents.set(webContentsId, ownedRequests);
-  }
-  ownedRequests.add(requestState);
-  const timeout = setTimeout(
-    () => {
-      requestState.abortReason = "timeout";
-      requestState.controller.abort();
-    },
-    normalizeTimeout(timeoutMs),
-  );
-  activeAiRequests += 1;
-  let providerRequestStarted = false;
-
-  try {
-    const apiKey = await readApiKey(provider);
-    if (requestState.controller.signal.aborted) {
-      throw new DOMException("The AI request was cancelled.", "AbortError");
-    }
-    if (!apiKey) throw new Error(`No ${provider} API key is saved.`);
-
-    const requestBody = normalizeRequestBody(provider, body);
-    const requestConfig = AI_PROVIDERS[provider];
-    providerRequestStarted = true;
-    const response = await fetch(requestConfig.endpoint, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        ...requestConfig.headers(apiKey),
-      },
-      body: requestBody,
-      redirect: "error",
-      signal: requestState.controller.signal,
-    });
-    const rawResponse = (await readLimitedResponseText(response)).replaceAll(
-      apiKey,
-      "[REDACTED]",
-    );
-
-    return {
-      ok: response.ok,
-      status: response.status,
-      requestId:
-        response.headers.get("x-request-id") ||
-        response.headers.get("request-id"),
-      data: parseResponseBody(rawResponse),
-    };
-  } catch (error) {
-    if (error?.name === "AbortError") {
-      return {
-        ok: false,
-        status: 0,
-        requestId: null,
-        data: {
-          error:
-            requestState.abortReason === "cancelled"
-              ? { type: "cancelled", message: "AI request was cancelled." }
-              : { type: "timeout", message: "AI request timed out." },
-        },
-      };
-    }
-
-    if (!providerRequestStarted) throw error;
-
-    return {
-      ok: false,
-      status: 0,
-      requestId: null,
-      data: {
-        error: {
-          type: "network_error",
-          message: "The AI provider could not be reached.",
-        },
-      },
-    };
-  } finally {
-    clearTimeout(timeout);
-    ownedRequests.delete(requestState);
-    if (ownedRequests.size === 0) {
-      aiRequestsByWebContents.delete(webContentsId);
-    }
-    activeAiRequests -= 1;
-  }
-}
-
-function cancelAiRequests(webContentsId) {
-  const ownedRequests = aiRequestsByWebContents.get(webContentsId);
-  if (!ownedRequests) return 0;
-
-  let cancelled = 0;
-  for (const requestState of ownedRequests) {
-    if (requestState.controller.signal.aborted) continue;
-    requestState.abortReason = "cancelled";
-    requestState.controller.abort();
-    cancelled += 1;
-  }
-  return cancelled;
-}
-
-function installAiBridge() {
-  ipcMain.handle(AI_IPC_CHANNELS.capabilities, (event) => {
-    assertTrustedIpcSender(event);
-    return {
-      runtime: "desktop",
-      providers: Object.keys(AI_PROVIDERS),
-      securePersistence: secureStorageIsUsable(),
-      maxConcurrentRequests: MAX_CONCURRENT_AI_REQUESTS,
-    };
-  });
-
-  ipcMain.handle(AI_IPC_CHANNELS.saveApiKey, (event, provider, apiKey) => {
-    assertTrustedIpcSender(event);
-    return saveApiKey(provider, apiKey);
-  });
-
-  ipcMain.handle(AI_IPC_CHANNELS.hasApiKey, (event, provider) => {
-    assertTrustedIpcSender(event);
-    return hasApiKey(provider);
-  });
-
-  ipcMain.handle(AI_IPC_CHANNELS.deleteApiKey, (event, provider) => {
-    assertTrustedIpcSender(event);
-    return deleteApiKey(provider);
-  });
-
-  ipcMain.handle(
-    AI_IPC_CHANNELS.request,
-    (event, provider, body, timeoutMs) => {
-      assertTrustedIpcSender(event);
-      return performAiRequest(provider, body, timeoutMs, event.sender.id);
-    },
-  );
-
-  ipcMain.handle(AI_IPC_CHANNELS.cancelRequests, (event) => {
-    assertTrustedIpcSender(event);
-    return { cancelled: cancelAiRequests(event.sender.id) };
-  });
 }
 
 function isWorkspace(value) {
@@ -1652,16 +1229,7 @@ function createWindow() {
     }
   });
 
-  window.webContents.on("did-start-navigation", (_event, _url, _inPlace, isMainFrame) => {
-    if (isMainFrame) cancelAiRequests(webContentsId);
-  });
-
-  window.webContents.on("render-process-gone", () => {
-    cancelAiRequests(webContentsId);
-  });
-
   window.webContents.once("destroyed", () => {
-    cancelAiRequests(webContentsId);
     rejectPendingRendererRequests(
       webContentsId,
       new Error("The STOA window closed before the operation completed."),
@@ -1743,8 +1311,8 @@ if (hasSingleInstanceLock) app.whenReady().then(async () => {
   createApplicationMenu();
   installDownloadPrompt();
   installPermissionPolicy();
-  installAiBridge();
   installDocumentBridge();
+  void removeLegacyApiKeyFile();
   createWindow();
 
   app.on("activate", () => {

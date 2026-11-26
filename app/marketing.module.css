@@ -271,7 +271,7 @@
 }
 
 .token strong {
-  font-family: Vusillus, "Noto Serif STOA", serif;
+  font-family: "Noto Serif STOA", serif;
   font-size: 34px;
   font-weight: 400;
   line-height: 1;
@@ -330,7 +330,7 @@
 .annotationCard > b {
   display: block;
   margin: 10px 0 14px;
-  font-family: Vusillus, "Noto Serif STOA", serif;
+  font-family: "Noto Serif STOA", serif;
   font-size: 30px;
   font-weight: 400;
 }
@@ -446,7 +446,7 @@
 
 .languageScript {
   margin: 54px 0 44px;
-  font-family: Vusillus, "Noto Serif STOA", Georgia, serif;
+  font-family: "Noto Serif STOA", Georgia, serif;
   font-size: clamp(38px, 4vw, 58px);
   line-height: 1;
 }

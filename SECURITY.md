@@ -7,8 +7,8 @@ latest release receives fixes.
 
 | Version | Supported |
 | --- | --- |
-| Latest 5.9.x release | Yes |
-| Earlier releases, including packages in the historical archive | No |
+| Latest release | Yes |
+| Earlier releases, including STOA 5.9.7 and older packages | No |
 
 ## Reporting a vulnerability
 
@@ -35,15 +35,12 @@ you in the release notes unless you prefer to stay anonymous.
 
 Reports are especially welcome for:
 
-- **API key handling.** Only the Desktop edition accepts OpenAI and Anthropic
-  API keys. It encrypts them with the operating system's secure storage
-  (Electron `safeStorage`), or keeps them in memory for the current session
-  when secure storage is unavailable. The Web and Portable editions never ask
-  for keys; they use a copy-and-paste prompt workflow. Keys must never appear
-  in project files, exports, logs or the renderer's storage.
+- **Network access.** STOA does not connect to AI services or any other
+  remote server; you copy prompts to an AI service yourself. Any way to make
+  STOA send document content over the network is in scope.
 - **Electron isolation.** For example, bypassing `contextIsolation`, the
-  renderer sandbox, the preload bridges (`stoaDesktopAI`,
-  `stoaDesktopDocuments`) or the `stoa://app/` protocol's path checks. See
+  renderer sandbox, the `stoaDesktopDocuments` preload bridge or the
+  `stoa://app/` protocol's path checks. See
   [`desktop/README.md`](desktop/README.md#security-boundary).
 - **Untrusted input.** Malicious `.stoa.json` projects, AI analysis JSON,
   imported fonts, or MDict (`.mdx`/`.mdd`) dictionaries that cause code

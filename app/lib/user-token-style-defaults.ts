@@ -22,6 +22,7 @@ import {
   isStoaWorkspaceLanguageId,
   type StoaWorkspaceLanguageId,
 } from "./omni-language";
+import { replaceRetiredFontFamilies } from "./font-registry";
 
 export const USER_TOKEN_STYLE_DEFAULTS_FORMAT = "stoa-user-token-style-defaults" as const;
 export const USER_TOKEN_STYLE_DEFAULTS_SCHEMA_VERSION = 1 as const;
@@ -246,7 +247,8 @@ export const decodeUserTokenStyleDefaults = (
       continue;
     }
     const result = normalizeCompleteStyle(
-      rawStyle,
+      // Saved defaults may name a font STOA no longer bundles.
+      replaceRetiredFontFamilies(rawStyle),
       builtIns[language],
       `$.byLanguage.${language}`,
     );

@@ -55,7 +55,7 @@ test("manual Full AI import uses the shared permissive loader and one document c
   assert.ok(applier);
   assert.equal((applier.match(/commitDocument\(/gu) ?? []).length, 1);
   assert.match(page, /Import details/);
-  assert.match(page, /Guided Chunk Analysis, direct API analysis, and Project Import keep their stricter validation/);
+  assert.match(page, /Guided Chunk Analysis and Project Import keep their stricter validation/);
 });
 
 test("JSON-first and analysis-file controls have responsive UI styling", async () => {

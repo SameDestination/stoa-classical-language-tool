@@ -146,7 +146,6 @@ Release notes should include:
 ## Historical packages
 
 Versions 2 through 5.9.7 were published before this process existed. They
-are preserved, unmodified, in the
-[`archive-2026-10-09` release](https://github.com/SameDestination/stoa-classical-language-tool/releases/tag/archive-2026-10-09)
-(see [historical-releases.md](historical-releases.md)). Their original source
+are no longer distributed because they bundle the Vusillus font; see
+[historical-releases.md](historical-releases.md). Their original source
 revisions are not in this repository's history, so they have no version tags.

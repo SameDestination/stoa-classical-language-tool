@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="https://github.com/SameDestination/stoa-classical-language-tool/actions/workflows/ci.yml"><img src="https://github.com/SameDestination/stoa-classical-language-tool/actions/workflows/ci.yml/badge.svg" alt="CI 状态"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPL--3.0--only-blue" alt="许可证：GPL-3.0-only"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPL--3.0--or--later-blue" alt="许可证：GPL-3.0-or-later"></a>
   <img src="https://img.shields.io/badge/version-5.9.7-informational" alt="版本 5.9.7">
   <img src="https://img.shields.io/badge/platforms-macOS%20%C2%B7%20Windows%20%C2%B7%20browser-lightgrey" alt="平台：macOS、Windows、浏览器">
 </p>
@@ -79,30 +79,15 @@ STOA 适合学生、教师、自学者和研究者，满足一般翻译框做不
 
 ## 下载
 
-STOA 有三个版本，它们使用同一个编辑器。
+STOA 有三个版本，它们使用同一个编辑器。请从[最新发布版本](https://github.com/SameDestination/stoa-classical-language-tool/releases/latest)下载。
 
-| 版本 | 适合 | 系统要求 | 下载（5.9.7） |
+| 版本 | 适合 | 系统要求 | 文件 |
 | --- | --- | --- | --- |
-| **macOS 桌面版** | 日常使用、自动 AI 分析、原生打开/保存 | Apple 芯片 Mac，macOS 12 或更高 | [STOA-macOS-arm64.dmg](https://github.com/SameDestination/stoa-classical-language-tool/releases/download/archive-2026-10-09/STOA-macOS-arm64.dmg)（168 MB） |
-| **Windows 桌面版** | 日常使用、自动 AI 分析、原生打开/保存 | 64 位 Windows 10 或更高 | [STOA-Windows-x64.msi](https://github.com/SameDestination/stoa-classical-language-tool/releases/download/archive-2026-10-09/STOA-Windows-x64.msi)（214 MB） |
-| **便携版（Portable）** | 免安装，从文件夹或 U 盘运行 | 任意桌面浏览器和 Python 3 | [STOA-5.9.7-Portable.zip](https://github.com/SameDestination/stoa-classical-language-tool/releases/download/archive-2026-10-09/STOA-5.9.7-Portable.zip)（82 MB） |
+| **macOS 桌面版** | 日常使用、原生打开/保存 | Apple 芯片 Mac，macOS 13 或更高 | `STOA-macOS-arm64.dmg` |
+| **Windows 桌面版** | 日常使用、原生打开/保存 | 64 位 Windows 10 或更高 | `STOA-Windows-x64.msi` |
+| **便携版（Portable）** | 免安装，从文件夹或 U 盘运行 | 任意桌面浏览器和 Python 3 | `STOA-<版本号>-Portable.zip` |
 
-[网站](https://stoa-interlinear-studio.goldnerbaum.chatgpt.site)上还有一个网页试用版。它运行的是较早的 STOA 3.5（仅支持古希腊语和拉丁语），只适合初步体验，不适合正式使用。
-
-从第 2 版起的旧版本都原样保存在[历史安装包存档](https://github.com/SameDestination/stoa-classical-language-tool/releases/tag/archive-2026-10-09)中（见 [docs/historical-releases.md](docs/historical-releases.md)）。
-
-<details>
-<summary><strong>SHA-256 校验值</strong></summary>
-
-```text
-4ce9478111554fcfb86b120b4f62c6a84d7e5ec59ed5ab2d4776ed23a40e2555  STOA-macOS-arm64.dmg
-518959ab291e029ca018983c2d1866eca033fe90b79a29fdf8c68243db4edc20  STOA-Windows-x64.msi
-d3a2148a690f53b563f6de91e6335afa11bceddd0b6a181e23171ce7bd658246  STOA-5.9.7-Portable.zip
-```
-
-在 macOS 上用 `shasum -a 256 <文件>`，在 Windows PowerShell 中用 `Get-FileHash <文件>` 核对下载的文件。
-
-</details>
+每个发布版本都列出了所有文件的 SHA-256 校验值。在 macOS 上用 `shasum -a 256 <文件>`，在 Windows PowerShell 中用 `Get-FileHash <文件>` 核对下载的文件。STOA 5.9.7 及更早版本的安装包已不再提供下载，见 [docs/historical-releases.md](docs/historical-releases.md)。
 
 ### 安装
 
@@ -114,7 +99,7 @@ d3a2148a690f53b563f6de91e6335afa11bceddd0b6a181e23171ce7bd658246  STOA-5.9.7-Por
 xattr -dr com.apple.quarantine /Applications/STOA.app
 ```
 
-**Windows。** 运行 MSI。如果 SmartScreen 显示“Windows 已保护你的电脑”，请点击 **更多信息 → 仍要运行**。安装程序可以选择安装文件夹，只为当前用户安装，会添加开始菜单和桌面快捷方式，并用 STOA 打开 `.stoa` 文件。Windows 安装程序是 5.9.7 新增的；如果安装过程中出现问题，请[提交 issue](https://github.com/SameDestination/stoa-classical-language-tool/issues/new/choose)。
+**Windows。** 运行 MSI。如果 SmartScreen 显示“Windows 已保护你的电脑”，请点击 **更多信息 → 仍要运行**。安装程序可以选择安装文件夹，只为当前用户安装，会添加开始菜单和桌面快捷方式，并用 STOA 打开 `.stoa` 文件。如果安装过程中出现问题，请[提交 issue](https://github.com/SameDestination/stoa-classical-language-tool/issues/new/choose)。
 
 **便携版。** 解压文件夹，在 macOS 上双击 `Start-STOA-macOS.command`，在 Windows 上双击 `Start-STOA-Windows.bat`。一个小型本地服务器会启动，STOA 会在浏览器中打开 `http://127.0.0.1:8765/`。使用期间请保持启动窗口打开，不要直接打开 `index.html`。便携版每次启动都会恢复初始状态，请用 **Export Project** 保存你的工作。详细说明见包内的 `README-使用说明.txt`。
 
@@ -122,9 +107,7 @@ xattr -dr com.apple.quarantine /Applications/STOA.app
 
 1. **在窗口顶部选择语言。** 每种语言都附带一份示例文本；点击 **New blank document** 可以从空白文档开始。
 2. **在 *01 · Source* 中输入文本。**
-3. **进行分析。**
-   - 桌面版：在 *Desktop automation* 卡片中点击 **Add API key**，选择 OpenAI 或 Anthropic 以及模型，由 STOA 直接请求分析。
-   - 所有版本：点击 **Full AI Prompt**，把提示词粘贴到你选择的 AI 对话中，复制它返回的 JSON，再点击 **Import Analysis**。
+3. **进行分析。** 点击 **Full AI Prompt**，把提示词粘贴到你选择的 AI 对话中，复制它返回的 JSON，再点击 **Import Analysis**。长文本可以使用 **Guided chunk analysis**，把工作拆成若干较短的提示词。
 4. **逐词检查和修改。** 点击页面上的词，在 *02 · Token Editor* 中修改释义、词元、词性和形态。按住 Ctrl（Mac 上为 ⌘）点击可选择多个词，按住 Shift 点击可选择一段范围。
 5. **在 *03 · Composition* 中设置版面：** 纸张、字体、间距、换行和译文。
 6. **导出** PDF、PNG 页面或 LaTeX，并保存项目（桌面版用 **Save**，其他版本用 **Export Project**），以便日后继续。
@@ -133,8 +116,7 @@ xattr -dr com.apple.quarantine /Applications/STOA.app
 
 STOA 没有账户系统，也从不把你的文本上传到 STOA 的服务器。
 
-- **桌面版**可以用你自己的 API 密钥，把文本直接发送给 OpenAI 或 Anthropic。密钥由操作系统的安全存储加密保存，不会出现在项目文件或导出文件中。
-- **便携版和网页版**从不索要 API 密钥。由你自己把提示词复制到 AI 服务中，因此分享哪些内容完全由你决定。
+- STOA 不连接任何 AI 服务，也从不索要 API 密钥。由你自己把提示词复制到 AI 服务中，因此分享哪些内容完全由你决定。
 - 你的文档、导入的字体和词典都保存在你的设备上。
 
 使用 AI 服务时，适用该服务自身的条款和隐私政策。AI 模型会出错，尤其是遇到罕见词形时，因此请把每一份分析都当作需要核对的草稿。安全问题请参阅 [SECURITY.md](SECURITY.md)。
@@ -165,19 +147,19 @@ npm run dev:web          # 编辑器地址：http://127.0.0.1:5173
 ```text
 app/
   stoa-studio.tsx        编辑器：所有版本共用的同一个渲染层
-  lib/                   语言规则、AI 流程、版式、PDF/PNG/LaTeX 导出、项目格式
+  lib/                   语言规则、AI 提示词与 JSON 导入、版式、PDF/PNG/LaTeX 导出、项目格式
   developer-defaults/    内置示例项目和默认设置（唯一来源）
-  page.tsx, trial/, …    宣传网站
+  page.tsx, privacy/, …  宣传网站
 desktop/                 Electron 外壳：主进程、preload 桥接、安装包构建脚本
 standalone/              网页版和便携版的 Vite 入口、便携版启动器
-public/                  字体、PDF.js worker、网站图片、网页试用版
+public/                  字体、PDF.js worker、网站图片
 tests/                   单元测试和契约测试（Node 测试运行器）
 docs/                    发布清单、发布报告、历史存档索引
 scripts/                 便携版优化和桌面版 QA 脚本
 worker/, build/          网站的 Cloudflare Worker 入口和构建插件
 ```
 
-网页版、便携版和桌面版都打包 `app/` 中的同一个编辑器。桌面外壳通过一个受限的沙盒桥接层提供原生文件操作和 API 密钥存储，安全模型见 [desktop/README.md](desktop/README.md)。
+网页版、便携版和桌面版都打包 `app/` 中的同一个编辑器。桌面外壳通过一个受限的沙盒桥接层提供原生文件操作，安全模型见 [desktop/README.md](desktop/README.md)。
 
 ## 项目文件格式
 
@@ -191,7 +173,7 @@ STOA 项目是一个 JSON 文档。网页版和便携版保存为 `.stoa.json`�
 
 ## 许可证
 
-STOA 是自由软件，采用 [GNU 通用公共许可证第 3 版（仅限此版本）](LICENSE)授权。你可以使用、研究、分享和修改它；如果分发修改后的版本，必须以同一许可证公开其源代码。
+STOA 是自由软件，采用 [GNU 通用公共许可证](LICENSE)第 3 版或（由你选择）任何更高版本授权（`GPL-3.0-or-later`）。你可以使用、研究、分享和修改它；如果分发修改后的版本，必须以相同条款公开其源代码。STOA 不提供任何担保，包括适销性或特定用途适用性的默示担保，详见 GNU 通用公共许可证。
 
 内置字体和第三方代码保留各自的许可证，列在 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) 中。
 

@@ -17,7 +17,6 @@ body:
         - Desktop (macOS)
         - Desktop (Windows)
         - Portable
-        - Web trial (website)
         - Built from source
     validations:
       required: true

@@ -26,9 +26,14 @@ Do not add desktop-only sample JSON or duplicate default settings here.
 - no arbitrary filesystem API in the renderer
 - project reads/writes, native dialogs, paths, recents, and dirty-close prompts
   stay in `main.mjs`
-- `preload.cjs` exposes only `stoaDesktopAI` and `stoaDesktopDocuments`
+- `preload.cjs` exposes only `stoaDesktopDocuments`
+- the renderer's Content Security Policy allows network requests only to the
+  app itself (`connect-src 'self'`); STOA does not contact AI services
+- on startup, the main process deletes the encrypted API key file
+  (`stoa-secure-api-keys.json`) that STOA 5.9.7 and earlier could create in
+  the user data folder
 
-API keys remain behind `stoaDesktopAI`. The document lifecycle bridge is:
+The document lifecycle bridge is:
 
 ```ts
 window.stoaDesktopDocuments = {

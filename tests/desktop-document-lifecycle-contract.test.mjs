@@ -70,6 +70,6 @@ test("a native saved-revision update forces dirty-state reconciliation", async (
   );
   assert.match(
     rendererSource,
-    /const performLanguageChange[\s\S]*?setActiveWorkspace\(nextLanguage\)[\s\S]*?cancelAnalysisForWorkspaceChange/u,
+    /const performLanguageChange[\s\S]*?setActiveWorkspace\(nextLanguage\)/u,
   );
 });

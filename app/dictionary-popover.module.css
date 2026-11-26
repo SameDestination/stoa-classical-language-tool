@@ -75,7 +75,7 @@
 }
 
 .popover[data-language="ancient-greek"] .lemma {
-  font-family: Vusillus, "Palatino Linotype", "Times New Roman", serif;
+  font-family: "Noto Serif STOA", "Palatino Linotype", "Times New Roman", serif;
   font-weight: 400;
 }
 

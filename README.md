@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="https://github.com/SameDestination/stoa-classical-language-tool/actions/workflows/ci.yml"><img src="https://github.com/SameDestination/stoa-classical-language-tool/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPL--3.0--only-blue" alt="License: GPL-3.0-only"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPL--3.0--or--later-blue" alt="License: GPL-3.0-or-later"></a>
   <img src="https://img.shields.io/badge/version-5.9.7-informational" alt="Version 5.9.7">
   <img src="https://img.shields.io/badge/platforms-macOS%20%C2%B7%20Windows%20%C2%B7%20browser-lightgrey" alt="Platforms: macOS, Windows, browser">
 </p>
@@ -97,35 +97,20 @@ device.
 
 ## Download
 
-STOA comes in three editions. All three contain the same editor.
+STOA comes in three editions. All three contain the same editor. Download
+them from the
+[latest release](https://github.com/SameDestination/stoa-classical-language-tool/releases/latest).
 
-| Edition | Best for | Requirements | Download (5.9.7) |
+| Edition | Best for | Requirements | File |
 | --- | --- | --- | --- |
-| **Desktop for macOS** | Daily use, automatic AI analysis, native Open/Save | Apple Silicon Mac, macOS 12 or later | [STOA-macOS-arm64.dmg](https://github.com/SameDestination/stoa-classical-language-tool/releases/download/archive-2026-10-09/STOA-macOS-arm64.dmg) (168 MB) |
-| **Desktop for Windows** | Daily use, automatic AI analysis, native Open/Save | 64-bit Windows 10 or later | [STOA-Windows-x64.msi](https://github.com/SameDestination/stoa-classical-language-tool/releases/download/archive-2026-10-09/STOA-Windows-x64.msi) (214 MB) |
-| **Portable** | Running from a folder or USB stick without installing | Any desktop browser and Python 3 | [STOA-5.9.7-Portable.zip](https://github.com/SameDestination/stoa-classical-language-tool/releases/download/archive-2026-10-09/STOA-5.9.7-Portable.zip) (82 MB) |
+| **Desktop for macOS** | Daily use, native Open/Save | Apple Silicon Mac, macOS 13 or later | `STOA-macOS-arm64.dmg` |
+| **Desktop for Windows** | Daily use, native Open/Save | 64-bit Windows 10 or later | `STOA-Windows-x64.msi` |
+| **Portable** | Running from a folder or USB stick without installing | Any desktop browser and Python 3 | `STOA-<version>-Portable.zip` |
 
-The [website](https://stoa-interlinear-studio.goldnerbaum.chatgpt.site) also
-offers a quick web trial. It runs the older STOA 3.5 (Greek and Latin only)
-and is meant for a first look, not for real work.
-
-Older versions, back to version 2, are kept unmodified in the
-[historical package archive](https://github.com/SameDestination/stoa-classical-language-tool/releases/tag/archive-2026-10-09)
-(see [docs/historical-releases.md](docs/historical-releases.md)).
-
-<details>
-<summary><strong>SHA-256 checksums</strong></summary>
-
-```text
-4ce9478111554fcfb86b120b4f62c6a84d7e5ec59ed5ab2d4776ed23a40e2555  STOA-macOS-arm64.dmg
-518959ab291e029ca018983c2d1866eca033fe90b79a29fdf8c68243db4edc20  STOA-Windows-x64.msi
-d3a2148a690f53b563f6de91e6335afa11bceddd0b6a181e23171ce7bd658246  STOA-5.9.7-Portable.zip
-```
-
-Check a download with `shasum -a 256 <file>` on macOS or
-`Get-FileHash <file>` in Windows PowerShell.
-
-</details>
+Each release lists the SHA-256 checksum of every file. Check a download with
+`shasum -a 256 <file>` on macOS or `Get-FileHash <file>` in Windows
+PowerShell. Packages for STOA 5.9.7 and earlier are no longer distributed;
+see [docs/historical-releases.md](docs/historical-releases.md).
 
 ### Installing
 
@@ -144,9 +129,8 @@ xattr -dr com.apple.quarantine /Applications/STOA.app
 **Windows.** Run the MSI. If SmartScreen shows "Windows protected your PC",
 click **More info → Run anyway**. The installer lets you choose a folder,
 installs for the current user only, adds Start menu and desktop shortcuts and
-opens `.stoa` files with STOA. The Windows installer is new in 5.9.7; if
-anything goes wrong during installation, please
-[open an issue](https://github.com/SameDestination/stoa-classical-language-tool/issues/new/choose).
+opens `.stoa` files with STOA. If anything goes wrong during installation,
+please [open an issue](https://github.com/SameDestination/stoa-classical-language-tool/issues/new/choose).
 
 **Portable.** Unzip the folder and double-click `Start-STOA-macOS.command` on
 macOS or `Start-STOA-Windows.bat` on Windows. A small local server starts and
@@ -159,12 +143,9 @@ edition starts fresh each time, so use **Export Project** to save your work.
 1. **Choose a language** at the top of the window. Each language opens with a
    sample text you can explore; **New blank document** starts from scratch.
 2. **Enter your text** in *01 · Source*.
-3. **Analyse it.**
-   - In the Desktop edition, click **Add API key** in the *Desktop
-     automation* card, choose OpenAI or Anthropic and a model, and let STOA
-     request the analysis directly.
-   - In any edition, click **Full AI Prompt**, paste the prompt into the AI
-     chat of your choice, copy its JSON answer, and click **Import Analysis**.
+3. **Analyse it.** Click **Full AI Prompt**, paste the prompt into the AI chat
+   of your choice, copy its JSON answer, and click **Import Analysis**. For
+   long texts, **Guided chunk analysis** splits the work into smaller prompts.
 4. **Check and correct each word.** Click a word on the page to edit its
    gloss, lemma, part of speech and morphology in *02 · Token Editor*.
    Ctrl-click (⌘-click on a Mac) selects several words; Shift-click selects a
@@ -178,11 +159,9 @@ edition starts fresh each time, so use **Export Project** to save your work.
 
 STOA has no accounts and never uploads your texts to a STOA server.
 
-- **Desktop** can send your text directly to OpenAI or Anthropic using your
-  own API key. The key is encrypted with your operating system's secure
-  storage. It never appears in project files or exports.
-- **Portable and Web** never ask for an API key. You copy the prompt to an AI
-  service yourself, so you decide exactly what is shared.
+- STOA does not connect to AI services and never asks for an API key. You
+  copy the prompt to an AI service yourself, so you decide exactly what is
+  shared.
 - Your documents, imported fonts and dictionaries stay on your device.
 
 When you use an AI service, that service's own terms and privacy policy
@@ -217,12 +196,12 @@ run individual tests.
 ```text
 app/
   stoa-studio.tsx        The editor: one renderer shared by every edition
-  lib/                   Language rules, AI pipeline, layout, PDF/PNG/LaTeX export, project format
+  lib/                   Language rules, AI prompts and JSON import, layout, PDF/PNG/LaTeX export, project format
   developer-defaults/    Bundled sample projects and default settings (single source)
-  page.tsx, trial/, …    The marketing website
+  page.tsx, privacy/, …  The marketing website
 desktop/                 Electron shell: main process, preload bridges, installer builders
 standalone/              Vite entry for the Web and Portable editions, Portable launcher
-public/                  Fonts, PDF.js worker, website images, web-trial bundle
+public/                  Fonts, PDF.js worker, website images
 tests/                   Unit and contract tests (Node test runner)
 docs/                    Release checklist, release reports, historical archive index
 scripts/                 Portable optimisation and desktop QA scripts
@@ -230,8 +209,8 @@ worker/, build/          Cloudflare Worker entry and build plugin for the websit
 ```
 
 The Web, Portable and Desktop editions all bundle the same editor from `app/`.
-The desktop shell adds native file handling and API-key storage behind a
-narrow, sandboxed bridge; see [desktop/README.md](desktop/README.md) for its
+The desktop shell adds native file handling behind a narrow, sandboxed
+bridge; see [desktop/README.md](desktop/README.md) for its
 security model.
 
 ## The project file format
@@ -259,10 +238,15 @@ Please report security vulnerabilities privately, as described in
 
 ## License
 
-STOA is free software, licensed under the
-[GNU General Public License v3.0 only](LICENSE). You may use, study, share and
-modify it; if you distribute a modified version, you must release its source
-under the same license.
+STOA is free software: you can redistribute it and/or modify it under the
+terms of the [GNU General Public License](LICENSE) as published by the Free
+Software Foundation, either version 3 of the License, or (at your option) any
+later version (`GPL-3.0-or-later`). If you distribute a modified version, you
+must release its source under the same terms.
+
+STOA is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 Bundled fonts and third-party code keep their own licenses, listed in
 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

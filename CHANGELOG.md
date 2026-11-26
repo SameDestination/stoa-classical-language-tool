@@ -12,8 +12,8 @@ application version.
 
 ### Added
 
-- STOA is now licensed under the GNU General Public License v3.0 only
-  ([LICENSE](LICENSE)). Contributions require the
+- STOA is now licensed under the GNU General Public License v3.0 or later
+  (`GPL-3.0-or-later`, [LICENSE](LICENSE)). Contributions require the
   [Contributor License Agreement](CLA.md), checked automatically on pull
   requests.
 - Project documentation: a rewritten [README](README.md) with screenshots, a
@@ -33,6 +33,12 @@ application version.
   website rendering tests. `npm run test:unit` runs everything except the
   website rendering tests, which need a website build.
 - Release reports moved from `docs/` to [`docs/releases/`](docs/releases/).
+- Desktop now runs on Electron 45.2.1 (previously 39.8.2). Electron 39 no
+  longer receives security fixes.
+- Desktop for macOS now requires macOS 13 (Ventura) or later, as Electron 44
+  and later do.
+- `npm ci` no longer downloads the Electron binary. `npm run desktop`
+  downloads it the first time it runs.
 
 ### Fixed
 
@@ -43,6 +49,20 @@ application version.
   versions `mdict-js` uses (`bl` 2.2.1, `pako` 1.0.11).
 - `tsx`, used by every test script, is now a declared development dependency.
   It was previously available only as a transitive dependency.
+- LaTeX export escapes `~` and `^`. Previously a tilde became a non-breaking
+  space and a caret stopped XeLaTeX with an error.
+- LaTeX export no longer passes font names, colors or imported-font details
+  from a project file into the `.tex` file unescaped. A crafted project could
+  previously add LaTeX commands, for example to read other files on the
+  computer that compiles it. Invalid colors fall back to the defaults, and
+  three-digit colors such as `#fff` now work.
+- Web and Portable ask before you close or reload the page with unsaved
+  changes. A document counts as saved when it is first shown, opened from a
+  project file, or exported with Export Project. Previously the changes were
+  lost without warning. Desktop already asked before closing.
+- The Portable server answers only requests addressed to `127.0.0.1` or
+  `localhost` and no longer lists folders. A website could previously use DNS
+  rebinding to read files in the Portable folder, including saved projects.
 
 ### Removed
 
@@ -53,8 +73,25 @@ application version.
   starter icons.
 - The stale root `main.mjs`, an outdated copy of `desktop/main.mjs` that no
   build used.
+- The bundled Vusillus font (`public/fonts/vu3r.ttf`), whose redistribution
+  terms are not documented. Ancient Greek now uses the bundled Noto Serif
+  STOA by default. Projects and saved style defaults that name Vusillus open
+  with Noto Serif STOA. You can still import your own licensed copy of
+  Vusillus, or any other TTF/OTF font, in Typography.
+- The Desktop AI provider integration: the *Desktop automation* card with
+  **Add API key**, direct requests to OpenAI and Anthropic, encrypted key
+  storage and the `stoaDesktopAI` bridge. Every edition now uses the same
+  copy-and-paste workflow (**Full AI Prompt**, **Guided chunk analysis** and
+  **Import Analysis**), and STOA makes no network requests to AI services. On
+  startup, the Desktop edition deletes the encrypted key file that earlier
+  versions could create (`stoa-secure-api-keys.json` in the user data folder).
+- The website's Web Trial (`/trial`), which ran STOA 3.5. The website now
+  links to the downloads.
+- Download links to the packages for STOA 5.9.7 and earlier. They bundle the
+  Vusillus font and are no longer distributed (see
+  [docs/historical-releases.md](docs/historical-releases.md)).
 
-## [5.9.7] - 2026-09-08
+## 5.9.7 - 2026-09-08
 
 ### Changed
 
@@ -74,7 +111,7 @@ ad-hoc signed, not notarized), `STOA-Windows-x64.msi` (unsigned). Details:
 [Web report](docs/releases/STOA-5.9.7-validation.md),
 [Desktop report](docs/releases/STOA-5.9.7-desktop-validation.md).
 
-## [5.9.6] - 2026-09-08
+## 5.9.6 - 2026-09-08
 
 ### Changed
 
@@ -91,7 +128,7 @@ ad-hoc signed, not notarized), `STOA-Windows-x64.msi` (unsigned). Details:
 
 Details: [report](docs/releases/STOA-5.9.6-validation.md).
 
-## [5.9.4] - 2026-09-07
+## 5.9.4 - 2026-09-07
 
 ### Added
 
@@ -117,12 +154,8 @@ Details: [report](docs/releases/STOA-5.9.4-validation.md),
 
 ## Earlier versions
 
-Packages for versions 2 through 5.9.2 are preserved unmodified in the
-[historical package archive](https://github.com/SameDestination/stoa-classical-language-tool/releases/tag/archive-2026-10-09)
-(see [docs/historical-releases.md](docs/historical-releases.md)). Detailed
-change notes for those versions were not recorded in this repository.
+Versions 2 through 5.9.2 are listed in
+[docs/historical-releases.md](docs/historical-releases.md). Detailed change
+notes for those versions were not recorded in this repository.
 
-[Unreleased]: https://github.com/SameDestination/stoa-classical-language-tool/compare/archive-2026-10-09...HEAD
-[5.9.7]: https://github.com/SameDestination/stoa-classical-language-tool/releases/tag/archive-2026-10-09
-[5.9.6]: https://github.com/SameDestination/stoa-classical-language-tool/releases/tag/archive-2026-10-09
-[5.9.4]: https://github.com/SameDestination/stoa-classical-language-tool/releases/tag/archive-2026-10-09
+[Unreleased]: https://github.com/SameDestination/stoa-classical-language-tool/commits/main

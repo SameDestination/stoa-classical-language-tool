@@ -1,14 +1,15 @@
 # STOA Contributor License Agreement
 
-Version 1.0 — 2026-11-03
+Version 1.1 — 2026-11-03
 
 Thank you for your interest in contributing to STOA (the "Project"). This
 Contributor License Agreement ("Agreement") clarifies the rights you grant
 when you submit a Contribution. It protects you and the Project, and it lets
 the Maintainer distribute STOA under the GNU General Public License, version 3
-(GPL-3.0), and, where needed, under other license terms, including commercial
-terms. Read it carefully before signing. You keep the copyright in your
-Contributions; this Agreement grants a license and does not transfer ownership.
+or any later version (GPL-3.0-or-later), and, where needed, under other
+license terms, including commercial terms. Read it carefully before signing.
+You keep the copyright in your Contributions; this Agreement grants a license
+and does not transfer ownership.
 
 ## 1. Definitions
 
@@ -37,8 +38,8 @@ Contributions and such derivative works.
 
 This license includes the right for the Maintainer to license Your
 Contributions, alone or as part of the Project, under any license terms the
-Maintainer chooses: the GPL-3.0, another open-source license, or proprietary
-or commercial terms.
+Maintainer chooses: the GPL-3.0-or-later, another open-source license, or
+proprietary or commercial terms.
 
 ## 3. Patent license
 
@@ -56,28 +57,20 @@ infringement, then any patent licenses granted to that entity under this
 Agreement for that Contribution or Project terminate as of the date the
 litigation is filed.
 
-## 4. Open-source commitment
-
-The Maintainer agrees that every Contribution included in a public release
-of the Project will also remain available to the public under the GPL-3.0 as
-part of that release. Section 2 permits additional licensing; it does not
-permit the Maintainer to withdraw the GPL-3.0 from a version already released
-under it.
-
-## 5. Your representations
+## 4. Your representations
 
 You represent that:
 
 1. You are legally entitled to grant the licenses above.
 2. Each Contribution is Your original creation, or You otherwise have the
-   right to submit it under this Agreement (see Section 6).
+   right to submit it under this Agreement (see Section 5).
 3. If Your employer or another party has rights to intellectual property You
    create, including Your Contributions, You have received permission to make
    the Contributions on its behalf, or that party has waived such rights.
 4. To Your knowledge, Your Contribution does not violate any third party's
    copyright, patent, trademark, or other rights.
 
-## 6. Third-party material
+## 5. Third-party material
 
 If You submit work that is not Your original creation — for example code,
 fonts, dictionary data, or text from another source — You must submit it
@@ -87,7 +80,7 @@ source and complete license terms (for example: "This font is from
 material whose license is incompatible with the GPL-3.0 or that forbids
 redistribution.
 
-## 7. No obligation and no warranty
+## 6. No obligation and no warranty
 
 The Maintainer is not obliged to use or include any Contribution. You are not
 expected to provide support for Your Contributions, except to the extent You
@@ -97,7 +90,7 @@ conditions of any kind, express or implied, including any warranties or
 conditions of title, non-infringement, merchantability, or fitness for a
 particular purpose.
 
-## 8. Notification
+## 7. Notification
 
 You agree to notify the Maintainer if You become aware of any facts or
 circumstances that would make any representation in this Agreement

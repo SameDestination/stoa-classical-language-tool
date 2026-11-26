@@ -24,13 +24,11 @@ Security vulnerabilities must be reported privately. See
 
 ## Contributor License Agreement
 
-STOA is licensed under the [GNU GPL v3.0](LICENSE). Before your first pull
-request can be merged, you must sign the
-[Contributor License Agreement](CLA.md). You keep the copyright in your work.
-The CLA lets the maintainer distribute STOA under the GPL and, if needed,
-under other terms, such as a commercial license for the desktop app. It also
-guarantees that your contribution stays available under the GPL in every
-public release that includes it.
+STOA is licensed under the [GNU GPL v3.0 or later](LICENSE)
+(`GPL-3.0-or-later`). Before your first pull request can be merged, you must
+sign the [Contributor License Agreement](CLA.md). You keep the copyright in
+your work. The CLA lets the maintainer distribute STOA under the GPL and, if
+needed, under other terms, such as a commercial license for the desktop app.
 
 Signing takes one comment: when you open your first pull request, the CLA
 Assistant bot explains what to post.
@@ -51,8 +49,8 @@ cd stoa-classical-language-tool
 npm ci
 ```
 
-If you are not working on the Desktop app, you can skip the Electron download
-(about 100 MB) with `ELECTRON_SKIP_BINARY_DOWNLOAD=1 npm ci`.
+`npm ci` does not download the Electron binary (about 100 MB). `npm run desktop`
+downloads it the first time you run it.
 
 ### Commands
 

@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import vm from "node:vm";
 
-test("desktop preload exposes fixed AI and document lifecycle bridge contracts", async () => {
+test("desktop preload exposes only the fixed document lifecycle bridge", async () => {
   const source = await readFile(new URL("../desktop/preload.cjs", import.meta.url), "utf8");
   const invocations = [];
   const sent = [];
@@ -39,38 +39,10 @@ test("desktop preload exposes fixed AI and document lifecycle bridge contracts",
     Object,
   });
 
-  const bridge = bridges.get("stoaDesktopAI");
-  assert.ok(bridge);
-  assert.deepEqual(
-    Object.keys(bridge).sort(),
-    [
-      "cancelRequests",
-      "deleteApiKey",
-      "getCapabilities",
-      "hasApiKey",
-      "request",
-      "saveApiKey",
-    ],
-  );
-
-  await bridge.getCapabilities();
-  await bridge.saveApiKey("openai", "sk-test-long-key");
-  await bridge.hasApiKey("anthropic");
-  await bridge.deleteApiKey("openai");
-  await bridge.request("anthropic", { model: "test", messages: [] }, { timeoutMs: 30_000 });
-  await bridge.cancelRequests();
-
-  assert.deepEqual(
-    invocations.map(([channel]) => channel),
-    [
-      "stoa:ai:capabilities",
-      "stoa:ai:key:save",
-      "stoa:ai:key:has",
-      "stoa:ai:key:delete",
-      "stoa:ai:request",
-      "stoa:ai:cancel",
-    ],
-  );
+  // STOA no longer exposes an AI provider bridge; documents are the only
+  // capability the preload script hands to the renderer.
+  assert.deepEqual([...bridges.keys()], ["stoaDesktopDocuments"]);
+  assert.doesNotMatch(source, /stoa:ai:|stoaDesktopAI|ApiKey/u);
 
   const documents = bridges.get("stoaDesktopDocuments");
   assert.ok(documents);
@@ -107,7 +79,7 @@ test("desktop preload exposes fixed AI and document lifecycle bridge contracts",
   await documents.clearRecentFiles();
 
   assert.deepEqual(
-    invocations.slice(6).map(([channel]) => channel),
+    invocations.map(([channel]) => channel),
     [
       "stoa:documents:state:get",
       "stoa:documents:renderer-ready",
@@ -224,7 +196,7 @@ test("desktop main owns a secure, atomic, per-workspace document lifecycle", asy
   assert.doesNotMatch(source, /loadFile\(applicationPage/u);
   assert.match(source, /STOA_DESKTOP_SMOKE_TEST/u);
   assert.match(source, /runDesktopRuntimeSmokeTest/u);
-  assert.match(source, /fetchAsset\("fonts\/vu3r\.ttf"\)/u);
+  assert.match(source, /fetchAsset\("fonts\/NotoSerif-Regular\.ttf"\)/u);
   assert.match(source, /fetchAsset\("vendor\/pdf\.worker\.min\.mjs"\)/u);
   assert.match(source, /bypassCustomProtocolHandlers: false/u);
   assert.match(source, /contextIsolation: true[\s\S]*nodeIntegration: false[\s\S]*sandbox: true/u);
@@ -250,4 +222,20 @@ test("desktop main owns a secure, atomic, per-workspace document lifecycle", asy
   assert.match(source, /PROJECT_SAVE_FILE_FILTERS[\s\S]*extensions: \["stoa"\]/u);
   assert.match(source, /ensureNativeProjectFileExtension/u);
   assert.doesNotMatch(source, /nodeIntegration: true/u);
+});
+
+test("desktop has no AI provider integration and removes the legacy key file", async () => {
+  const [main, renderer, viteConfig] = await Promise.all([
+    readFile(new URL("../desktop/main.mjs", import.meta.url), "utf8"),
+    readFile(new URL("../app/stoa-studio.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../desktop/vite.config.ts", import.meta.url), "utf8"),
+  ]);
+  assert.doesNotMatch(main, /safeStorage/u);
+  assert.doesNotMatch(main, /stoa:ai:/u);
+  assert.doesNotMatch(main, /api\.openai\.com|api\.anthropic\.com|x-api-key|Authorization/u);
+  assert.match(main, /LEGACY_AI_KEY_FILE_NAME = "stoa-secure-api-keys\.json"/u);
+  assert.match(main, /fs\.rm\(keyFilePath, \{ force: true \}\)/u);
+  assert.match(main, /void removeLegacyApiKeyFile\(\)/u);
+  assert.doesNotMatch(renderer, /stoaDesktopAI|api-automation|saveApiKey|Analyze with API/u);
+  assert.match(viteConfig, /"connect-src 'self'"/u);
 });

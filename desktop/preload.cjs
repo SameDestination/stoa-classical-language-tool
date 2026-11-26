@@ -4,15 +4,6 @@
 
 const { contextBridge, ipcRenderer } = require("electron");
 
-const AI_CHANNELS = Object.freeze({
-  capabilities: "stoa:ai:capabilities",
-  saveApiKey: "stoa:ai:key:save",
-  hasApiKey: "stoa:ai:key:has",
-  deleteApiKey: "stoa:ai:key:delete",
-  request: "stoa:ai:request",
-  cancelRequests: "stoa:ai:cancel",
-});
-
 const DOCUMENT_CHANNELS = Object.freeze({
   getState: "stoa:documents:state:get",
   rendererReady: "stoa:documents:renderer-ready",
@@ -30,32 +21,6 @@ const DOCUMENT_CHANNELS = Object.freeze({
   serializeRequest: "stoa:documents:serialize-request",
   serializeResult: "stoa:documents:serialize-result",
   stateChanged: "stoa:documents:state-changed",
-});
-
-const bridge = Object.freeze({
-  getCapabilities() {
-    return ipcRenderer.invoke(AI_CHANNELS.capabilities);
-  },
-  saveApiKey(provider, apiKey) {
-    return ipcRenderer.invoke(AI_CHANNELS.saveApiKey, provider, apiKey);
-  },
-  hasApiKey(provider) {
-    return ipcRenderer.invoke(AI_CHANNELS.hasApiKey, provider);
-  },
-  deleteApiKey(provider) {
-    return ipcRenderer.invoke(AI_CHANNELS.deleteApiKey, provider);
-  },
-  request(provider, body, options = {}) {
-    return ipcRenderer.invoke(
-      AI_CHANNELS.request,
-      provider,
-      body,
-      options?.timeoutMs,
-    );
-  },
-  cancelRequests() {
-    return ipcRenderer.invoke(AI_CHANNELS.cancelRequests);
-  },
 });
 
 function exposeEvent(channel, listener) {
@@ -141,5 +106,4 @@ const documentBridge = Object.freeze({
   },
 });
 
-contextBridge.exposeInMainWorld("stoaDesktopAI", bridge);
 contextBridge.exposeInMainWorld("stoaDesktopDocuments", documentBridge);

@@ -17,7 +17,6 @@ export const OMNI_RASTER_STATUS = "Raster PDF — appearance preserved; text is 
 export const OMNI_PAGE_DEFAULT_EXPORT_COVERAGE = [
   "noto-serif-stoa-unicode",
   "liberation-sans-stoa-unicode",
-  "vusillus-greek",
 ] as const;
 export type OmniDefaultExportCoverage =
   (typeof OMNI_PAGE_DEFAULT_EXPORT_COVERAGE)[number];
@@ -129,12 +128,6 @@ const SCRIPT_PATTERNS: ReadonlyArray<readonly [OmniDetectedSourceScript, RegExp]
   ["hebrew", /\p{Script_Extensions=Hebrew}/u],
   ["devanagari", /\p{Script_Extensions=Devanagari}/u],
 ];
-
-const VUSILLUS_GREEK_RANGES = [
-  [0x0300, 0x0308], [0x0311, 0x0311], [0x0313, 0x0314], [0x0323, 0x0323],
-  [0x0340, 0x0343], [0x0345, 0x0345], [0x034f, 0x034f], [0x0370, 0x03ff],
-  [0x1f00, 0x1fff],
-] as const;
 
 type CodePointRange = readonly [number, number];
 
@@ -282,10 +275,6 @@ const NOTO_SERIF_AUDITED_RANGES: readonly CodePointRange[] = [
   [122624, 122648], [122650, 122652],
 ];
 
-const VUSILLUS_LATIN_RANGES: readonly CodePointRange[] = [
-  [160, 383], [402, 402], [499, 499], [504, 511], [562, 563],
-];
-
 const isInRanges = (
   codePoint: number,
   ranges: readonly (readonly [number, number])[],
@@ -370,11 +359,6 @@ const bundledCoverageSupports = (
   character: string,
 ) => {
   if (/\s/u.test(character) || codePoint < 0x20 || codePoint === 0x7f) return true;
-  if (coverageId === "vusillus-greek") {
-    return (codePoint >= 0x20 && codePoint <= 0x7e)
-      || isInRanges(codePoint, VUSILLUS_GREEK_RANGES)
-      || isInRanges(codePoint, VUSILLUS_LATIN_RANGES);
-  }
   return isInRanges(
     codePoint,
     coverageId === "noto-serif-stoa-unicode"
@@ -575,6 +559,3 @@ export const omniExportPreflightInput = (
   analysisProfile: document.analysisProfile,
   ...details,
 });
-
-export const vusillusSupportsCodePoint = (codePoint: number) =>
-  isInRanges(codePoint, VUSILLUS_GREEK_RANGES);

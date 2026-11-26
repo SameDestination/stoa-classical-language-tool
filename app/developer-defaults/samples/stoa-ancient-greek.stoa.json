@@ -2118,7 +2118,7 @@
       "tokenStyle": {
         "layers": {
           "source": {
-            "fontFamily": "'Vusillus', 'Palatino Linotype', 'Book Antiqua', Palatino, serif",
+            "fontFamily": "'Noto Serif STOA', 'Times New Roman', Times, serif",
             "sizePt": 23,
             "color": "#29271f",
             "bold": false,
@@ -2134,7 +2134,7 @@
             "underline": false
           },
           "lemma": {
-            "fontFamily": "'Vusillus', 'Palatino Linotype', 'Book Antiqua', Palatino, serif",
+            "fontFamily": "'Noto Serif STOA', 'Times New Roman', Times, serif",
             "sizePt": 12,
             "color": "#6f6b62",
             "bold": false,

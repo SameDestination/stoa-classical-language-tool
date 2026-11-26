@@ -13,7 +13,7 @@ const between = (start, end) => {
 
 test("workspace navigation is responsive and never enters document history", () => {
   const switcher = between('<div className="language-catalog"', '<button\n          className="settings-button"');
-  assert.doesNotMatch(switcher, /disabled=\{aiRunning\}/u);
+  assert.doesNotMatch(switcher, /disabled=/u);
   assert.match(source, /const activeLanguageRef = useRef<TextLanguage>\(language\)/u);
   assert.match(source, /if \(nextLanguage === activeLanguageRef\.current\) return;/u);
 
@@ -21,7 +21,6 @@ test("workspace navigation is responsive and never enters document history", () 
     "const performLanguageChange = (nextLanguage: TextLanguage) => {",
     "const changeLanguage = (nextLanguage: TextLanguage) => {",
   );
-  assert.match(navigation, /cancelAnalysisForWorkspaceChange\(\)/u);
   assert.match(navigation, /applySnapshot\([\s\S]*?, true\)/u);
   assert.doesNotMatch(navigation, /commitDocument\(/u);
 });

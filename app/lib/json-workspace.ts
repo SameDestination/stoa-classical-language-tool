@@ -1764,7 +1764,7 @@ const validTopLevelString = (value: unknown, fallback: string) =>
 
 /**
  * Manual pasted/file JSON only: salvage safe fields token by token while the
- * existing strict Guided/API validation path remains unchanged.
+ * existing strict Guided Chunk Analysis validation path remains unchanged.
  */
 export const applyBestEffortJsonWorkspaceBatch = (
   workspace: JsonWorkspace,

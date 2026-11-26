@@ -101,7 +101,7 @@ test("normalization preserves punctuation, breaks, blank-line controls, and per-
       breakAfter: "paragraph",
       blankLinesAfter: 4,
       blankLineSpacing: 36,
-      wordFont: "Vusillus",
+      wordFont: "Scholarly Serif",
       wordSize: 27,
       wordColor: "#123aBC",
       wordBold: true,
@@ -122,7 +122,7 @@ test("normalization preserves punctuation, breaks, blank-line controls, and per-
   assert.equal(normalized.tokens[0].breakAfter, "paragraph");
   assert.equal(normalized.tokens[0].blankLinesAfter, 4);
   assert.equal(normalized.tokens[0].blankLineSpacing, 36);
-  assert.equal(normalized.tokens[0].wordFont, "Vusillus");
+  assert.equal(normalized.tokens[0].wordFont, "Scholarly Serif");
   assert.equal(normalized.tokens[0].wordSize, 27);
   assert.equal(normalized.tokens[0].wordColor, "#123aBC");
   assert.equal(normalized.tokens[0].wordBold, true);
