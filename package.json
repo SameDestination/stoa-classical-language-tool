@@ -73,7 +73,7 @@
     "globals": "16.4.0",
     "lzo1x": "^1.0.1",
     "mdict-js": "^10.0.1",
-    "pako": "1.0.11",
+    "pako": "3.0.3",
     "react-server-dom-webpack": "19.3.1",
     "tailwindcss": "4.3.5",
     "tsx": "4.23.15",
