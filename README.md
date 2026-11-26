@@ -11,7 +11,7 @@
 <p align="center">
   <a href="https://github.com/SameDestination/stoa-classical-language-tool/actions/workflows/ci.yml"><img src="https://github.com/SameDestination/stoa-classical-language-tool/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPL--3.0--or--later-blue" alt="License: GPL-3.0-or-later"></a>
-  <img src="https://img.shields.io/badge/version-5.9.7-informational" alt="Version 5.9.7">
+  <img src="https://img.shields.io/badge/version-6.0.0-informational" alt="Version 6.0.0">
   <img src="https://img.shields.io/badge/platforms-macOS%20%C2%B7%20Windows%20%C2%B7%20browser-lightgrey" alt="Platforms: macOS, Windows, browser">
 </p>
 

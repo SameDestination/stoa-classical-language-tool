@@ -83,7 +83,7 @@ for (const language of STOA_DEVELOPER_WORKSPACE_IDS) {
     const imported = normalizeImportedProject(raw, language);
     const exported = exportState(imported);
     assert.equal(exported.schemaVersion, STOA_PROJECT_V6_SCHEMA);
-    assert.equal(exported.appVersion, "5.9.7");
+    assert.equal(exported.appVersion, "6.0.0");
     assert.deepEqual(exported.document, raw.document);
     assert.deepEqual(exportState(normalizeImportedProject(exported, language)).document, exported.document);
     assert.deepEqual(serializeStoaProject(parseStoaProject(exported)), exported);

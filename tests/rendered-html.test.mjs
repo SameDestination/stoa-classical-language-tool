@@ -1,6 +1,18 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { register } from "node:module";
 import test from "node:test";
+
+// vinext 1.4+ imports `cloudflare:workers` (for optional tracing) inside the built
+// Cloudflare Worker bundle; stub it when exercising the bundle directly in Node.
+register(`data:text/javascript,${encodeURIComponent(`
+  export async function resolve(specifier, context, nextResolve) {
+    if (specifier === "cloudflare:workers") {
+      return { shortCircuit: true, url: "data:text/javascript,export const tracing = undefined;" };
+    }
+    return nextResolve(specifier, context);
+  }
+`)}`);
 
 async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
