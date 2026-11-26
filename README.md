@@ -17,7 +17,6 @@
 
 <p align="center">
   <a href="#download">Download</a> ·
-  <a href="https://stoa-interlinear-studio.goldnerbaum.chatgpt.site">Website</a> ·
   <a href="#quick-start">Quick start</a> ·
   <a href="CONTRIBUTING.md">Contributing</a> ·
   <a href="README.zh-CN.md">中文说明</a>
