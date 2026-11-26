@@ -6,7 +6,7 @@ import test from "node:test";
 const require = createRequire(import.meta.url);
 const config = require("../desktop/electron-builder.config.cjs");
 
-test("desktop uses version 5.9.7 and the single shared renderer", async () => {
+test("desktop uses version 6.0.0 and the single shared renderer", async () => {
   assert.equal(require("../desktop/package.json").version, require("../package.json").version);
   const vite = await readFile(new URL("../desktop/vite.config.ts", import.meta.url), "utf8");
   const entry = await readFile(new URL("../standalone/main.tsx", import.meta.url), "utf8");

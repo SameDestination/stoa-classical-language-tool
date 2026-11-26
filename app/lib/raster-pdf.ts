@@ -1,7 +1,7 @@
 // PDFKit's browser build is already part of STOA's searchable-PDF pipeline.
 // The raster fallback deliberately reuses it only as a page/image container;
 // layout is captured from the final browser preview, never from vector output.
-import PDFDocument from "pdfkit/js/pdfkit.standalone.js";
+import PDFDocument from "pdfkit";
 import html2canvas from "html2canvas";
 
 export const RASTER_PDF_MIN_PIXEL_RATIO = 2;
@@ -178,6 +178,9 @@ export const createRasterPdfFromPreview = async (
   const pdf = new PDFDocument({
     autoFirstPage: false,
     compress: true,
+    // Raster PDF embeds only page images; skip PDFKit's default Helvetica lookup
+    // so the browser ESM build does not require pre-registering standard PDF fonts.
+    font: "",
     margin: 0,
     size: [widthPt, heightPt],
     bufferPages: false,

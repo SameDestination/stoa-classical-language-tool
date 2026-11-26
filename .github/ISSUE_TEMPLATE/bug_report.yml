@@ -24,8 +24,8 @@ body:
     id: version
     attributes:
       label: STOA version
-      description: Shown in the app (for example 5.9.7), or the commit hash if you built from source.
-      placeholder: "5.9.7"
+      description: Shown in the app (for example 6.0.0), or the commit hash if you built from source.
+      placeholder: "6.0.0"
     validations:
       required: true
   - type: input

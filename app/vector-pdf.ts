@@ -1,5 +1,5 @@
-// Use PDFKit's browser bundle so Vite never externalizes Node stream/zlib/fs modules.
-import PDFDocument from "pdfkit/js/pdfkit.standalone.js";
+// PDFKit 0.21+ resolves its browser ESM build via package exports in Vite and its Node build in tests.
+import PDFDocument from "pdfkit";
 import {
   appendTrailingTextSections,
   paginateFlowLines,
@@ -286,6 +286,9 @@ class VectorPdfSurface {
     this.document = new PDFDocument({
       autoFirstPage: false,
       compress: true,
+      // STOA always selects embedded Unicode fonts; skip PDFKit's default Helvetica lookup
+      // so the browser ESM build does not require pre-registering standard PDF fonts.
+      font: "",
       margin: 0,
       size: [widthMm * MM_TO_PT, heightMm * MM_TO_PT],
       bufferPages: false,

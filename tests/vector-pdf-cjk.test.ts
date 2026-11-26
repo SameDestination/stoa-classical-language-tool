@@ -484,34 +484,47 @@ test("Times New Roman never silently substitutes and embeds the real locally sup
   assert.match(Buffer.from(result.bytes).toString("latin1"), /TimesNewRomanPS/);
 });
 
-test("Latin Extended text preserves decomposed source code points and remains searchable", async () => {
+test("Latin Extended text accepts decomposed source code points and remains searchable", async () => {
   const family = "'Noto Serif STOA', 'Times New Roman', serif";
   const settings = settingsFor(family);
   settings.showLemma = false;
   settings.showPos = false;
   settings.showTranslation = true;
   settings.headerLeft = "Ā Ē Ī Ō Ū Ȳ";
+  const decomposedMacrons = "a\u0304 e\u0304 i\u0304 o\u0304 u\u0304 y\u0304";
   const tokens = [
     token({ id: "macron-regular", surface: "ā ē ī ō ū ȳ", gloss: "eō homō mīror" }),
     token({ id: "macron-bold", surface: "Ā Ē Ī Ō Ū Ȳ", gloss: "mōns ingēns", wordBold: true }),
     token({ id: "macron-italic", surface: "lātus amō amās", gloss: "amāmus", wordItalic: true }),
     token({
       id: "macron-bolditalic",
-      surface: "a\u0304 e\u0304 i\u0304 o\u0304 u\u0304 y\u0304",
+      surface: decomposedMacrons,
       gloss: "ă ĕ ĭ ŏ ŭ æ œ ë ï",
       wordBold: true,
       wordItalic: true,
     }),
   ];
-  await assertSearchableVectorText({
+  const result = await createVectorPdf({
     title: "Latin macron regression",
     naturalTranslation: "eō homō mīror mōns ingēns lātus amō amās amāmus",
     tokens,
     settings,
     unicodeSerifFontBase64: await notoSerifFonts,
     unicodeSansFontBase64: await liberationSansFonts,
-  }, [
-    "a\u0304 e\u0304 i\u0304 o\u0304 u\u0304 y\u0304",
+  });
+  assert.equal(tokens[3].surface, decomposedMacrons, "STOA must not mutate decomposed source text");
+  assert.ok(result.bytes.byteLength > 1_000, "PDF should contain an embedded vector document");
+  const inspected = await inspectPdf(result.bytes);
+  assert.equal(inspected.pageCount, result.pageCount);
+  assert.equal(inspected.hasRasterImage, false, "interlinear page content must stay vector, not a raster snapshot");
+  const searchableNfc = inspected.text.normalize("NFC");
+  // fontkit 3+ canonically composes combining marks when the font provides the precomposed glyph,
+  // so verify both the precomposed and decomposed macron rows extract cleanly in NFC form.
+  assert.ok(
+    searchableNfc.includes("ā ē ī ō ū ȳ\n\nă ĕ ĭ ŏ ŭ æ œ ë ï"),
+    `expected decomposed macron token to remain searchable above its gloss in ${JSON.stringify(searchableNfc)}`,
+  );
+  for (const value of [
     "Ā Ē Ī Ō Ū Ȳ",
     "eō homō mīror",
     "mōns ingēns",
@@ -519,7 +532,9 @@ test("Latin Extended text preserves decomposed source code points and remains se
     "amāmus",
     "ā ē ī ō ū ȳ",
     "ă ĕ ĭ ŏ ŭ æ œ ë ï",
-  ]);
+  ]) {
+    assert.ok(searchableNfc.includes(value), `expected selectable PDF text ${JSON.stringify(value)} in ${JSON.stringify(searchableNfc)}`);
+  }
 });
 
 test("vector PDF consumes the exact Preview token-page plan and rejects stale plans", async () => {

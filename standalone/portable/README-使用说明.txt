@@ -1,7 +1,9 @@
-STOA 5.9.7 · Slim Portable Edition
+STOA 6.0.0 · Slim Portable Edition
 ================================
 
 这是经过体积优化的 STOA 本地网页版，保留当前全部功能、完整字体与四份官方样本。
+
+6.0.0：古希腊语默认字体改为内置 Noto Serif STOA（旧项目中的 Vusillus 会自动回退，亦可自行导入本地字体）；关闭或刷新页面前新增未保存更改提醒；修复 LaTeX 导出中的字符与配置转义；便携版内置本地服务器限制仅响应 127.0.0.1 / localhost 并禁用目录列表；项目以 GPL-3.0-or-later 开源发布。
 
 5.9.7：四个语言页面采用 2026-09-08 提供的新示例，Translation 默认开启，可直接查看预览译文，也可手动关闭。OMNI 提示词仅对西班牙语、法语、德语、意大利语、葡萄牙语加强紧凑 Morphology 缩写要求。More · Token Editor 位于左侧 02 · TOKEN EDITOR 标题旁。Latin 示例采用设备本地 Times New Roman；导出前需按下文说明加载对应字体。
 
