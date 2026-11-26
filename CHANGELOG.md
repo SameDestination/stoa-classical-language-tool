@@ -35,7 +35,7 @@ application version.
   website rendering tests. `npm run test:unit` runs everything except the
   website rendering tests, which need a website build.
 - Release reports moved from `docs/` to [`docs/releases/`](docs/releases/).
-- Desktop now runs on Electron 45.2.1 (previously 39.8.2). Electron 39 no
+- Desktop now runs on Electron 45.4.1 (previously 39.8.2). Electron 39 no
   longer receives security fixes.
 - Desktop for macOS now requires macOS 13 (Ventura) or later, as Electron 44
   and later do.
